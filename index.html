@@ -1,1 +1,36 @@
-Hello World
+<html>
+  <head>
+    <script type="text/javascript" src="recipes/pizza.json"></script>
+  </head>
+  <body>
+
+    <h2>Ingredients</h2>
+    <ol id="ingredients"></ol>
+
+    <h2>Steps</h2>
+    <ol id="steps"></ol>
+    <script>
+      function addIngredient(ingredient) {
+        var li = document.createElement("li");
+        var text = document.createTextNode(ingredient.name+" ("+ingredient.quantity+ingredient.unit+")");
+        li.appendChild(text);
+        document.getElementById("ingredients").appendChild(li);
+      }
+
+      function addStep(step) {
+        var li = document.createElement("li");
+        var div = document.createElement("div");
+        var h5 = document.createElement("h5");
+        h5.appendChild(document.createTextNode(step.name));
+        div.appendChild(h5);
+        var p = document.createTextNode(step.description);
+        div.appendChild(p);
+        li.appendChild(div);
+        document.getElementById("steps").appendChild(li);
+      }
+
+      pizza.ingredients.forEach(addIngredient);
+      pizza.steps.forEach(addStep);
+    </script>
+  </body>
+</html>
