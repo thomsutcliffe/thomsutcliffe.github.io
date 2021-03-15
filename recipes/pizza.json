@@ -45,7 +45,7 @@ var pizza = {
     },
     {
       "name": "Rise",
-      "descripription": "Cover with a teatowel, leave in fridge for 24 hours."
+      "description": "Cover with a teatowel, leave in fridge for 24 hours."
     },
     {
       "name": "Shape",
