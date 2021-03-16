@@ -1,19 +1,46 @@
 <html>
   <head>
-    <script type="text/javascript" src="recipes/pizza.json"></script>
+    <script type="text/javascript" src="recipes/pizza.js"></script>
+    <script type="text/javascript" src="recipes/shortbread.js"></script>
   </head>
   <body>
 
-    <h2>Ingredients</h2>
-    <ol id="ingredients"></ol>
-
-    <h2>Steps</h2>
-    <ol id="steps"></ol>
+    <div id="activeRecipe">
+      <p id="fork" />
+      <h1 id="recipeName" />
+      <h2>Ingredients</h2>
+      <ol id="ingredients"></ol>
+      <h2>Steps</h2>
+      <ol id="steps"></ol>
+    </div>
     <script>
+      function addName(name) {
+        var h1 = document.createElement("h1");
+        h1.appendChild(document.createTextNode(name));
+        document.getElementById("recipeName").appendChild(h1);
+      }
+
+      function addFork(name, url) {
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        a.appendChild(document.createTextNode(name));
+        a.href = url;
+        p.appendChild(document.createTextNode("Forked from: "));
+        p.appendChild(a);
+        document.getElementById("fork").appendChild(p);
+      }
+
       function addIngredient(ingredient) {
         var li = document.createElement("li");
-        var text = document.createTextNode(ingredient.name+" ("+ingredient.quantity+ingredient.unit+")");
-        li.appendChild(text);
+        var text = ingredient.name+" ("+ingredient.quantity+ingredient.unit+")";
+        if(ingredient.notes) {
+          text = text+" - "+ingredient.notes;
+        }
+        if(ingredient.optional) {
+          text = text+" [optional]";
+        }
+        var textNode = document.createTextNode(text);
+        li.appendChild(textNode);
         document.getElementById("ingredients").appendChild(li);
       }
 
@@ -29,8 +56,30 @@
         document.getElementById("steps").appendChild(li);
       }
 
-      pizza.ingredients.forEach(addIngredient);
-      pizza.steps.forEach(addStep);
+      function render(recipe) {
+        document.getElementById("activeRecipe").innerHTML='<p id="fork" /><h1 id="recipeName" /><h2>Ingredients</h2><ol id="ingredients"></ol><h2>Steps</h2><ol id="steps"></ol>';
+        addName(recipe.name);
+        addFork(recipe.forkName, recipe.forkUrl);
+        recipe.ingredients.forEach(addIngredient);
+        recipe.steps.forEach(addStep);
+      }
+
+      function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+
+      var recipes = {
+        "pizza": pizza,
+        "shortbread": shortbread
+      }
+      var r = getParameterByName("recipe");
+
+      render(recipes[r||"pizza"]||pizza);
     </script>
   </body>
 </html>
