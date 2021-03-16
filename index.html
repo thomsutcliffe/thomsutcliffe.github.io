@@ -63,7 +63,9 @@
       }
 
       function addCondensedStep(step) {
-        step.ingredients.forEach(id => document.getElementById("condensedrecipe").appendChild(getIngredientLi(recipe.ingredients.filter(i => i.id === id)[0])));
+        if(step.ingredients) {
+          step.ingredients.forEach(id => document.getElementById("condensedrecipe").appendChild(getIngredientLi(recipe.ingredients.filter(i => i.id === id)[0])));
+        }
         var li = document.createElement("li");
         var text = document.createTextNode(step.description);
         li.appendChild(text);
