@@ -2,6 +2,7 @@
   <head>
     <script type="text/javascript" src="recipes/pizza.js"></script>
     <script type="text/javascript" src="recipes/shortbread.js"></script>
+    <script type="text/javascript" src="recipes/curry/currybase.js"></script>
   </head>
   <body>
 
@@ -55,7 +56,7 @@
       }
 
       function render(recipe) {
-        document.getElementById("activeRecipe").innerHTML='<p id="fork" /><h1 id="recipeName" /><h2>Ingredients</h2><ul id="ingredients"></ol><h2>Steps</h2><ul id="steps"></ol>';
+        document.getElementById("activeRecipe").innerHTML='<p id="fork" /><h1 id="recipeName" /><h2>Ingredients</h2><ul id="ingredients"></ul><h2>Steps</h2><ul id="steps"></ul>';
         addName(recipe.name);
         addFork(recipe.forkName, recipe.forkUrl);
         recipe.ingredients.forEach(addIngredient);
@@ -67,8 +68,10 @@
           step.ingredients.forEach(id => document.getElementById("condensedrecipe").appendChild(getIngredientLi(recipe.ingredients.filter(i => i.id === id)[0])));
         }
         var li = document.createElement("li");
+        var strong = document.createElement("strong");
         var text = document.createTextNode(step.description);
-        li.appendChild(text);
+        strong.appendChild(text);
+        li.appendChild(strong);
         document.getElementById("condensedrecipe").appendChild(li);
       }
 
@@ -88,7 +91,8 @@
 
       var recipes = {
         "pizza": pizza,
-        "shortbread": shortbread
+        "shortbread": shortbread,
+        "currybase": currybase
       }
       var r = getParameterByName("recipe");
 
