@@ -5,14 +5,7 @@
   </head>
   <body>
 
-    <div id="activeRecipe">
-      <p id="fork" />
-      <h1 id="recipeName" />
-      <h2>Ingredients</h2>
-      <ol id="ingredients"></ol>
-      <h2>Steps</h2>
-      <ol id="steps"></ol>
-    </div>
+    <div id="activeRecipe" />
     <script>
       function addName(name) {
         var h1 = document.createElement("h1");
@@ -30,7 +23,7 @@
         document.getElementById("fork").appendChild(p);
       }
 
-      function addIngredient(ingredient) {
+      function getIngredientLi(ingredient) {
         var li = document.createElement("li");
         var text = ingredient.name+" ("+ingredient.quantity+ingredient.unit+")";
         if(ingredient.notes) {
@@ -41,6 +34,11 @@
         }
         var textNode = document.createTextNode(text);
         li.appendChild(textNode);
+        return li;
+      }
+
+      function addIngredient(ingredient) {
+        var li = getIngredientLi(ingredient);
         document.getElementById("ingredients").appendChild(li);
       }
 
@@ -64,6 +62,19 @@
         recipe.steps.forEach(addStep);
       }
 
+      function addCondensedStep(step) {
+        step.ingredients.forEach(id => document.getElementById("condensedrecipe").appendChild(getIngredientLi(recipe.ingredients.filter(i => i.id === id)[0])));
+        var li = document.createElement("li");
+        var text = document.createTextNode(step.description);
+        li.appendChild(text);
+        document.getElementById("condensedrecipe").appendChild(li);
+      }
+
+      function renderCondensed(recipe) {
+        document.getElementById("activeRecipe").innerHTML='<ol id="condensedrecipe"/>';
+        recipe.steps.forEach(addCondensedStep);
+      }
+
       function getParameterByName(name, url = window.location.href) {
         name = name.replace(/[\[\]]/g, '\\$&');
         var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -79,7 +90,12 @@
       }
       var r = getParameterByName("recipe");
 
-      render(recipes[r||"pizza"]||pizza);
+      var recipe = recipes[r||"pizza"]||pizza;
+      if(getParameterByName("view") === "condensed") {
+        renderCondensed(recipe);
+      } else {
+        render(recipe);
+      }
     </script>
   </body>
 </html>
