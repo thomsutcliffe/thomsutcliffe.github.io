@@ -1,0 +1,94 @@
+var currybase = {
+  "name": "Curry base",
+  "forkName": "Glebe Kitchen",
+  "forkUrl": "https://glebekitchen.com/indian-restaurant-curry-base/",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Onion",
+      "quantity": 8,
+      "unit": "",
+      "notes": "Quartered and separated"
+    },
+    {
+      "id": 1,
+      "name": "Garlic",
+      "quantity": 8,
+      "unit": "",
+    },
+    {
+      "id": 2,
+      "name": "Ginger",
+      "quantity": 1.5,
+      "unit": "tbsp"
+    },
+    {
+      "id": 3,
+      "name": "Ground cumin",
+      "quantity": 1.5,
+      "unit": "tbsp"
+    },
+    {
+      "id": 4,
+      "name": "Ground coriander",
+      "quantity": 1.5,
+      "unit": "tbsp"
+    },
+    {
+      "id": 5,
+      "name": "Turmeric",
+      "quantity": 1.5,
+      "unit": "tsp"
+    },
+    {
+      "id": 6,
+      "name": "Salt",
+      "quantity": 1.5,
+      "unit": "tsp"
+    },
+    {
+      "id": 7,
+      "name": "Fresh coriander",
+      "quantity": 15,
+      "unit": " stalks"
+    },
+    {
+      "id": 8,
+      "name": "Vegetable oil",
+      "quantity": 230,
+      "unit": "ml"
+    },
+    {
+      "id": 9,
+      "name": "Water",
+      "quantity": 2.1,
+      "unit": "l"
+    },
+    {
+      "id": 10,
+      "name": "Chopped tomatoes",
+      "quantity": 1,
+      "unit": " tin"
+    }
+  ],
+  "steps": [
+    {
+      "name": "Boil",
+      "description": "Mix in a large pan and boil for 1 hour",
+      "ingredients": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    },
+    {
+      "name": "",
+      "description": "Add tomatoes and boil 20 minutes",
+      "ingredients": [10]
+    },
+    {
+      "name": "Blend",
+      "description": "Blend in batches or with a stick blender"
+    },
+    {
+      "name": "Boil",
+      "description": "Boil for another hour"
+    }
+  ]
+}
