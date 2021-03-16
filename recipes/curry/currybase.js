@@ -78,7 +78,7 @@ var currybase = {
       "ingredients": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     },
     {
-      "name": "",
+      "name": "Tomatoes",
       "description": "Add tomatoes and boil 20 minutes",
       "ingredients": [10]
     },
