@@ -55,7 +55,7 @@
       }
 
       function render(recipe) {
-        document.getElementById("activeRecipe").innerHTML='<p id="fork" /><h1 id="recipeName" /><h2>Ingredients</h2><ol id="ingredients"></ol><h2>Steps</h2><ol id="steps"></ol>';
+        document.getElementById("activeRecipe").innerHTML='<p id="fork" /><h1 id="recipeName" /><h2>Ingredients</h2><ul id="ingredients"></ol><h2>Steps</h2><ul id="steps"></ol>';
         addName(recipe.name);
         addFork(recipe.forkName, recipe.forkUrl);
         recipe.ingredients.forEach(addIngredient);
@@ -73,7 +73,7 @@
       }
 
       function renderCondensed(recipe) {
-        document.getElementById("activeRecipe").innerHTML='<ol id="condensedrecipe"/>';
+        document.getElementById("activeRecipe").innerHTML='<ul id="condensedrecipe"/>';
         recipe.steps.forEach(addCondensedStep);
       }
 
