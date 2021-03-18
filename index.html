@@ -64,10 +64,8 @@
          `
     });
 
-    const app = new Vue({
-        el: '#vueRecipe',
-        data: getRecipeData(r)
-    });
+    getRecipeData(r, data => new Vue({el: '#vueRecipe', data: data}))
+
 </script>
 <div id="activeRecipe"/>
 </body>

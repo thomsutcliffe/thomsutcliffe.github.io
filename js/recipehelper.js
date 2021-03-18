@@ -29,11 +29,10 @@ function getCondensedRecipe(recipe) {
     return condensedSteps;
 }
 
-function getRecipeData(r) {
-    const recipe = jQuery.getJSON("recipes/"+r+".json");
-    return {
-        ...recipe,
+function getRecipeData(r, callback) {
+    jQuery.getJSON("recipes/"+r+".json", data => callback({
+        ...data,
         mode: getParameterByName("view") || 'verbose',
         condensedSteps: getCondensedRecipe(recipe)
-    };
+    }));
 }
