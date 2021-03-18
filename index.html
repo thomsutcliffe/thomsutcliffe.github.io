@@ -40,7 +40,6 @@
         </ul>
     </div>
 </div>
-<div id="activeRecipe"/>
 <script>
 
 
@@ -58,6 +57,7 @@
         props: ['ingredient'],
         template: `
         <li>
+            <span v-if="ingredient.optional" style="color: grey">[Optional] </span>
             <span v-if="ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
             <span v-if="ingredient.notes"> - {{ ingredient.notes }}</span>
             <span v-if="ingredient.step" style="color: grey"> {{ ingredient.step }}</span>
@@ -81,5 +81,6 @@
         data: getRecipeData(recipe)
     });
 </script>
+<div id="activeRecipe"/>
 </body>
 </html>
