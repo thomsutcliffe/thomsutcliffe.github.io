@@ -1,0 +1,54 @@
+{
+  "name": "Sausage rolls",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Rough puff pastry",
+      "quantity": 500,
+      "unit": "g",
+      "subrecipe": "roughpuff"
+    },
+    {
+      "id": 1,
+      "name": "Sausagemeat",
+      "quantity": 700,
+      "unit": "g"
+    },
+    {
+      "id": 2,
+      "name": "Egg",
+      "quantity": 1,
+      "unit": ""
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Roll puff pastry",
+      "description": "Roll into narrow rectangle",
+      "ingredients": [0]
+    },
+    {
+      "id": 1,
+      "name": "Fill",
+      "description": "Place a thin tube of sausagemeat along the pastry",
+      "ingredients": [1]
+    },
+    {
+      "id": 2,
+      "name": "Shape",
+      "description": "Fold the pastry over the sausagemeat, brush the top and seal with beaten egg and press down with a fork",
+      "ingredients": [2]
+    },
+    {
+      "id": 3,
+      "name": "Cut",
+      "description": "Cut into lengths and score the top of the pastry"
+    },
+    {
+      "id": 4,
+      "name": "Bake",
+      "description": "Bake at 180 for 30 minutes"
+    }
+  ]
+}
