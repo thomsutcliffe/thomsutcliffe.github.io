@@ -88,7 +88,7 @@ const shortbread = {
       "id": 2,
       "name": "Make caramel",
       "description": "Melt butter and sugar in a pan, add condensed milk, raspberry juice and optional pink food colouring then heat and stir for 10 minutes.",
-      "ingredients": [4, 2]
+      "ingredients": [4, 2, 7, 8]
     },
     {
       "id": 3,
