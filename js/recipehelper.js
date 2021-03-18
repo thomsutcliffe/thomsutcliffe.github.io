@@ -33,6 +33,6 @@ function getRecipeData(r, callback) {
     jQuery.getJSON("recipes/"+r+".json", data => callback({
         ...data,
         mode: getParameterByName("view") || 'verbose',
-        condensedSteps: getCondensedRecipe(recipe)
+        condensedSteps: getCondensedRecipe(data)
     }));
 }
