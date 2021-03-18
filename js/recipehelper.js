@@ -29,7 +29,8 @@ function getCondensedRecipe(recipe) {
     return condensedSteps;
 }
 
-function getRecipeData(recipe) {
+function getRecipeData(r) {
+    const recipe = jQuery.getJSON("recipes/"+r+".json");
     return {
         ...recipe,
         mode: getParameterByName("view") || 'verbose',

@@ -1,0 +1,65 @@
+{
+  "name": "Rough puff pastry",
+  "forkName": "Paul Hollywood",
+  "forkUrl": "https://www.bbc.co.uk/food/recipes/custard_slice_58534",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Plain flour",
+      "quantity": 225,
+      "unit": "g"
+    },
+    {
+      "id": 1,
+      "name": "Salt",
+      "quantity": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": 2,
+      "name": "Butter",
+      "quantity": 70,
+      "unit": "g",
+      "notes": "Cold and cubed"
+    },
+    {
+      "id": 3,
+      "name": "Butter",
+      "quantity": 130,
+      "unit": "g",
+      "notes": "Cold and cubed"
+    },
+    {
+      "id": 4,
+      "name": "Water",
+      "quantity": 140,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Rub in butter",
+      "description": "Mix flour and salt, rub in butter",
+      "ingredients": [0, 1, 2]
+    },
+    {
+      "id": 1,
+      "name": "Roughly rub butter",
+      "description": "Roughly rub in the remaining butter leaving large lumps",
+      "ingredients": [3]
+    },
+    {
+      "id": 2,
+      "name": "Form dough",
+      "description": "Add water until it comes together",
+      "ingredients": [4]
+    },
+    {
+      "id": 3,
+      "name": "Turn",
+      "description": "Turn, chill for 10 minutes x3"
+    }
+  ],
+  "yield": 500
+}
