@@ -1,4 +1,4 @@
-var currybase = {
+const currybase = {
   "name": "Curry base",
   "forkName": "Glebe Kitchen",
   "forkUrl": "https://glebekitchen.com/indian-restaurant-curry-base/",
@@ -73,20 +73,24 @@ var currybase = {
   ],
   "steps": [
     {
+      "id": 0,
       "name": "Boil",
       "description": "Mix in a large pan and boil for 1 hour",
       "ingredients": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     },
     {
+      "id": 1,
       "name": "Tomatoes",
       "description": "Add tomatoes and boil 20 minutes",
       "ingredients": [10]
     },
     {
+      "id": 2,
       "name": "Blend",
       "description": "Blend in batches or with a stick blender"
     },
     {
+      "id": 3,
       "name": "Boil",
       "description": "Boil for another hour"
     }

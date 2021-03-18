@@ -1,107 +1,85 @@
-<html>
-  <head>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
     <script type="text/javascript" src="recipes/pizza.js"></script>
     <script type="text/javascript" src="recipes/shortbread.js"></script>
     <script type="text/javascript" src="recipes/curry/currybase.js"></script>
-  </head>
-  <body>
+    <script type="text/javascript" src="js/recipehelper.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
 
-    <div id="activeRecipe" />
-    <script>
-      function addName(name) {
-        var h1 = document.createElement("h1");
-        h1.appendChild(document.createTextNode(name));
-        document.getElementById("recipeName").appendChild(h1);
-      }
+<div id="vueRecipe">
+    <div v-if="mode === 'condensed'">
+        <ul>
+            <ingredient-item
+                    v-for="step in condensedSteps"
+                    v-bind:ingredient="step"
+                    v-bind:key="step.id">
+            </ingredient-item>
+        </ul>
+    </div>
+    <div v-else-if="mode === 'verbose'">
+        <p>Forked from: <a v-bind:href="forkUrl">{{ forkName }}</a></p>
+        <h1>{{ name }}</h1>
+        <h2>Ingredients</h2>
+        <ul>
+            <ingredient-item
+                    v-for="ingredient in ingredients"
+                    v-bind:ingredient="ingredient"
+                    v-bind:key="ingredient.id">
+            </ingredient-item>
+        </ul>
+        <h2>Steps</h2>
+        <ul>
+            <step-item
+                    v-for="step in steps"
+                    v-bind:step="step"
+                    v-bind:ingredients="ingredients"
+                    v-bind:key="step.id">
+            </step-item>
+        </ul>
+    </div>
+</div>
+<div id="activeRecipe"/>
+<script>
 
-      function addFork(name, url) {
-        var p = document.createElement("p");
-        var a = document.createElement("a");
-        a.appendChild(document.createTextNode(name));
-        a.href = url;
-        p.appendChild(document.createTextNode("Forked from: "));
-        p.appendChild(a);
-        document.getElementById("fork").appendChild(p);
-      }
 
-      function getIngredientLi(ingredient) {
-        var li = document.createElement("li");
-        var text = ingredient.name+" ("+ingredient.quantity+ingredient.unit+")";
-        if(ingredient.notes) {
-          text = text+" - "+ingredient.notes;
-        }
-        if(ingredient.optional) {
-          text = text+" [optional]";
-        }
-        var textNode = document.createTextNode(text);
-        li.appendChild(textNode);
-        return li;
-      }
 
-      function addIngredient(ingredient) {
-        var li = getIngredientLi(ingredient);
-        document.getElementById("ingredients").appendChild(li);
-      }
-
-      function addStep(step) {
-        var li = document.createElement("li");
-        var div = document.createElement("div");
-        var h5 = document.createElement("h5");
-        h5.appendChild(document.createTextNode(step.name));
-        div.appendChild(h5);
-        var p = document.createTextNode(step.description);
-        div.appendChild(p);
-        li.appendChild(div);
-        document.getElementById("steps").appendChild(li);
-      }
-
-      function render(recipe) {
-        document.getElementById("activeRecipe").innerHTML='<p id="fork" /><h1 id="recipeName" /><h2>Ingredients</h2><ul id="ingredients"></ul><h2>Steps</h2><ul id="steps"></ul>';
-        addName(recipe.name);
-        addFork(recipe.forkName, recipe.forkUrl);
-        recipe.ingredients.forEach(addIngredient);
-        recipe.steps.forEach(addStep);
-      }
-
-      function addCondensedStep(step) {
-        if(step.ingredients) {
-          step.ingredients.forEach(id => document.getElementById("condensedrecipe").appendChild(getIngredientLi(recipe.ingredients.filter(i => i.id === id)[0])));
-        }
-        var li = document.createElement("li");
-        var strong = document.createElement("strong");
-        var text = document.createTextNode(step.description);
-        strong.appendChild(text);
-        li.appendChild(strong);
-        document.getElementById("condensedrecipe").appendChild(li);
-      }
-
-      function renderCondensed(recipe) {
-        document.getElementById("activeRecipe").innerHTML='<ul id="condensedrecipe"/>';
-        recipe.steps.forEach(addCondensedStep);
-      }
-
-      function getParameterByName(name, url = window.location.href) {
-        name = name.replace(/[\[\]]/g, '\\$&');
-        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-          results = regex.exec(url);
-          if (!results) return null;
-          if (!results[2]) return '';
-          return decodeURIComponent(results[2].replace(/\+/g, ' '));
-      }
-
-      var recipes = {
+    const recipes = {
         "pizza": pizza,
         "shortbread": shortbread,
         "currybase": currybase
-      }
-      var r = getParameterByName("recipe");
+    }
+    const r = getParameterByName("recipe");
 
-      var recipe = recipes[r||"pizza"]||pizza;
-      if(getParameterByName("view") === "condensed") {
-        renderCondensed(recipe);
-      } else {
-        render(recipe);
-      }
-    </script>
-  </body>
+    const recipe = recipes[r || "pizza"] || pizza;
+
+    Vue.component('ingredient-item', {
+        props: ['ingredient'],
+        template: `
+        <li>
+            <span v-if="ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
+            <span v-if="ingredient.notes"> - {{ ingredient.notes }}</span>
+            <span v-if="ingredient.step" style="color: grey"> {{ ingredient.step }}</span>
+        </li>
+        `
+    });
+    Vue.component('step-item', {
+        props: ['step'],
+        template: `
+        <li>
+            <div>
+                <h5>{{ step.name}}</h5>
+                <p>{{ step.description }}</p>
+            </div>
+        </li>
+         `
+    });
+
+    const app = new Vue({
+        el: '#vueRecipe',
+        data: getRecipeData(recipe)
+    });
+</script>
+</body>
 </html>

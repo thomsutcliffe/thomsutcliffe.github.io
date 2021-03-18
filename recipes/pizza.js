@@ -1,4 +1,4 @@
-var pizza = {
+const pizza = {
   "name": "Sourdough pizza",
   "forkName": "Patrick Ryan",
   "forkUrl": "https://www.ilovecooking.ie/food-tv/patrick-ryans-no-fuss-sourdough-pizza/",
@@ -50,15 +50,18 @@ var pizza = {
   ],
   "steps": [
     {
+      "id": 0,
       "name": "Mix",
       "description": "Combine all ingredients and mix by hand, knead for 30 seconds.",
       "ingredients": [0, 1, 2, 3, 4, 5, 6]
     },
     {
+      "id": 1,
       "name": "Rise",
       "description": "Cover with a teatowel, leave in fridge for 24 hours."
     },
     {
+      "id": 2,
       "name": "Shape",
       "description": "Divide and shape into balls, cover and rise for 2 hours."
     }
