@@ -29,10 +29,9 @@ function getCondensedRecipe(recipe) {
     return condensedSteps;
 }
 
-function getRecipeData(r, callback) {
-    jQuery.getJSON("recipes/"+r+".json", data => callback({
+function getRecipeData(recipeId, callback) {
+    jQuery.getJSON("https://thomsutcliffe.github.io/recipes/"+recipeId+".json", data => callback({
         ...data,
-        mode: getParameterByName("view") || 'verbose',
         condensedSteps: getCondensedRecipe(data)
     }));
 }

@@ -7,40 +7,41 @@
 <body>
 
 <div id="vueRecipe">
-    <div v-if="mode === 'condensed'">
-        <ul>
-            <ingredient-item
-                    v-for="step in condensedSteps"
-                    v-bind:ingredient="step"
-                    v-bind:key="step.id">
-            </ingredient-item>
-        </ul>
-    </div>
-    <div v-else-if="mode === 'verbose'">
-        <p v-if="forkName && forkUrl">Forked from: <a v-bind:href="forkUrl">{{ forkName }}</a></p>
-        <h1>{{ name }}</h1>
-        <h2>Ingredients</h2>
-        <ul>
-            <ingredient-item
-                    v-for="ingredient in ingredients"
-                    v-bind:ingredient="ingredient"
-                    v-bind:key="ingredient.id">
-            </ingredient-item>
-        </ul>
-        <h2>Steps</h2>
-        <ul>
-            <step-item
-                    v-for="step in steps"
-                    v-bind:step="step"
-                    v-bind:ingredients="ingredients"
-                    v-bind:key="step.id">
-            </step-item>
-        </ul>
+    <div v-if="loading"></div>
+    <div v-else>
+        <div v-if="mode === 'condensed'">
+            <ul>
+                <ingredient-item
+                        v-for="step in recipe.condensedSteps"
+                        v-bind:ingredient="step"
+                        v-bind:key="step.id">
+                </ingredient-item>
+            </ul>
+        </div>
+        <div v-else-if="mode === 'verbose'">
+            <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
+            <h1>{{ recipe.name }}</h1>
+            <h2>Ingredients</h2>
+            <ul>
+                <ingredient-item
+                        v-for="ingredient in recipe.ingredients"
+                        v-bind:ingredient="ingredient"
+                        v-bind:key="ingredient.id">
+                </ingredient-item>
+            </ul>
+            <h2>Steps</h2>
+            <ul>
+                <step-item
+                        v-for="step in recipe.steps"
+                        v-bind:step="step"
+                        v-bind:ingredients="recipe.ingredients"
+                        v-bind:key="step.id">
+                </step-item>
+            </ul>
+        </div>
     </div>
 </div>
 <script>
-    const r = getParameterByName("recipe");
-
     Vue.component('ingredient-item', {
         props: ['ingredient'],
         template: `
@@ -64,7 +65,25 @@
          `
     });
 
-    getRecipeData(r, data => new Vue({el: '#vueRecipe', data: data}))
+    const app = new Vue({
+        el: '#vueRecipe',
+        data: {
+            "loading": true,
+            "mode": getParameterByName("view") || 'verbose',
+            "recipe": {}
+        },
+        methods: {
+            getRecipe: function () {
+                getRecipeData(getParameterByName("recipe"), recipeData => {
+                    this.recipe = recipeData;
+                    this.loading = false;
+                });
+            }
+        },
+        created: function () {
+            this.getRecipe();
+        }
+    });
 
 </script>
 <div id="activeRecipe"/>
