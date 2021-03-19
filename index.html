@@ -12,9 +12,11 @@
     </div>
     <div v-else>
         <recipe
+                v-for="recipe in recipes"
                 v-bind:recipe="recipe"
-                v-bind:mode="mode"></recipe>
-        <button v-on:click="switchMode">Switch view</button>
+                v-bind:mode="mode"
+                v-bind:key="recipes.indexOf(recipe)"></recipe>
+        <button @click="switchMode">Switch view</button>
     </div>
 </div>
 </body>
@@ -25,13 +27,18 @@
     Vue.component('ingredient-item', {
         props: ['ingredient'],
         template: `
-        <li>
+        <li @click="loadSubrecipe(ingredient.subrecipe)">
             <span v-if="ingredient.optional" style="color: grey">[Optional] </span>
             <span v-if="ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
             <span v-if="ingredient.notes"> - {{ ingredient.notes }}</span>
             <span v-if="ingredient.step" style="color: grey"> {{ ingredient.step }}</span>
         </li>
-        `
+        `,
+        methods: {
+            loadSubrecipe: function(subrecipe) {
+                this.$root.loadSubrecipe(subrecipe);
+            }
+        }
     });
     Vue.component('step-item', {
         props: ['step'],
@@ -94,17 +101,24 @@
         data: {
             "loading": true,
             "mode": getParameterByName("view") || 'verbose',
-            "recipe": {}
+            "recipes": []
         },
         methods: {
             getRecipe: function () {
                 getRecipeData(getParameterByName("recipe"), recipeData => {
-                    this.recipe = recipeData;
+                    this.recipes.push(recipeData);
                     this.loading = false;
                 });
             },
-            switchMode: function() {
+            switchMode: function () {
                 this.mode = this.mode === 'condensed' ? 'verbose' : 'condensed';
+            },
+            loadSubrecipe: function (subrecipe) {
+                if (subrecipe) {
+                    getRecipeData(subrecipe, subrecipeData => {
+                        this.recipes.push(subrecipeData);
+                    })
+                }
             }
         },
         created: function () {
