@@ -11,7 +11,7 @@ function getCondensedRecipe(recipe) {
     const condensedSteps = [];
     recipe.steps.forEach(step => {
         const stepGroup = [];
-        (step.ingredients || []).map(id => recipe.ingredients.filter(i => i.id === id)[0]).forEach(ingredient => stepGroup.push(ingredient));
+        (step.ingredients || []).map(id => recipe.ingredients.filter(i => i.id === id)[0]).forEach(ingredient => stepGroup.push({ingredient: ingredient}));
         if (stepGroup.length > 0) {
             stepGroup[stepGroup.length - 1] = {
                 ...stepGroup[stepGroup.length - 1],
@@ -19,7 +19,6 @@ function getCondensedRecipe(recipe) {
             };
         } else {
             stepGroup.push({
-                name: '',
                 step: step.description,
                 id: step.id + 100
             })

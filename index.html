@@ -1,4 +1,4 @@
-<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <script type="text/javascript" src="js/recipehelper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -24,21 +24,18 @@
 
 <script>
     Vue.component('ingredient-item', {
-        props: ['ingredient', 'mode', 'subrecipes'],
-        data: function() {return {
-            showSubrecipe: false
-        };},
+        props: ['ingredient', 'step', 'mode', 'subrecipes'],
         template: `
         <li @click="toggleSubrecipe(ingredient)">
-            <span v-if="ingredient.optional" style="color: grey">[Optional] </span>
-            <span v-if="ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
-            <span v-if="ingredient.notes"> - {{ ingredient.notes }}</span>
-            <span v-if="ingredient.step" style="color: grey"> {{ ingredient.step }}</span>
-            <span v-if="ingredient.subrecipe">
-                <span v-if="showSubrecipe">-</span>
+            <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
+            <span v-if="ingredient && ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
+            <span v-if="ingredient && ingredient.notes"> - {{ ingredient.notes }}</span>
+            <span v-if="step" style="color: grey"> {{ step }}</span>
+            <span v-if="ingredient && ingredient.subrecipe">
+                <span v-if="ingredient.showSubrecipe">-</span>
                 <span v-else>+</span>
             </span>
-            <span v-if="ingredient.subrecipe && showSubrecipe">
+            <span v-if="ingredient && ingredient.subrecipe && ingredient.showSubrecipe">
                 <recipe
                 v-if="subrecipes[ingredient.subrecipe]"
                 v-bind:recipe="subrecipes[ingredient.subrecipe]"
@@ -48,12 +45,12 @@
         </li>
         `,
         methods: {
-            toggleSubrecipe: function(ingredient) {
-                if(ingredient.subrecipe) {
+            toggleSubrecipe: function (ingredient) {
+                if (ingredient.subrecipe) {
                     if (!ingredient.subrecipeData && ingredient.subrecipe) {
                         this.$root.loadSubrecipe(ingredient.subrecipe);
                     }
-                    this.showSubrecipe = !this.showSubrecipe;
+                    this.$root.toggleShowSubrecipeFor(ingredient);
                 }
             }
         }
@@ -77,7 +74,7 @@
                 <h1>{{ recipe.name }}</h1>
                 <h2>Ingredients</h2>
                 <ingredient-item-list
-                    v-bind:steps="recipe.ingredients"
+                    v-bind:ingredients="recipe.ingredients"
                     v-bind:subrecipes="subrecipes"
                     v-bind:mode="mode"></ingredient-item-list>
                 <h2>Steps</h2>
@@ -93,17 +90,32 @@
         `
     });
     Vue.component('ingredient-item-list', {
-        props: ['steps', 'subrecipes', 'mode'],
+        props: ['ingredients', 'subrecipes', 'mode'],
         template: `
         <ul>
                 <ingredient-item
-                        v-for="step in steps"
-                        v-bind:ingredient="step"
+                        v-for="ingredient in ingredients"
+                        v-bind:ingredient="ingredient"
                         v-bind:subrecipes="subrecipes"
                         v-bind:mode="mode"
-                        v-bind:key="step.id">
+                        v-bind:key="ingredient.id">
                 </ingredient-item>
             </ul>
+        `
+    });
+    Vue.component('condensed-step-list', {
+        props: ['steps', 'subrecipes'],
+        template: `
+        <ul>
+            <ingredient-item
+                    v-for="stepObj in steps"
+                    v-bind:ingredient="stepObj.ingredient"
+                    v-bind:step="stepObj.step"
+                    v-bind:subrecipes="subrecipes"
+                    v-bind:mode="'condensed'"
+                    v-bind:key="stepObj.ingredient ? stepObj.ingredient.id : stepObj.step.id">
+            </ingredient-item>
+        </ul>
         `
     });
     Vue.component('recipe', {
@@ -113,7 +125,7 @@
             <verbose-recipe v-bind:recipe="recipe" v-bind:subrecipes="subrecipes" v-bind:mode="mode"></verbose-recipe>
         </div>
         <div v-else-if="mode === 'condensed'">
-            <ingredient-item-list v-bind:steps="recipe.condensedSteps" v-bind:subrecipes="subrecipes" v-bind:mode="mode"></ingredient-item-list>
+            <condensed-step-list v-bind:steps="recipe.condensedSteps" v-bind:subrecipes="subrecipes"></condensed-step-list>
         </div>
         `
     });
@@ -145,6 +157,23 @@
                         };
                     });
                 }
+            },
+            toggleShowSubrecipeFor: function (ingredient) {
+                this.recipe = this.toggleShowSubrecipeInRecipe(ingredient, this.recipe);
+                this.subrecipes = Object.fromEntries(Object.entries(this.subrecipes).map(([k, v]) => [k, this.toggleShowSubrecipeInRecipe(ingredient, v)]));
+            },
+            toggleShowSubrecipeInRecipe: function (ingredient, recipe) {
+                let newRecipe = {
+                    ...recipe,
+                    ingredients: recipe.ingredients.map(i => i === ingredient ? {
+                        ...i,
+                        showSubrecipe: !i.showSubrecipe
+                    } : i)
+                };
+                return {
+                    ...newRecipe,
+                    condensedSteps: getCondensedRecipe(newRecipe)
+                };
             }
         },
         created: function () {
