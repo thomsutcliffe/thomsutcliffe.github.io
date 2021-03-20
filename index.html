@@ -12,10 +12,8 @@
     </div>
     <div v-else>
         <recipe
-                v-for="recipe in recipes"
                 v-bind:recipe="recipe"
-                v-bind:mode="mode"
-                v-bind:key="recipes.indexOf(recipe)"></recipe>
+                v-bind:mode="mode"></recipe>
         <button @click="switchMode">Switch view</button>
     </div>
 </div>
@@ -25,18 +23,34 @@
 
 <script>
     Vue.component('ingredient-item', {
-        props: ['ingredient'],
+        props: ['ingredient', 'mode'],
+        data: function() {return {
+            subrecipe: null,
+            showSubrecipe: false
+        };},
         template: `
-        <li @click="loadSubrecipe(ingredient.subrecipe)">
+        <li @click="toggleSubrecipe(ingredient.subrecipe)">
             <span v-if="ingredient.optional" style="color: grey">[Optional] </span>
             <span v-if="ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
             <span v-if="ingredient.notes"> - {{ ingredient.notes }}</span>
             <span v-if="ingredient.step" style="color: grey"> {{ ingredient.step }}</span>
+            <span v-if="ingredient.subrecipe">
+                <span v-if="subrecipe && showSubrecipe">-</span>
+                <span v-else>+</span>
+            </span>
+            <span v-if="subrecipe && showSubrecipe"><recipe
+            v-bind:recipe="subrecipe"
+            v-bind:mode="mode"></recipe></span>
         </li>
         `,
         methods: {
-            loadSubrecipe: function(subrecipe) {
-                this.$root.loadSubrecipe(subrecipe);
+            toggleSubrecipe: function(subrecipe) {
+                this.showSubrecipe = !this.showSubrecipe;
+                if(!this.subrecipe) {
+                    getRecipeData(subrecipe, subrecipeData => {
+                        this.subrecipe = subrecipeData;
+                    });
+                }
             }
         }
     });
@@ -52,14 +66,15 @@
          `
     });
     Vue.component('verbose-recipe', {
-        props: ['recipe'],
+        props: ['recipe', 'mode'],
         template: `
             <div>
                 <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
                 <h1>{{ recipe.name }}</h1>
                 <h2>Ingredients</h2>
                 <ingredient-item-list
-                    v-bind:steps="recipe.ingredients"></ingredient-item-list>
+                    v-bind:steps="recipe.ingredients"
+                    v-bind:mode="mode"></ingredient-item-list>
                 <h2>Steps</h2>
                 <ul>
                     <step-item
@@ -73,12 +88,13 @@
         `
     });
     Vue.component('ingredient-item-list', {
-        props: ['steps'],
+        props: ['steps', 'mode'],
         template: `
         <ul>
                 <ingredient-item
                         v-for="step in steps"
                         v-bind:ingredient="step"
+                        v-bind:mode="mode"
                         v-bind:key="step.id">
                 </ingredient-item>
             </ul>
@@ -88,10 +104,10 @@
         props: ['recipe', 'mode'],
         template: `
         <div v-if="mode === 'verbose'">
-            <verbose-recipe v-bind:recipe="recipe"></verbose-recipe>
+            <verbose-recipe v-bind:recipe="recipe" v-bind:mode="mode"></verbose-recipe>
         </div>
         <div v-else-if="mode === 'condensed'">
-            <ingredient-item-list v-bind:steps="recipe.condensedSteps"></ingredient-item-list>
+            <ingredient-item-list v-bind:steps="recipe.condensedSteps" v-bind:mode="mode"></ingredient-item-list>
         </div>
         `
     });
@@ -101,12 +117,12 @@
         data: {
             "loading": true,
             "mode": getParameterByName("view") || 'verbose',
-            "recipes": []
+            "recipe": {}
         },
         methods: {
             getRecipe: function () {
                 getRecipeData(getParameterByName("recipe"), recipeData => {
-                    this.recipes.push(recipeData);
+                    this.recipe = recipeData;
                     this.loading = false;
                 });
             },
