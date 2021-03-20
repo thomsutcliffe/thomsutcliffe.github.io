@@ -26,12 +26,12 @@
     Vue.component('ingredient-item', {
         props: ['ingredient', 'step', 'mode', 'subrecipes'],
         template: `
-        <li @click="toggleSubrecipe(ingredient)">
+        <li>
             <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
             <span v-if="ingredient && ingredient.name">{{ ingredient.name }} ({{ ingredient.quantity }}{{ ingredient.unit }})</span>
             <span v-if="ingredient && ingredient.notes"> - {{ ingredient.notes }}</span>
             <span v-if="step" style="color: grey"> {{ step }}</span>
-            <span v-if="ingredient && ingredient.subrecipe">
+            <span v-if="ingredient && ingredient.subrecipe" @click="toggleSubrecipe(ingredient)">
                 <span v-if="ingredient.showSubrecipe">-</span>
                 <span v-else>+</span>
             </span>
@@ -39,6 +39,7 @@
                 <recipe
                 v-if="subrecipes[ingredient.subrecipe]"
                 v-bind:recipe="subrecipes[ingredient.subrecipe]"
+                v-bind:subrecipes="subrecipes"
                 v-bind:mode="mode"></recipe>
                 <div v-else>Loading...</div>
             </span>
