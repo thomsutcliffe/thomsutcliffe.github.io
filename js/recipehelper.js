@@ -30,7 +30,7 @@ function getCondensedRecipe(recipe) {
 }
 
 function getRecipeData(recipeId, callback) {
-    jQuery.getJSON("https://thomsutcliffe.github.io/recipes/"+recipeId+".json", data => callback({
+    jQuery.getJSON("recipes/"+recipeId+".json", data => callback({
         ...data,
         condensedSteps: getCondensedRecipe(data)
     }));
