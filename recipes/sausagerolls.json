@@ -50,5 +50,7 @@
       "name": "Bake",
       "description": "Bake at 180 for 30 minutes"
     }
-  ]
+  ],
+  "yield": 8,
+  "yieldUnit": ""
 }
