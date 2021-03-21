@@ -3,6 +3,7 @@
     <script type="text/javascript" src="js/recipehelper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.5" />
 </head>
 <body>
 
@@ -11,8 +12,9 @@
         Loading...
     </div>
     <div v-else>
-        Yield: <input v-model="quantity">{{ unit }}
-        <recipe
+        <header><span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span></header>
+        <main>
+            <recipe
                 v-bind:recipe="recipe"
                 v-bind:subrecipes="subrecipes"
                 v-bind:mode="mode"
@@ -20,7 +22,8 @@
                 v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
                 v-bind:quantity="quantity"
                 v-bind:unit="unit"></recipe>
-        <button @click="switchMode">Switch view</button>
+        </main>
+        <footer><button @click="switchMode">Switch view</button></footer>
     </div>
 </div>
 </body>
