@@ -12,7 +12,7 @@
         Loading...
     </div>
     <div v-else>
-        <header><span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span></header>
+        <header><span v-if="quantity">Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span></header>
         <main>
             <recipe
                 v-bind:recipe="recipe"
@@ -184,7 +184,7 @@
             "loading": true,
             "mode": getParameterByName("view") || 'verbose',
             "recipe": {},
-            "quantity": "1",
+            "quantity": "",
             "unit": "",
             "subrecipes": {},
             "visiblesubrecipepaths": []
@@ -193,8 +193,8 @@
             getRecipe: function () {
                 getRecipeData(getParameterByName("recipe"), recipeData => {
                     this.recipe = recipeData;
-                    this.quantity = recipeData.yield ? recipeData.yield : this.quantity;
-                    this.unit = recipeData.yieldUnit ? recipeData.yieldUnit : this.unit;
+                    this.quantity = recipeData.yield;
+                    this.unit = recipeData.yieldUnit;
                     this.loading = false;
                 });
             },
