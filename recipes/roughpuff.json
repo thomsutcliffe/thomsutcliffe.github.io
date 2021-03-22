@@ -61,6 +61,6 @@
       "description": "Turn, chill for 10 minutes x3"
     }
   ],
-  "yield": 500,
-  "yieldUnit": "g"
+  "yield": 0.5,
+  "yieldUnit": "kg"
 }

@@ -161,6 +161,13 @@
             getScale: function () {
                 if (isNaN(this.quantity)) {
                     return 1;
+                } else if (this.recipe.yieldUnit === this.unit) {
+                    return this.quantity/this.recipe.yield;
+                } else if (convert().possibilities().includes(this.recipe.yieldUnit) &&
+                    convert().list(convert().describe(this.recipe.yieldUnit).measure).map(u => u.abbr).includes(this.unit)) {
+                    return convert(this.quantity).from(this.unit).to(this.recipe.yieldUnit) / this.recipe.yield;
+                } else {
+                    return 1;
                 }
                 return this.recipe.yield ? this.recipe.yieldUnit === this.unit ? this.quantity/this.recipe.yield : 1 : 1;
             }
