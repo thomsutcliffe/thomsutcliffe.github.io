@@ -49,9 +49,9 @@
           <li>
           <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
           <span v-if="ingredient && ingredient.name">{{ ingredient.name }}
-            {{ getAmountString(scale*ingredient.quantity, ingredient.unit) }}</span>
-          <span v-if="ingredient && ingredient.notes"> - {{ ingredient.notes }}</span>
-          <span v-if="step" style="color: #808080"> {{ step }}</span>
+            {{ getAmountString(scale * ingredient.quantity, ingredient.unit) }}</span>
+          <span v-if="ingredient && ingredient.notes" style="color: #a5a5a5"> - {{ ingredient.notes }}</span>
+          <span v-if="step" style="color: #808080"> - {{ step }}</span>
           <span v-if="ingredient && ingredient.subrecipe" @click="toggleSubrecipe()">
                 <span v-if="visiblesubrecipepaths.includes(newPath)">-</span>
                 <span v-else>+</span>

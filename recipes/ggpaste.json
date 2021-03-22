@@ -1,0 +1,41 @@
+{
+  "name": "Garlic Ginger Paste",
+  "forkName": "Glebe Kitchen",
+  "forkUrl": "https://glebekitchen.com/garlic-ginger-paste/",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Garlic",
+      "quantity": 170,
+      "unit": "g"
+    },
+    {
+      "id": 1,
+      "name": "Ginger",
+      "quantity": 170,
+      "unit": "g"
+    },
+    {
+      "id": 2,
+      "name": "Vegetable oil",
+      "quantity": 80,
+      "unit": "ml"
+    },
+    {
+      "id": 3,
+      "name": "Water",
+      "quantity": 80,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Blend",
+      "description": "Make paste in food processor",
+      "ingredients": [0, 1, 2, 3]
+    }
+  ],
+  "yield": 500,
+  "yieldUnit": "ml"
+}
