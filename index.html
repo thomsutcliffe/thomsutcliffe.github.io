@@ -159,6 +159,9 @@
         props: ['recipe', 'subrecipes', 'mode', 'path', 'visiblesubrecipepaths', 'quantity', 'unit'],
         methods: {
             getScale: function () {
+                if (isNaN(this.quantity)) {
+                    return 1;
+                }
                 return this.recipe.yield ? this.recipe.yieldUnit === this.unit ? this.quantity/this.recipe.yield : 1 : 1;
             }
         },
