@@ -3,6 +3,7 @@
     <script type="text/javascript" src="js/recipehelper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/convert-units.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.5" />
 </head>
 <body>
@@ -48,7 +49,7 @@
           <li>
           <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
           <span v-if="ingredient && ingredient.name">{{ ingredient.name }}
-            ({{ (scale * ingredient.quantity) }}{{ ingredient.unit }})</span>
+            {{ getAmountString(scale*ingredient.quantity, ingredient.unit) }}</span>
           <span v-if="ingredient && ingredient.notes"> - {{ ingredient.notes }}</span>
           <span v-if="step" style="color: #808080"> {{ step }}</span>
           <span v-if="ingredient && ingredient.subrecipe" @click="toggleSubrecipe()">
@@ -76,6 +77,9 @@
                     }
                     this.$root.toggleShowSubrecipeFor(this.newPath);
 
+            },
+            getAmountString: function(quantity, unit) {
+                return getAmountString(quantity, unit)
             }
         }
     });

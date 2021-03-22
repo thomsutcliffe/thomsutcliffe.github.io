@@ -34,3 +34,25 @@ function getRecipeData(recipeId, callback) {
         condensedSteps: getCondensedRecipe(data)
     }));
 }
+
+const unitTranslations = {
+    "tbsp": "Tbs",
+    "Tbs": "tbsp"
+}
+const spacedUnits = ["tsp", "tbsp"]
+function getAmountString(quantity, unit) {
+    const translatedUnit = unitTranslations[unit] ? unitTranslations[unit] : unit;
+    if (!unit) {
+        return quantity;
+    } else if (!convert().possibilities().includes(translatedUnit)) {
+        return quantity+' '+unit;
+    } else {
+        const best = convert(quantity).from(translatedUnit).toBest({
+            exclude: ["dl", "msk", "cl", "tsk", "cm3",
+                "mcg", "mg", "mt", "oz", "lb", "t",
+                "mm3", "cm3", "cl", "dl", "kl", "m3", "km3", "krm", "tsk", "msk", "kkp", "glas", "kanna", "in3", "fl-oz", "cup", "pnt", "qt", "gal", "ft3", "yd3"]
+        });
+        const translatedBestUnit = unitTranslations[best.unit] ? unitTranslations[best.unit] : best.unit;
+        return best.val + (spacedUnits.includes(translatedBestUnit) ? ' ' : '') + translatedBestUnit;
+    }
+}
