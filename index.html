@@ -12,7 +12,7 @@
         Loading...
     </div>
     <div v-else>
-        <header><span v-if="quantity">Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span></header>
+        <header><span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span></header>
         <main>
             <recipe
                 v-bind:recipe="recipe"
@@ -45,28 +45,29 @@
             }
         },
         template: `
-        <li>
-            <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
-            <span v-if="ingredient && ingredient.name">{{ ingredient.name }} ({{ scale*ingredient.quantity }}{{ ingredient.unit }})</span>
-            <span v-if="ingredient && ingredient.notes"> - {{ ingredient.notes }}</span>
-            <span v-if="step" style="color: grey"> {{ step }}</span>
-            <span v-if="ingredient && ingredient.subrecipe" @click="toggleSubrecipe()">
+          <li>
+          <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
+          <span v-if="ingredient && ingredient.name">{{ ingredient.name }}
+            ({{ (scale * ingredient.quantity) }}{{ ingredient.unit }})</span>
+          <span v-if="ingredient && ingredient.notes"> - {{ ingredient.notes }}</span>
+          <span v-if="step" style="color: #808080"> {{ step }}</span>
+          <span v-if="ingredient && ingredient.subrecipe" @click="toggleSubrecipe()">
                 <span v-if="visiblesubrecipepaths.includes(newPath)">-</span>
                 <span v-else>+</span>
             </span>
-            <span v-if="ingredient && ingredient.subrecipe && visiblesubrecipepaths.includes(newPath)">
+          <span v-if="ingredient && ingredient.subrecipe && visiblesubrecipepaths.includes(newPath)">
                 <recipe
-                v-if="subrecipes[ingredient.subrecipe]"
-                v-bind:recipe="subrecipes[ingredient.subrecipe]"
-                v-bind:subrecipes="subrecipes"
-                v-bind:mode="mode"
-                v-bind:path="newPath"
-                v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-                v-bind:quantity="ingredient.quantity*scale"
-                v-bind:unit="ingredient.unit"></recipe>
+                    v-if="subrecipes[ingredient.subrecipe]"
+                    v-bind:recipe="subrecipes[ingredient.subrecipe]"
+                    v-bind:subrecipes="subrecipes"
+                    v-bind:mode="mode"
+                    v-bind:path="newPath"
+                    v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+                    v-bind:quantity="ingredient.quantity*scale"
+                    v-bind:unit="ingredient.unit"></recipe>
                 <div v-else>Loading...</div>
             </span>
-        </li>
+          </li>
         `,
         methods: {
             toggleSubrecipe: function () {
@@ -192,8 +193,11 @@
         methods: {
             getRecipe: function () {
                 getRecipeData(getParameterByName("recipe"), recipeData => {
-                    this.recipe = recipeData;
-                    this.quantity = recipeData.yield;
+                    this.recipe = {
+                        yield: 1,
+                        ...recipeData
+                    };
+                    this.quantity = this.recipe.yield;
                     this.unit = recipeData.yieldUnit;
                     this.loading = false;
                 });
