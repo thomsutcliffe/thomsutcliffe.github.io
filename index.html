@@ -74,6 +74,104 @@
             }
         }
     })
+    Vue.component('recipe', {
+        props: ['recipe', 'subrecipes', 'mode', 'path', 'visiblesubrecipepaths', 'quantity', 'unit'],
+        methods: {
+            getScale: function () {
+                if (isNaN(this.quantity)) {
+                    return 1;
+                } else if (this.recipe.yieldUnit === this.unit) {
+                    return this.quantity/this.recipe.yield;
+                } else if (convert().possibilities().includes(this.recipe.yieldUnit) &&
+                    convert().list(convert().describe(this.recipe.yieldUnit).measure).map(u => u.abbr).includes(this.unit)) {
+                    return convert(this.quantity).from(this.unit).to(this.recipe.yieldUnit) / this.recipe.yield;
+                } else {
+                    return 1;
+                }
+            }
+        },
+        template: `
+          <div v-if="mode === 'condensed'">
+          <condensed-step-list
+              v-bind:recipe="recipe"
+              v-bind:subrecipes="subrecipes"
+              v-bind:path="path"
+              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+              v-bind:scale="getScale()"></condensed-step-list>
+          </div>
+          <div v-else-if="mode === 'verbose'">
+          <verbose-recipe
+              v-bind:recipe="recipe"
+              v-bind:subrecipes="subrecipes"
+              v-bind:mode="mode"
+              v-bind:path="path"
+              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+              v-bind:scale="getScale()"></verbose-recipe>
+          </div>
+
+        `
+    });
+    Vue.component('condensed-step-list', {
+        props: ['recipe', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
+        template: `
+          <ul>
+          <ingredient-item
+              v-for="stepObj in recipe.condensedSteps"
+              v-bind:ingredient="stepObj.ingredient"
+              v-bind:step="stepObj.step"
+              v-bind:subrecipes="subrecipes"
+              v-bind:mode="'condensed'"
+              v-bind:path="path"
+              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+              v-bind:key="stepObj.ingredient ? stepObj.ingredient.id : stepObj.step.id"
+              v-bind:scale="scale">
+          </ingredient-item>
+          </ul>
+        `
+    });
+    Vue.component('verbose-recipe', {
+        props: ['recipe', 'subrecipes', 'visiblesubrecipepaths', 'path', 'mode', 'scale'],
+        template: `
+          <div>
+          <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
+          <h1>{{ recipe.name }}</h1>
+          <h2>Ingredients</h2>
+          <ingredient-item-list
+              v-bind:ingredients="recipe.ingredients"
+              v-bind:subrecipes="subrecipes"
+              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+              v-bind:path="path"
+              v-bind:mode="mode"
+              v-bind:scale="scale"></ingredient-item-list>
+          <h2>Steps</h2>
+          <ul>
+            <step-item
+                v-for="step in recipe.steps"
+                v-bind:step="step"
+                v-bind:ingredients="recipe.ingredients"
+                v-bind:key="step.id">
+            </step-item>
+          </ul>
+          </div>
+        `
+    });
+    Vue.component('ingredient-item-list', {
+        props: ['ingredients', 'subrecipes', 'mode', 'path', 'visiblesubrecipepaths', 'scale'],
+        template: `
+          <ul>
+          <ingredient-item
+              v-for="ingredient in ingredients"
+              v-bind:ingredient="ingredient"
+              v-bind:subrecipes="subrecipes"
+              v-bind:mode="mode"
+              v-bind:path="path"
+              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+              v-bind:key="ingredient.id"
+              v-bind:scale="scale">
+          </ingredient-item>
+          </ul>
+        `
+    });
     Vue.component('ingredient-item', {
         props: ['ingredient', 'step', 'mode', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
         data: function() {
@@ -121,7 +219,6 @@
 
             },
             getAmountString: function(quantity, unit) {
-                console.log("Get amount string for", this.ingredient.name)
                 return getAmountString(quantity, unit)
             }
         }
@@ -141,104 +238,6 @@
             </div>
         </li>
          `
-    });
-    Vue.component('verbose-recipe', {
-        props: ['recipe', 'subrecipes', 'visiblesubrecipepaths', 'path', 'mode', 'scale'],
-        template: `
-            <div>
-                <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
-                <h1>{{ recipe.name }}</h1>
-                <h2>Ingredients</h2>
-                <ingredient-item-list
-                    v-bind:ingredients="recipe.ingredients"
-                    v-bind:subrecipes="subrecipes"
-                    v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-                    v-bind:path="path"
-                    v-bind:mode="mode"
-                    v-bind:scale="scale"></ingredient-item-list>
-                <h2>Steps</h2>
-                <ul>
-                    <step-item
-                            v-for="step in recipe.steps"
-                            v-bind:step="step"
-                            v-bind:ingredients="recipe.ingredients"
-                            v-bind:key="step.id">
-                    </step-item>
-                </ul>
-            </div>
-        `
-    });
-    Vue.component('ingredient-item-list', {
-        props: ['ingredients', 'subrecipes', 'mode', 'path', 'visiblesubrecipepaths', 'scale'],
-        template: `
-        <ul>
-                <ingredient-item
-                        v-for="ingredient in ingredients"
-                        v-bind:ingredient="ingredient"
-                        v-bind:subrecipes="subrecipes"
-                        v-bind:mode="mode"
-                        v-bind:path="path"
-                        v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-                        v-bind:key="ingredient.id"
-                        v-bind:scale="scale">
-                </ingredient-item>
-            </ul>
-        `
-    });
-    Vue.component('condensed-step-list', {
-        props: ['recipe', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
-        template: `
-        <ul>
-            <ingredient-item
-                    v-for="stepObj in recipe.condensedSteps"
-                    v-bind:ingredient="stepObj.ingredient"
-                    v-bind:step="stepObj.step"
-                    v-bind:subrecipes="subrecipes"
-                    v-bind:mode="'condensed'"
-                    v-bind:path="path"
-                    v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-                    v-bind:key="stepObj.ingredient ? stepObj.ingredient.id : stepObj.step.id"
-                    v-bind:scale="scale">
-            </ingredient-item>
-        </ul>
-        `
-    });
-    const recipe = Vue.component('recipe', {
-        props: ['recipe', 'subrecipes', 'mode', 'path', 'visiblesubrecipepaths', 'quantity', 'unit'],
-        methods: {
-            getScale: function () {
-                if (isNaN(this.quantity)) {
-                    return 1;
-                } else if (this.recipe.yieldUnit === this.unit) {
-                    return this.quantity/this.recipe.yield;
-                } else if (convert().possibilities().includes(this.recipe.yieldUnit) &&
-                    convert().list(convert().describe(this.recipe.yieldUnit).measure).map(u => u.abbr).includes(this.unit)) {
-                    return convert(this.quantity).from(this.unit).to(this.recipe.yieldUnit) / this.recipe.yield;
-                } else {
-                    return 1;
-                }
-                return this.recipe.yield ? this.recipe.yieldUnit === this.unit ? this.quantity/this.recipe.yield : 1 : 1;
-            }
-        },
-        template: `
-        <div v-if="mode === 'verbose'">
-            <verbose-recipe
-            v-bind:recipe="recipe"
-            v-bind:subrecipes="subrecipes"
-            v-bind:mode="mode"
-            v-bind:path="path"
-            v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-            v-bind:scale="getScale()"></verbose-recipe>
-        </div>
-        <div v-else-if="mode === 'condensed'">
-            <condensed-step-list
-            v-bind:recipe="recipe"
-            v-bind:subrecipes="subrecipes"
-            v-bind:path="path"
-            v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-            v-bind:scale="getScale()"></condensed-step-list>
-        </div>
-        `
     });
 
     const app = new Vue({
