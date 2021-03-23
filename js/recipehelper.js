@@ -97,7 +97,21 @@ function getHumanReadableNumber(number, unit) {
                 return diff;
             }
         })[0];
-        return (Math.floor(converted[best.unit])+best.fraction)+' '+best.unit;
+        let fractionChars = {};
+        fractionChars[new Fraction(1, 8)] = String.fromCharCode(8539);
+        fractionChars[new Fraction(1, 4)] = String.fromCharCode(188);
+        fractionChars[new Fraction(3, 8)] = String.fromCharCode(8540);
+        fractionChars[new Fraction(1, 2)] = String.fromCharCode(189);
+        fractionChars[new Fraction(5, 8)] = String.fromCharCode(8541);
+        fractionChars[new Fraction(3, 4)] = String.fromCharCode(190);
+        fractionChars[new Fraction(7, 8)] = String.fromCharCode(8542);
+
+        const integerPart = Math.floor(converted[best.unit]);
+        if(fractionChars[best.fraction]) {
+            return (integerPart === 0 ? '' : integerPart+' ') + fractionChars[best.fraction] + ' ' + best.unit;
+        } else {
+            return (Math.floor(converted[best.unit]) + best.fraction) + ' ' + best.unit;
+        }
     } else {
         return (unitRounders[unit] ? unitRounders[unit](number) : parseFloat(number.toPrecision(2))) + unit;
     }
