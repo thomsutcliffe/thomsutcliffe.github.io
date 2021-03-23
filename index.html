@@ -285,6 +285,10 @@
         },
         created: function () {
             this.getNavRecipes();
+            const recipeId = getParameterByName("recipe");
+            if(recipeId) {
+                this.setRecipeId(recipeId);
+            }
         }
     });
 
