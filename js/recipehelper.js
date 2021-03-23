@@ -50,22 +50,55 @@ function getAmountString(quantity, unit) {
     }
 }
 
-const spacedUnits = ["tsp", "tbsp"]
-
-const unitRounders = {
-    "g": number => Math.round(number/5)*5,
-    "kg": number => Math.round(number*200)/200
-}
 function getHumanReadableNumber(number, unit) {
-    const spacer = spacedUnits.includes(unit) ? ' ' : '';
-    if(unitRounders[unit]) {
-        return unitRounders[unit](number) + spacer + unit;
-    } else if (unit === "tsp") {
-        //todo try to figure out fractions for tsp and tbsp and find the nicest
-        return parseFloat(number.toPrecision(2)) + spacer + unit;
-    } else if (unit === "tbsp") {
-        return parseFloat(number.toPrecision(2)) + spacer + unit
+    const unitRounders = {
+        "g": number => Math.round(number/5)*5,
+        "kg": number => Math.round(number*200)/200,
+        "ml": number => Math.round(number/5)*5,
+        "l": number => Math.round(number*200)/200
+    }
+    if (unit === "tsp" || unit === "tbsp") {
+        const options = [
+            {fraction: new Fraction(0, 8),unit: "tsp"},
+            {fraction: new Fraction(1, 8),unit: "tsp"},
+            {fraction: new Fraction(2, 8),unit: "tsp"},
+            {fraction: new Fraction(3, 8),unit: "tsp"},
+            {fraction: new Fraction(4, 8),unit: "tsp"},
+            {fraction: new Fraction(5, 8),unit: "tsp"},
+            {fraction: new Fraction(6, 8),unit: "tsp"},
+            {fraction: new Fraction(7, 8),unit: "tsp"},
+            {fraction: new Fraction(8, 8),unit: "tsp"},
+            {fraction: new Fraction(0, 2),unit: "tbsp"},
+            {fraction: new Fraction(1, 2),unit: "tbsp"},
+            {fraction: new Fraction(2, 2),unit: "tbsp"}
+        ];
+        const tsp = convert(number).from(unit).to('tsp');
+        const tbsp = convert(number).from(unit).to('tbsp');
+        const converted = {tsp: tsp, tbsp: tbsp}
+        const decimals = {tsp: converted.tsp%1, tbsp: converted.tbsp%1}
+
+        const best = options.map(option => {
+            return {
+                ...option,
+                difference: Math.abs(option.fraction - decimals[option.unit])
+            }
+        }).sort((a, b) => {
+            const diff = a.difference - b.difference;
+            if (diff === 0) {
+                if(a.unit === b.unit) {
+                    return 0;
+                }
+                else if(a.unit === 'tbsp') {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {
+                return diff;
+            }
+        })[0];
+        return (Math.floor(converted[best.unit])+best.fraction)+' '+best.unit;
     } else {
-        return parseFloat(number.toPrecision(2)) + spacer + unit;
+        return (unitRounders[unit] ? unitRounders[unit](number) : parseFloat(number.toPrecision(2))) + unit;
     }
 }

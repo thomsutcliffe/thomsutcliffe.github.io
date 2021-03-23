@@ -4,6 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/convert-units.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fraction.js@4.0.13/fraction.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.5" />
 </head>
 <body>
@@ -110,6 +111,7 @@
 
             },
             getAmountString: function(quantity, unit) {
+                console.log("Get amount string for", this.ingredient.name)
                 return getAmountString(quantity, unit)
             }
         }
@@ -191,7 +193,7 @@
         </ul>
         `
     });
-    Vue.component('recipe', {
+    const recipe = Vue.component('recipe', {
         props: ['recipe', 'subrecipes', 'mode', 'path', 'visiblesubrecipepaths', 'quantity', 'unit'],
         methods: {
             getScale: function () {
@@ -252,6 +254,8 @@
                 this.visiblesubrecipepaths = [];
                 this.loading=true;
                 this.getRecipe(recipeId);
+                const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?recipe='+recipeId;
+                window.history.pushState({path:newurl},'',newurl);
             },
             getRecipe: function (recipeId) {
                 getRecipeData(recipeId, recipeData => {
