@@ -1,0 +1,132 @@
+{
+  "name": "Zurek",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Carrots",
+      "quantity": 2,
+      "unit": ""
+    },
+    {
+      "id": 1,
+      "name": "Parsley",
+      "quantity": 25,
+      "unit": "g"
+    },
+    {
+      "id": 2,
+      "name": "Onion",
+      "quantity": 1,
+      "unit": ""
+    },
+    {
+      "id": 3,
+      "name": "Celery",
+      "quantity": 1,
+      "unit": " stalk"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 300,
+      "unit": "g"
+    },
+    {
+      "id": 5,
+      "name": "White sausage",
+      "quantity": 500,
+      "unit": "g",
+      "notes": "Kielbasa, can be smoked"
+    },
+    {
+      "id": 6,
+      "name": "Smoked bacon",
+      "quantity": 200,
+      "unit": "g"
+    },
+    {
+      "id": 7,
+      "name": "Allspice berries",
+      "quantity": 3,
+      "unit": " "
+    },
+    {
+      "id": 8,
+      "name": "Bay leaves",
+      "quantity": 2,
+      "unit": ""
+    },
+    {
+      "id": 9,
+      "name": "Black peppercorns",
+      "quantity": 4,
+      "unit": ""
+    },
+    {
+      "id": 10,
+      "name": "Salt",
+      "quantity": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": 11,
+      "name": "Water",
+      "quantity": 1.5,
+      "unit": "l"
+    },
+    {
+      "id": 12,
+      "name": "Żur",
+      "quantity": 500,
+      "unit": "ml"
+    },
+    {
+      "id": 13,
+      "name": "Marjoram",
+      "quantity": 1,
+      "unit": "tsp",
+      "notes": "dried"
+    },
+    {
+      "id": 14,
+      "name": "Single cream",
+      "quantity": 50,
+      "unit": "ml"
+    },
+    {
+      "id": 15,
+      "name": "Eggs",
+      "quantity": 6,
+      "unit": "",
+      "notes": "hardboiled"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Soup",
+      "description": "Peel and chop veg into large pieces, prick sausage, boil for 30 minutes",
+      "ingredients": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    },
+    {
+      "id": 1,
+      "name": "De-chunk",
+      "description": "Remove veg/meat and chop",
+      "ingredients": []
+    },
+    {
+      "id": 2,
+      "name": "Sour",
+      "description": "Add and boil for 10 minutes",
+      "ingredients": [12, 13]
+    },
+    {
+      "id": 3,
+      "name": "Finish",
+      "description": "Add along with veg/meat and season to tase",
+      "ingredients": [14, 15]
+    }
+  ],
+  "yield": 6,
+  "yieldUnit": " servings"
+}

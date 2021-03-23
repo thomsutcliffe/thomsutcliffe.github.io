@@ -1408,7 +1408,7 @@ imperial = {
     }
   , to_anchor: 1/6
   }
-, Tbs: {
+, tbsp: {
     name: {
       singular: 'Tablespoon'
     , plural: 'Tablespoons'

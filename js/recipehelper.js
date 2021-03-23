@@ -35,24 +35,37 @@ function getRecipeData(recipeId, callback) {
     }));
 }
 
-const unitTranslations = {
-    "tbsp": "Tbs",
-    "Tbs": "tbsp"
-}
-const spacedUnits = ["tsp", "tbsp"]
 function getAmountString(quantity, unit) {
-    const translatedUnit = unitTranslations[unit] ? unitTranslations[unit] : unit;
     if (!unit) {
-        return quantity;
-    } else if (!convert().possibilities().includes(translatedUnit)) {
-        return quantity+' '+unit;
+        return getHumanReadableNumber(quantity, unit);
+    } else if (!convert().possibilities().includes(unit)) {
+        return getHumanReadableNumber(quantity, unit);
     } else {
-        const best = convert(quantity).from(translatedUnit).toBest({
+        const best = convert(quantity).from(unit).toBest({
             exclude: ["dl", "msk", "cl", "tsk", "cm3",
                 "mcg", "mg", "mt", "oz", "lb", "t",
                 "mm3", "cm3", "cl", "dl", "kl", "m3", "km3", "krm", "tsk", "msk", "kkp", "glas", "kanna", "in3", "fl-oz", "cup", "pnt", "qt", "gal", "ft3", "yd3"]
         });
-        const translatedBestUnit = unitTranslations[best.unit] ? unitTranslations[best.unit] : best.unit;
-        return best.val + (spacedUnits.includes(translatedBestUnit) ? ' ' : '') + translatedBestUnit;
+        return getHumanReadableNumber(best.val, best.unit);
+    }
+}
+
+const spacedUnits = ["tsp", "tbsp"]
+
+const unitRounders = {
+    "g": number => Math.round(number/5)*5,
+    "kg": number => Math.round(number*200)/200
+}
+function getHumanReadableNumber(number, unit) {
+    const spacer = spacedUnits.includes(unit) ? ' ' : '';
+    if(unitRounders[unit]) {
+        return unitRounders[unit](number) + spacer + unit;
+    } else if (unit === "tsp") {
+        //todo try to figure out fractions for tsp and tbsp and find the nicest
+        return parseFloat(number.toPrecision(2)) + spacer + unit;
+    } else if (unit === "tbsp") {
+        return parseFloat(number.toPrecision(2)) + spacer + unit
+    } else {
+        return parseFloat(number.toPrecision(2)) + spacer + unit;
     }
 }
