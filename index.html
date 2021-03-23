@@ -24,9 +24,11 @@
         </ul>
     </nav>
     <div v-if="!recipeId">
+        <title>Thom's Recipes</title>
         Select a recipe
     </div>
     <div v-else-if="loading">
+        <title>{{ recipeId }}</title>
         Loading...
     </div>
     <div v-else>
