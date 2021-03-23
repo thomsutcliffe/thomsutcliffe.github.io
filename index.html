@@ -115,11 +115,16 @@
         }
     });
     Vue.component('step-item', {
-        props: ['step'],
+        props: ['step', 'ingredients'],
         template: `
         <li>
             <div>
                 <h5>{{ step.name}}</h5>
+                <ul>
+                  <li
+                    v-for="ingredient in (step.ingredients||[]).map(id => ingredients.filter(i => i.id===id).map(i => i.name)[0])"
+                    v-bind:ingredient="ingredient">{{ ingredient }}</li>
+                </ul>
                 <p>{{ step.description }}</p>
             </div>
         </li>
