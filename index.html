@@ -31,6 +31,7 @@
     </div>
     <div v-else>
         <main>
+            <title>{{ recipe.name }}</title>
             <span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span>
             <recipe
                 v-bind:recipe="recipe"
