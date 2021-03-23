@@ -1,0 +1,53 @@
+[
+  {
+    "category": "Baking",
+    "recipes": [
+      {
+        "id": "sausagerolls",
+        "name": "Sausage Rolls"
+      },
+      {
+        "id": "roughpuff",
+        "name": "Rough Puff Pastry"
+      },
+      {
+        "id": "shortbread",
+        "name": "Raspberry Caramel Shortbread"
+      }
+    ]
+  },
+  {
+    "category": "Cooking",
+    "recipes": [
+      {
+        "id": "zurek",
+        "name": "Zurek"
+      },
+      {
+        "id": "pizza",
+        "name": "Pizza"
+      }
+    ]
+  },
+  {
+    "category": "Curry",
+    "recipes": [
+      {
+        "id": "bombaypotato",
+        "name": "Bombay Potato"
+      },
+      {
+        "id": "spicemix",
+        "name": "Indian Spice Mix"
+      },
+      {
+        "id": "ggpaste",
+        "name": "Garlic Ginger Paste"
+      },
+      {
+        "id": "currybase",
+        "name": "Curry Base"
+      }
+    ]
+  }
+]

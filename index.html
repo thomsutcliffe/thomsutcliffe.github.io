@@ -9,12 +9,21 @@
 <body>
 
 <div id="vueRecipe">
-    <div v-if="loading">
+    <nav v-if="navrecipes">
+        <ul>
+            <navrecipecategory v-for="recipe in navrecipes"
+                               v-bind:category="recipe" v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
+        </ul>
+    </nav>
+    <div v-if="!recipeId">
+        Select a recipe
+    </div>
+    <div v-else-if="loading">
         Loading...
     </div>
     <div v-else>
-        <header><span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span></header>
         <main>
+            <span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span>
             <recipe
                 v-bind:recipe="recipe"
                 v-bind:subrecipes="subrecipes"
@@ -32,6 +41,28 @@
 
 
 <script>
+    Vue.component('navrecipecategory', {
+        props: ['category'],
+        template: `
+            <li>
+                <div v-if="category.category">
+                  <span>{{ category.category }}</span>
+                  <ul v-if="category.recipes">
+                    <navrecipecategory v-for="recipe in category.recipes"
+                                       v-bind:category="recipe" v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
+                  </ul>
+                </div>
+                <div v-else-if="category.id">
+                <a @click="this.setRecipeId">{{ category.name }}</a>
+                </div>
+            </li>
+        `,
+        methods: {
+            setRecipeId: function() {
+                this.$root.setRecipeId(this.category.id);
+            }
+        }
+    })
     Vue.component('ingredient-item', {
         props: ['ingredient', 'step', 'mode', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
         data: function() {
@@ -196,17 +227,29 @@
     const app = new Vue({
         el: '#vueRecipe',
         data: {
-            "loading": true,
+            "loading": false,
             "mode": getParameterByName("view") || 'verbose',
             "recipe": {},
             "quantity": "",
             "unit": "",
             "subrecipes": {},
-            "visiblesubrecipepaths": []
+            "visiblesubrecipepaths": [],
+            "navrecipes": {},
+            "recipeId": ""
         },
         methods: {
-            getRecipe: function () {
-                getRecipeData(getParameterByName("recipe"), recipeData => {
+            getNavRecipes: function () {
+                jQuery.getJSON("recipes/discoverablerecipes.json", data => this.navrecipes = data);
+            },
+            setRecipeId: function(recipeId) {
+                this.recipeId = recipeId;
+                this.recipe = {};
+                this.visiblesubrecipepaths = [];
+                this.loading=true;
+                this.getRecipe(recipeId);
+            },
+            getRecipe: function (recipeId) {
+                getRecipeData(recipeId, recipeData => {
                     this.recipe = {
                         yield: 1,
                         ...recipeData
@@ -241,7 +284,7 @@
             }
         },
         created: function () {
-            this.getRecipe();
+            this.getNavRecipes();
         }
     });
 
