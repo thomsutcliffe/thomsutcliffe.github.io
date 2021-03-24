@@ -1,0 +1,69 @@
+{
+  "name": "Mulled Wine",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Red wine",
+      "quantity": 1,
+      "unit": "bottle"
+    },
+    {
+      "id": 1,
+      "name": "Water",
+      "quantity": 250,
+      "unit": "ml"
+    },
+    {
+      "id": 2,
+      "name": "Orange Juice",
+      "quantity": 250,
+      "unit": "ml"
+    },
+    {
+      "id": 3,
+      "name": "Caster Sugar",
+      "quantity": 50,
+      "unit": "g"
+    },
+    {
+      "id": 4,
+      "name": "Cinnamon Sticks",
+      "quantity": 2,
+      "unit": ""
+    },
+    {
+      "id": 5,
+      "name": "Ground Coriander",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": 6,
+      "name": "Whole Cloves",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": 7,
+      "name": "Brandy",
+      "quantity": 125,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Heat",
+      "description": "Heat to just below boil for 5-10 mins",
+      "ingredients": [0, 1, 2, 3, 4, 5, 6]
+    },
+    {
+      "id": 1,
+      "name": "Brandy",
+      "description": "Remove from heat, mix, strain",
+      "ingredients": [7]
+    }
+  ],
+  "yield": 1,
+  "yieldUnit": "l"
+}

@@ -30,7 +30,7 @@
     ]
   },
   {
-    "category": "Curry",
+    "category": "\uD83C\uDF5B Curry",
     "recipes": [
       {
         "id": "bombaypotato",
@@ -47,6 +47,32 @@
       {
         "id": "currybase",
         "name": "Curry Base"
+      }
+    ]
+  },
+  {
+    "category": "Ruth",
+    "recipes": [
+      {
+        "id": "mulledwine",
+        "name": "\uD83C\uDF77 Mulled Wine"
+      },
+      {
+        "id": "fruitpunch",
+        "name": "Fruit Punch"
+      }
+    ]
+  },
+  {
+    "category": "\uD83C\uDF84 Christmas",
+    "recipes": [
+      {
+        "id": "mulledwine",
+        "name": "\uD83C\uDF77 Mulled Wine"
+      },
+      {
+        "id": "fruitpunch",
+        "name": "Fruit Punch"
       }
     ]
   }

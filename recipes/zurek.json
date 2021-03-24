@@ -23,7 +23,7 @@
       "id": 3,
       "name": "Celery",
       "quantity": 1,
-      "unit": " stalk"
+      "unit": "stalk"
     },
     {
       "id": 4,
@@ -48,7 +48,7 @@
       "id": 7,
       "name": "Allspice berries",
       "quantity": 3,
-      "unit": " "
+      "unit": ""
     },
     {
       "id": 8,

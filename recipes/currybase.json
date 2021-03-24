@@ -50,7 +50,7 @@
       "id": 7,
       "name": "Fresh coriander",
       "quantity": 15,
-      "unit": " stalks"
+      "unit": "stalks"
     },
     {
       "id": 8,
@@ -68,7 +68,7 @@
       "id": 10,
       "name": "Chopped tomatoes",
       "quantity": 1,
-      "unit": " tin"
+      "unit": "tin"
     }
   ],
   "steps": [
