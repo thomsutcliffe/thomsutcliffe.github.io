@@ -78,7 +78,8 @@
       "id": 12,
       "name": "Żur",
       "quantity": 500,
-      "unit": "ml"
+      "unit": "ml",
+      "subrecipe": "zur"
     },
     {
       "id": 13,
