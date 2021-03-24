@@ -44,7 +44,7 @@
                 v-bind:quantity="quantity"
                 v-bind:unit="unit"></recipe>
         </main>
-        <footer><button @click="switchMode">Switch view</button></footer>
+        <footer><button type="button" @click="switchMode">{{mode==="verbose" ? "Show condensed view" : "Show verbose view"}}</button></footer>
     </div>
 </div>
 </body>
