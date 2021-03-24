@@ -113,6 +113,6 @@ function getHumanReadableNumber(number, unit) {
             return (Math.floor(converted[best.unit]) + best.fraction) + ' ' + best.unit;
         }
     } else {
-        return (unitRounders[unit] ? unitRounders[unit](number) : parseFloat(number.toPrecision(2))) + unit;
+        return (unitRounders[unit] ? unitRounders[unit](number) : parseFloat(number.toPrecision(2))) + (unit ? unit : "");
     }
 }
