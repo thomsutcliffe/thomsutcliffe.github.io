@@ -70,7 +70,7 @@
         `,
         methods: {
             setRecipeId: function() {
-                this.$root.setRecipeId(this.category.id);
+                this.$root.setRecipeId(this.category.id, true);
             }
         }
     })
@@ -257,25 +257,41 @@
             getNavRecipes: function () {
                 jQuery.getJSON("recipes/discoverablerecipes.json", data => this.navrecipes = data);
             },
-            setRecipeId: function(recipeId) {
+            setRecipeFromQueryParam: function() {
+                const recipeId = getParameterByName("recipe");
+                if(recipeId) {
+                    this.setRecipeId(recipeId, false);
+                }
+            },
+            setRecipeId: function(recipeId, updateHistory) {
                 this.recipeId = recipeId;
                 this.recipe = {};
                 this.visiblesubrecipepaths = [];
                 this.loading=true;
                 this.getRecipe(recipeId);
-                const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?recipe='+recipeId;
-                window.history.pushState({path:newurl},'',newurl);
+                if(updateHistory) {
+                    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?recipe=' + recipeId;
+                    window.history.pushState({path: newurl}, '', newurl);
+                }
             },
             getRecipe: function (recipeId) {
-                getRecipeData(recipeId, recipeData => {
-                    this.recipe = {
-                        yield: 1,
-                        ...recipeData
-                    };
-                    this.quantity = this.recipe.yield;
-                    this.unit = recipeData.yieldUnit;
-                    this.loading = false;
-                });
+                if(this.subrecipes[recipeId]) {
+                    this.setRecipeData(this.subrecipes[recipeId]);
+                } else {
+                    getRecipeData(recipeId, recipeData => {
+                        this.subrecipes[recipeId] = recipeData;
+                        this.setRecipeData(recipeData);
+                    });
+                }
+            },
+            setRecipeData: function(recipeData) {
+                this.recipe = {
+                    yield: 1,
+                    ...recipeData
+                };
+                this.quantity = this.recipe.yield;
+                this.unit = recipeData.yieldUnit;
+                this.loading = false;
             },
             switchMode: function () {
                 this.mode = this.mode === 'condensed' ? 'verbose' : 'condensed';
@@ -303,11 +319,12 @@
         },
         created: function () {
             this.getNavRecipes();
-            const recipeId = getParameterByName("recipe");
-            if(recipeId) {
-                this.setRecipeId(recipeId);
-            }
+            this.setRecipeFromQueryParam();
         }
     });
+
+    window.onpopstate = function() {
+        app.setRecipeFromQueryParam();
+    }
 
 </script>
