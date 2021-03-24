@@ -13,6 +13,10 @@
       {
         "id": "shortbread",
         "name": "Raspberry Caramel Shortbread"
+      },
+      {
+        "id": "lemoncake",
+        "name": "Lemon Cake"
       }
     ]
   },
@@ -60,6 +64,10 @@
       {
         "id": "fruitpunch",
         "name": "Fruit Punch"
+      },
+      {
+        "id": "lemoncake",
+        "name": "Lemon Cake"
       }
     ]
   },

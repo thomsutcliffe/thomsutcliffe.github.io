@@ -1,0 +1,83 @@
+{
+  "name": "Lemon Cake",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Self Raising Flour",
+      "quantity": 225,
+      "unit": "g"
+    },
+    {
+      "id": 1,
+      "name": "Butter",
+      "quantity": 225,
+      "unit": "g"
+    },
+    {
+      "id": 2,
+      "name": "Caster Sugar",
+      "quantity": 170,
+      "unit": "g"
+    },
+    {
+      "id": 3,
+      "name": "Eggs",
+      "quantity": 3,
+      "unit": ""
+    },
+    {
+      "id": 4,
+      "name": "Lemon",
+      "quantity": 1,
+      "unit": "",
+      "notes": "juice and rind"
+    },
+    {
+      "id": 5,
+      "name": "Lemon",
+      "quantity": 1,
+      "unit": "",
+      "notes": "juice"
+    },
+    {
+      "id": 6,
+      "name": "Caster Sugar",
+      "quantity": 170,
+      "unit": "g"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Cream",
+      "description": "Cream until light and fluffy",
+      "ingredients": [1, 2]
+    },
+    {
+      "id": 1,
+      "name": "Eggs",
+      "description": "Add gradually",
+      "ingredients": [3]
+    },
+    {
+      "id": 2,
+      "name": "Flour",
+      "description": "Add gradually",
+      "ingredients": [0, 4]
+    },
+    {
+      "id": 3,
+      "name": "Bake",
+      "description": "Bake for 30 mins at 160 in oblong tray",
+      "ingredients": []
+    },
+    {
+      "id": 4,
+      "name": "Drizzle",
+      "description": "Mix then pour over pricked cake",
+      "ingredients": [5, 6]
+    }
+  ],
+  "yield": 1,
+  "yieldUnit": ""
+}
