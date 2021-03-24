@@ -80,7 +80,7 @@ function getHumanReadableNumber(number, unit) {
         const best = options.map(option => {
             return {
                 ...option,
-                difference: Math.abs(option.fraction - decimals[option.unit])
+                difference: Math.abs(option.fraction - decimals[option.unit]) * (option.unit === 'tbsp' ? 3 : 1)
             }
         }).sort((a, b) => {
             const diff = a.difference - b.difference;
