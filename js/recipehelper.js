@@ -52,9 +52,9 @@ function getAmountString(quantity, unit) {
 
 function getHumanReadableNumber(number, unit) {
     const unitRounders = {
-        "g": number => Math.round(number/5)*5,
+        "g": number => number < 5 ? number : Math.round(number/5)*5,
         "kg": number => Math.round(number*200)/200,
-        "ml": number => Math.round(number/5)*5,
+        "ml": number => number < 5 ? number : Math.round(number/5)*5,
         "l": number => Math.round(number*200)/200
     }
     if (unit === "tsp" || unit === "tbsp") {
