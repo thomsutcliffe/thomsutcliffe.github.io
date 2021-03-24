@@ -1,0 +1,9 @@
+body {
+  padding-bottom: 10vh;
+}
+
+button {
+  position: fixed;
+  right: 4vw;
+  bottom: 4vh;
+}
