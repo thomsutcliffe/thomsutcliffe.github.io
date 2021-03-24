@@ -41,12 +41,13 @@ function getAmountString(quantity, unit) {
     } else if (!convert().possibilities().includes(unit)) {
         return getHumanReadableNumber(quantity, unit);
     } else {
-        const best = convert(quantity).from(unit).toBest({
-            exclude: ["dl", "msk", "cl", "tsk", "cm3",
-                "mcg", "mg", "mt", "oz", "lb", "t",
-                "mm3", "cm3", "cl", "dl", "kl", "m3", "km3", "krm", "tsk", "msk", "kkp", "glas", "kanna", "in3", "fl-oz", "cup", "pnt", "qt", "gal", "ft3", "yd3"]
-        });
-        return getHumanReadableNumber(best.val, best.unit);
+        if(convert().describe(unit).system === "imperial" && unit !== "tsp" && unit !== "tbsp") {
+            const metricUnit = convert().list(convert().describe(unit).measure).filter(i => i.system==="metric")[0].abbr;
+            return getAmountString(convert(quantity).from(unit).to(metricUnit), metricUnit);
+        } else {
+            const best = convert(quantity).from(unit).toBest({exclude});
+            return getHumanReadableNumber(best.val, best.unit);
+        }
     }
 }
 
@@ -58,6 +59,9 @@ function getHumanReadableNumber(number, unit) {
         "l": number => Math.round(number*200)/200
     }
     if (unit === "tsp" || unit === "tbsp") {
+        if(convert(number).from(unit).to('ml') >= mlThreshold) {
+            return getAmountString(convert(number).from(unit).to('ml'), 'ml');
+        }
         const options = [
             {fraction: new Fraction(0, 8),unit: "tsp"},
             {fraction: new Fraction(1, 8),unit: "tsp"},

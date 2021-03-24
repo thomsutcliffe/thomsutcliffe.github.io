@@ -4,20 +4,20 @@
     {
       "id": 0,
       "name": "Self Raising Flour",
-      "quantity": 225,
-      "unit": "g"
+      "quantity": 8,
+      "unit": "oz"
     },
     {
       "id": 1,
       "name": "Butter",
-      "quantity": 225,
-      "unit": "g"
+      "quantity": 8,
+      "unit": "oz"
     },
     {
       "id": 2,
       "name": "Caster Sugar",
-      "quantity": 170,
-      "unit": "g"
+      "quantity": 6,
+      "unit": "oz"
     },
     {
       "id": 3,
@@ -42,8 +42,8 @@
     {
       "id": 6,
       "name": "Caster Sugar",
-      "quantity": 170,
-      "unit": "g"
+      "quantity": 6,
+      "unit": "oz"
     }
   ],
   "steps": [
