@@ -19,12 +19,15 @@
 <body>
 
 <div id="vueRecipe">
-    <nav v-if="navrecipes">
-        <ul>
-            <navrecipecategory v-for="recipe in navrecipes"
-                               v-bind:category="recipe" v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
-        </ul>
-    </nav>
+    <div>
+        <nav v-if="navrecipes">
+            <ul>
+                <navrecipecategory v-for="recipe in navrecipes"
+                                   v-bind:category="recipe" v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
+                <li @click="toggleMenuOpen">{{ isMenuOpen }}</li>
+            </ul>
+        </nav>
+    </div>
     <div v-if="!recipeId">
         <title>Thom's Recipes</title>
         Select a recipe
@@ -253,7 +256,8 @@
             "subrecipes": {},
             "visiblesubrecipepaths": [],
             "navrecipes": {},
-            "recipeId": ""
+            "recipeId": "",
+            "isMenuOpen": false
         },
         methods: {
             getNavRecipes: function () {
@@ -317,6 +321,9 @@
                         path
                     ];
                 }
+            },
+            toggleMenuOpen: function () {
+                this.isMenuOpen = !this.isMenuOpen;
             }
         },
         created: function () {
