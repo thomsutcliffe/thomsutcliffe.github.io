@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/convert-units.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fraction.js@4.0.13/fraction.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.5" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.5"/>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -22,7 +22,8 @@
     <nav v-if="navrecipes">
         <ul>
             <navrecipecategory v-for="recipe in navrecipes"
-                               v-bind:category="recipe" v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
+                               v-bind:category="recipe"
+                               v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
         </ul>
     </nav>
     <div v-if="!recipeId">
@@ -38,15 +39,26 @@
             <title>{{ recipe.name }}</title>
             <span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span>
             <recipe
-                v-bind:recipe="recipe"
-                v-bind:subrecipes="subrecipes"
-                v-bind:mode="mode"
-                v-bind:path="'0'"
-                v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-                v-bind:quantity="quantity"
-                v-bind:unit="unit"></recipe>
+                    v-bind:recipe="recipe"
+                    v-bind:subrecipes="subrecipes"
+                    v-bind:mode="mode"
+                    v-bind:path="'0'"
+                    v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+                    v-bind:quantity="quantity"
+                    v-bind:unit="unit"></recipe>
         </main>
-        <footer><button type="button" @click="switchMode">{{mode==="verbose" ? "Show condensed view" : "Show verbose view"}}</button></footer>
+        <footer>
+            <fieldset class="r-pill">
+                    <span class="r-pill__item" @click="setVerboseMode">
+                        <input type="radio" id="r1" name="radios" v-bind:checked="mode === 'verbose'">
+                        <label for="r1">Verbose view</label>
+                    </span>
+                    <span class="r-pill__item" @click="setCondensedMode">
+                        <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
+                        <label for="r2">Condensed view</label>
+                    </span>
+            </fieldset>
+        </footer>
     </div>
 </div>
 </body>
@@ -57,21 +69,22 @@
     Vue.component('navrecipecategory', {
         props: ['category'],
         template: `
-            <li>
-                <div v-if="category.category">
-                  <span>{{ category.category }}</span>
-                  <ul v-if="category.recipes">
-                    <navrecipecategory v-for="recipe in category.recipes"
-                                       v-bind:category="recipe" v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
-                  </ul>
-                </div>
-                <div v-else-if="category.id">
-                <a @click="this.setRecipeId">{{ category.name }}</a>
-                </div>
-            </li>
+          <li>
+          <div v-if="category.category">
+            <span>{{ category.category }}</span>
+            <ul v-if="category.recipes">
+              <navrecipecategory v-for="recipe in category.recipes"
+                                 v-bind:category="recipe"
+                                 v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
+            </ul>
+          </div>
+          <div v-else-if="category.id">
+            <a @click="this.setRecipeId">{{ category.name }}</a>
+          </div>
+          </li>
         `,
         methods: {
-            setRecipeId: function() {
+            setRecipeId: function () {
                 this.$root.setRecipeId(this.category.id, true);
             }
         }
@@ -83,7 +96,7 @@
                 if (isNaN(this.quantity)) {
                     return 1;
                 } else if (this.recipe.yieldUnit === this.unit) {
-                    return this.quantity/this.recipe.yield;
+                    return this.quantity / this.recipe.yield;
                 } else if (convert().possibilities().includes(this.recipe.yieldUnit) &&
                     convert().list(convert().describe(this.recipe.yieldUnit).measure).map(u => u.abbr).includes(this.unit)) {
                     return convert(this.quantity).from(this.unit).to(this.recipe.yieldUnit) / this.recipe.yield;
@@ -135,7 +148,8 @@
         props: ['recipe', 'subrecipes', 'visiblesubrecipepaths', 'path', 'mode', 'scale'],
         template: `
           <div>
-          <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
+          <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a
+              v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
           <h1>{{ recipe.name }}</h1>
           <h2>Ingredients</h2>
           <ingredient-item-list
@@ -177,7 +191,7 @@
     });
     Vue.component('ingredient-item', {
         props: ['ingredient', 'step', 'mode', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
-        data: function() {
+        data: function () {
             if (this.ingredient) {
                 return {
                     newPath: this.path + '.' + this.ingredient.id
@@ -212,10 +226,10 @@
         `,
         methods: {
             toggleSubrecipe: function () {
-                    if (this.ingredient.subrecipe && !this.subrecipes[this.subrecipe]) {
-                        this.$root.loadSubrecipe(this.ingredient.subrecipe);
-                    }
-                    this.$root.toggleShowSubrecipeFor(this.newPath);
+                if (this.ingredient.subrecipe && !this.subrecipes[this.subrecipe]) {
+                    this.$root.loadSubrecipe(this.ingredient.subrecipe);
+                }
+                this.$root.toggleShowSubrecipeFor(this.newPath);
 
             },
         }
@@ -223,15 +237,16 @@
     Vue.component('ingredient-details', {
         props: ['ingredient', 'scale'],
         template: `
-            <div>
+          <span>
           <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
-          <span v-if="ingredient && ingredient.name" :title="scale*ingredient.quantity + ingredient.unit">{{ ingredient.name }}
-          {{ getAmountString(scale * ingredient.quantity, ingredient.unit) }}</span>
+          <span v-if="ingredient && ingredient.name"
+                :title="scale*ingredient.quantity + ingredient.unit">{{ ingredient.name }}
+            {{ getAmountString(scale * ingredient.quantity, ingredient.unit) }}</span>
           <span v-if="ingredient && ingredient.notes" style="color: #a5a5a5"> - {{ ingredient.notes }}</span>
-            </div>
+          </span>
         `,
         methods: {
-            getAmountString: function(quantity, unit) {
+            getAmountString: function (quantity, unit) {
                 return getAmountString(quantity, unit)
             }
         }
@@ -239,18 +254,20 @@
     Vue.component('step-item', {
         props: ['step', 'ingredients', 'scale'],
         template: `
-        <li>
-            <div>
-                <h5>{{ step.name}}</h5>
-                <ul>
-                  <li
-                    v-for="ingredient in (step.ingredients||[]).map(id => ingredients.filter(i => i.id===id)[0])"
-                    v-bind:ingredient="ingredient"><ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"></ingredient-details></li>
-                </ul>
-                <p>{{ step.description }}</p>
-            </div>
-        </li>
-         `
+          <li>
+          <div>
+            <h5>{{ step.name }}</h5>
+            <ul>
+              <li
+                  v-for="ingredient in (step.ingredients||[]).map(id => ingredients.filter(i => i.id===id)[0])"
+                  v-bind:ingredient="ingredient">
+                <ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"></ingredient-details>
+              </li>
+            </ul>
+            <p>{{ step.description }}</p>
+          </div>
+          </li>
+        `
     });
 
     const app = new Vue({
@@ -270,25 +287,25 @@
             getNavRecipes: function () {
                 jQuery.getJSON("recipes/discoverablerecipes.json", data => this.navrecipes = data);
             },
-            setRecipeFromQueryParam: function() {
+            setRecipeFromQueryParam: function () {
                 const recipeId = getParameterByName("recipe");
-                if(recipeId) {
+                if (recipeId) {
                     this.setRecipeId(recipeId, false);
                 }
             },
-            setRecipeId: function(recipeId, updateHistory) {
+            setRecipeId: function (recipeId, updateHistory) {
                 this.recipeId = recipeId;
                 this.recipe = {};
                 this.visiblesubrecipepaths = [];
-                this.loading=true;
+                this.loading = true;
                 this.getRecipe(recipeId);
-                if(updateHistory) {
+                if (updateHistory) {
                     const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?recipe=' + recipeId;
                     window.history.pushState({path: newurl}, '', newurl);
                 }
             },
             getRecipe: function (recipeId) {
-                if(this.subrecipes[recipeId]) {
+                if (this.subrecipes[recipeId]) {
                     this.setRecipeData(this.subrecipes[recipeId]);
                 } else {
                     getRecipeData(recipeId, recipeData => {
@@ -297,7 +314,7 @@
                     });
                 }
             },
-            setRecipeData: function(recipeData) {
+            setRecipeData: function (recipeData) {
                 this.recipe = {
                     yield: 1,
                     ...recipeData
@@ -308,6 +325,12 @@
             },
             switchMode: function () {
                 this.mode = this.mode === 'condensed' ? 'verbose' : 'condensed';
+            },
+            setCondensedMode: function() {
+                this.mode = 'condensed';
+            },
+            setVerboseMode: function() {
+                this.mode = 'verbose';
             },
             loadSubrecipe: function (subrecipe) {
                 if (subrecipe && !this.subrecipes[subrecipe]) {
@@ -336,7 +359,7 @@
         }
     });
 
-    window.onpopstate = function() {
+    window.onpopstate = function () {
         app.setRecipeFromQueryParam();
     }
 

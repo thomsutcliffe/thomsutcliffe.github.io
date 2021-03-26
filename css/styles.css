@@ -7,3 +7,138 @@ button {
   right: 4vw;
   bottom: 4vh;
 }
+
+/* parent container <fieldset> */
+.r-pill {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  right: 4vw;
+  bottom: 4vh;
+}
+
+/* radio groups need a legend */
+.r-pill legend {
+  display: block;
+  font-size: inherit;
+  font-weight: bold;
+  margin-bottom: .5em;
+  padding: 0;
+  width: 100%;
+}
+
+/*
+	Optional inner wrapper (<div>) to provide additional styling.
+*/
+.r-pill__group {
+  background: #fafafa;
+  border: 1px solid #083851;
+  border-radius: 2em;
+  display: inline-block;
+  padding: .25em;
+}
+
+.r-pill__item {
+  display: inline-block;
+  position: relative;
+}
+
+.r-pill input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  border: 2px solid;
+  height: 100%;
+  left: 0;
+  opacity: .00001;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.r-pill__item label {
+  border-radius: 2em;
+  border: 2px solid transparent;
+  /*color: #083851;*/
+  display: block;
+  padding: .25em .75em;
+}
+
+.r-pill__item input:hover ~ label,
+.r-pill__item label:hover {
+  border-color: #2196f3;
+}
+
+.r-pill[disabled] .r-pill__item input:checked + label:hover,
+.r-pill__item input:checked + label {
+  background: #2196f3;
+  color: #fff;
+}
+
+.r-pill__item label:after {
+  border: 2px solid;
+  border-color: rgba(0,0,0,0);
+  border-radius: 2em;
+  bottom: 0;
+  content: "";
+  left: 0;
+  pointer-events: none; /* 1 */
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition:
+          bottom .2s ease-in-out,
+          border-color .2s ease-in-out,
+          left .2s ease-in-out,
+          right .2s ease-in-out,
+          top .2s ease-in-out;
+
+}
+
+
+
+/**
+ * Disabled
+ */
+.r-pill[disabled],
+.r-pill__item input[disabled] + label {
+  opacity: .5;
+}
+
+.r-pill__item input[disabled] ~ label,
+.r-pill__item input[disabled] ~ label:hover,
+.r-pill[disabled] label:hover {
+  background: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+
+/**
+ * Undo styling that makes these pills appear as
+ * if they are all checked in high contrast mode.
+ */
+@media screen and (-ms-high-contrast: active) {
+  .r-pill__item label {
+    border: 0;
+    margin: 2px;
+  }
+
+  .r-pill__item input:checked + label {
+    border: 2px solid;
+    margin: 0;
+  }
+
+  .r-pill__item input:hover ~ label,
+  .r-pill__item label:hover {
+    text-decoration: underline;
+  }
+
+  .r-pill[disabled] .r-pill__item label:hover,
+  .r-pill[disabled] .r-pill__item input:hover ~ label {
+    text-decoration: none
+  }
+}
