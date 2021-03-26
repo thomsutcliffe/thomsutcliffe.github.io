@@ -151,6 +151,7 @@
                 v-for="step in recipe.steps"
                 v-bind:step="step"
                 v-bind:ingredients="recipe.ingredients"
+                v-bind:scale="scale"
                 v-bind:key="step.id">
             </step-item>
           </ul>
@@ -189,10 +190,7 @@
         },
         template: `
           <li>
-          <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
-          <span v-if="ingredient && ingredient.name" :title="scale*ingredient.quantity + ingredient.unit">{{ ingredient.name }}
-            {{ getAmountString(scale * ingredient.quantity, ingredient.unit) }}</span>
-          <span v-if="ingredient && ingredient.notes" style="color: #a5a5a5"> - {{ ingredient.notes }}</span>
+          <ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"/>
           <span v-if="step" style="color: #808080"><span v-if="ingredient"> - </span>{{ step }}</span>
           <span v-if="ingredient && ingredient.subrecipe" @click="toggleSubrecipe()">
                 <span v-if="visiblesubrecipepaths.includes(newPath)">-</span>
@@ -220,13 +218,26 @@
                     this.$root.toggleShowSubrecipeFor(this.newPath);
 
             },
+        }
+    });
+    Vue.component('ingredient-details', {
+        props: ['ingredient', 'scale'],
+        template: `
+            <div>
+          <span v-if="ingredient && ingredient.optional" style="color: grey">[Optional] </span>
+          <span v-if="ingredient && ingredient.name" :title="scale*ingredient.quantity + ingredient.unit">{{ ingredient.name }}
+          {{ getAmountString(scale * ingredient.quantity, ingredient.unit) }}</span>
+          <span v-if="ingredient && ingredient.notes" style="color: #a5a5a5"> - {{ ingredient.notes }}</span>
+            </div>
+        `,
+        methods: {
             getAmountString: function(quantity, unit) {
                 return getAmountString(quantity, unit)
             }
         }
     });
     Vue.component('step-item', {
-        props: ['step', 'ingredients'],
+        props: ['step', 'ingredients', 'scale'],
         template: `
         <li>
             <div>
@@ -234,7 +245,7 @@
                 <ul>
                   <li
                     v-for="ingredient in (step.ingredients||[]).map(id => ingredients.filter(i => i.id===id)[0])"
-                    v-bind:ingredient="ingredient">{{ ingredient.name }}<span v-if="ingredient.notes" style="color: #a5a5a5"> - {{ ingredient.notes }}</span></li>
+                    v-bind:ingredient="ingredient"><ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"></ingredient-details></li>
                 </ul>
                 <p>{{ step.description }}</p>
             </div>
