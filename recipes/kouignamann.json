@@ -1,0 +1,99 @@
+{
+  "name": "Kouign Amann",
+  "forkName": "Paul Hollywood",
+  "forkUrl": "https://www.bbc.co.uk/food/recipes/kouign_amann_09102",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Bread flour",
+      "quantity": "300",
+      "unit": "g"
+    },
+    {
+      "id": 1,
+      "name": "Yeast",
+      "quantity": "5",
+      "unit": "g",
+      "notes": "fast action"
+    },
+    {
+      "id": 2,
+      "name": "Salt",
+      "quantity": "1",
+      "unit": "tsp"
+    },
+    {
+      "id": 3,
+      "name": "Water",
+      "quantity": "200",
+      "unit": "ml"
+    },
+    {
+      "id": 4,
+      "name": "Butter",
+      "quantity": "25",
+      "unit": "g",
+      "notes": "melted"
+    },
+    {
+      "id": 5,
+      "name": "Butter",
+      "quantity": "250",
+      "unit": "g",
+      "notes": "cold"
+    },
+    {
+      "id": 6,
+      "name": "Caster sugar",
+      "quantity": "50",
+      "unit": "g"
+    },
+    {
+      "id": 7,
+      "name": "Caster sugar",
+      "quantity": "50",
+      "unit": "g"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Dough",
+      "description": "In stand mixer, two minutes low then 6 minutes medium then shape into ball in oiled bowl and leave for an hour",
+      "ingredients": [0, 1, 2, 3, 4]
+    },
+    {
+      "id": 1,
+      "name": "Butter",
+      "description": "Bash and roll into a large square a few mm thick and chill",
+      "ingredients": [5]
+    },
+    {
+      "id": 2,
+      "name": "Envelope",
+      "description": "Roll dough to around twice the area of the butter, place the butter diagonally on top and close the dough over the top"
+    },
+    {
+      "id": 3,
+      "name": "Layers",
+      "description": "[Roll out into a large rectangle, fold into three, chill for 30 minutes] x 3"
+    },
+    {
+      "id": 4,
+      "name": "Roll out",
+      "description": "Roll into large rectangle, sprinkle with sugar, fold into thirds and immediately reroll",
+      "ingredients": [6]
+    },
+    {
+      "id": 5,
+      "name": "Shape",
+      "description": "Sprinkle with sugar, cut into 10x10cm squares, gather the corners together above and put into oiled muffin tray, sprinkle more sugar then leave for 30 minutes"
+    },
+    {
+      "id": 6,
+      "name": "Bake",
+      "description": "Bake at 190 for 30-40 minutes, cover with foil if they start to burn"
+    }
+  ],
+  "yield": 12
+}
