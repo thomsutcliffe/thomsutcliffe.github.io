@@ -2,7 +2,8 @@
 <head>
     <script type="text/javascript" src="js/recipehelper.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.1.8/dist/vue.js"></script>
+    <script type="text/javascript" src="js/markdown.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/convert-units.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fraction.js@4.0.13/fraction.min.js"></script>
@@ -46,17 +47,28 @@
                     v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
                     v-bind:quantity="quantity"
                     v-bind:unit="unit"></recipe>
+            <div v-if="readmeVisible" id="myModal" class="modal" @click="hideReadme">
+                    <div class="modal-content" v-on:click.stop>
+                        <span class="close" @click="hideReadme">&times;</span>
+                        <vue-markdown>{{ readme }}</vue-markdown>
+                    </div>
+
+            </div>
         </main>
         <footer>
             <fieldset class="r-pill">
                     <span class="r-pill__item" @click="setVerboseMode">
                         <input type="radio" id="r1" name="radios" v-bind:checked="mode === 'verbose'">
-                        <label for="r1">Verbose view</label>
+                        <label for="r1" class="left">Verbose view</label>
                     </span>
                     <span class="r-pill__item" @click="setCondensedMode">
                         <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
-                        <label for="r2">Condensed view</label>
+                        <label for="r2" class="right">Condensed view</label>
                     </span>
+                <span class="r-pill__item" @click="showReadme">
+                    <input id="r3" name="radios">
+                    <label for="r3">?</label>
+                </span>
             </fieldset>
         </footer>
     </div>
@@ -270,6 +282,8 @@
         `
     });
 
+    Vue.component("vue-markdown", VueMarkdown.default);
+
     const app = new Vue({
         el: '#vueRecipe',
         data: {
@@ -281,7 +295,9 @@
             "subrecipes": {},
             "visiblesubrecipepaths": [],
             "navrecipes": {},
-            "recipeId": ""
+            "recipeId": "",
+            "readmeVisible": false,
+            "readme": "Loading"
         },
         methods: {
             getNavRecipes: function () {
@@ -351,11 +367,18 @@
                         path
                     ];
                 }
+            },
+            showReadme: function () {
+                this.readmeVisible = true;
+            },
+            hideReadme: function() {
+                this.readmeVisible = false;
             }
         },
         created: function () {
             this.getNavRecipes();
             this.setRecipeFromQueryParam();
+            jQuery.get("README.md", md => this.readme=md);
         }
     });
 

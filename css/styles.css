@@ -42,6 +42,7 @@ button {
 .r-pill__item {
   display: inline-block;
   position: relative;
+  border-color: #2196f3;
 }
 
 .r-pill input {
@@ -61,15 +62,32 @@ button {
 
 .r-pill__item label {
   border-radius: 2em;
-  border: 2px solid transparent;
-  /*color: #083851;*/
+  border: 2px solid #2196f3;
   display: block;
   padding: .25em .75em;
 }
 
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
-  border-color: #2196f3;
+  border-color: #ffffff;
+}
+
+label.left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+label.middle {
+  border-radius: 0;
+}
+
+label.right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+label + label {
+  margin-left:0;
 }
 
 .r-pill[disabled] .r-pill__item input:checked + label:hover,
@@ -140,5 +158,48 @@ button {
   .r-pill[disabled] .r-pill__item label:hover,
   .r-pill[disabled] .r-pill__item input:hover ~ label {
     text-decoration: none
+  }
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--modal-background);
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  margin: 5% auto;
+  padding: 5px 20px 20px;
+  border: 1px solid var(--highlight-background-color);
+  width: var(--max-body-width);
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+:root {
+  color-scheme: light dark;
+  --modal-background: rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --modal-background: rgba(255, 255, 255, 0.25);
   }
 }
