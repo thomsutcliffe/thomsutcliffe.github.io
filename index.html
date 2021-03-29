@@ -27,6 +27,13 @@
                                v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
         </ul>
     </nav>
+    <div v-if="readmeVisible" id="myModal" class="modal" @click="hideReadme">
+        <div class="modal-content" v-on:click.stop>
+            <span class="close" @click="hideReadme">&times;</span>
+            <vue-markdown>{{ readme }}</vue-markdown>
+        </div>
+
+    </div>
     <div v-if="!recipeId">
         <title>Thom's Recipes</title>
         Select a recipe
@@ -47,31 +54,25 @@
                     v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
                     v-bind:quantity="quantity"
                     v-bind:unit="unit"></recipe>
-            <div v-if="readmeVisible" id="myModal" class="modal" @click="hideReadme">
-                    <div class="modal-content" v-on:click.stop>
-                        <span class="close" @click="hideReadme">&times;</span>
-                        <vue-markdown>{{ readme }}</vue-markdown>
-                    </div>
 
-            </div>
         </main>
-        <footer>
-            <fieldset class="r-pill">
+    </div>
+    <footer>
+        <fieldset class="r-pill">
                     <span class="r-pill__item" @click="setVerboseMode">
                         <input type="radio" id="r1" name="radios" v-bind:checked="mode === 'verbose'">
                         <label for="r1" class="left">Verbose view</label>
                     </span>
-                    <span class="r-pill__item" @click="setCondensedMode">
+            <span class="r-pill__item" @click="setCondensedMode">
                         <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
                         <label for="r2" class="right">Condensed view</label>
                     </span>
-                <span class="r-pill__item" @click="showReadme">
-                    <input id="r3" name="radios">
+            <span class="r-pill__item" @click="showReadme">
+                    <input type="radio" id="r3" name="radios">
                     <label for="r3">?</label>
                 </span>
-            </fieldset>
-        </footer>
-    </div>
+        </fieldset>
+    </footer>
 </div>
 </body>
 </html>
