@@ -16,6 +16,7 @@ button {
   position: fixed;
   right: 4vw;
   bottom: 4vh;
+  display: flex;
 }
 
 /* radio groups need a legend */
@@ -75,6 +76,7 @@ button {
 label.left {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  margin-left: 1rem;
 }
 
 label.middle {
@@ -84,6 +86,7 @@ label.middle {
 label.right {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  margin-right: 1rem;
 }
 
 label + label {
