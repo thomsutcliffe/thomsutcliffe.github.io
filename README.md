@@ -70,4 +70,4 @@ I intend to implement a UI based recipe builder that will remove the need for mo
 ## Why is there a Ruth section?
 
 You might be confused that there is a section called `Ruth` hiding amongst the more traditional food categories. Ruth is my late mum. I inherited two things of relevance from her - a love for all things culinary and a large box of mismatched recipes ranging from magazine clippings to website printouts to six words scrawled on a scrap of paper. 
-The latter made me realise that I want my own children to be able to inherit something more unified from me, and my greatest hope as a Software Engineer Home Cook Dad is that they will one day for this repository for themselves.
+The latter made me realise that I want my own children to be able to inherit something more unified from me, and my greatest hope as a Software Engineer Home Cook Dad is that they will one day fork this repository for themselves.
