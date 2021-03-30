@@ -1,124 +1,116 @@
 body {
-  padding-bottom: 10vh;
-}
-
-button {
-  position: fixed;
-  right: 4vw;
-  bottom: 4vh;
+    padding-bottom: 10vh;
 }
 
 /* parent container <fieldset> */
 .r-pill {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  right: 4vw;
-  bottom: 4vh;
-  display: flex;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    right: 4vw;
+    bottom: 4vh;
+    display: flex;
 }
 
 /* radio groups need a legend */
 .r-pill legend {
-  display: block;
-  font-size: inherit;
-  font-weight: bold;
-  margin-bottom: .5em;
-  padding: 0;
-  width: 100%;
+    display: block;
+    font-size: inherit;
+    font-weight: bold;
+    margin-bottom: .5em;
+    padding: 0;
+    width: 100%;
 }
 
 /*
 	Optional inner wrapper (<div>) to provide additional styling.
 */
 .r-pill__group {
-  background: #fafafa;
-  border: 1px solid #083851;
-  border-radius: 2em;
-  display: inline-block;
-  padding: .25em;
+    background: #fafafa;
+    border: 1px solid #083851;
+    border-radius: 2em;
+    display: inline-block;
+    padding: .25em;
 }
 
 .r-pill__item {
-  display: inline-block;
-  position: relative;
-  border-color: #2196f3;
+    display: inline-block;
+    position: relative;
+    border-color: #2196f3;
 }
 
 .r-pill input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
-  border: 2px solid;
-  height: 100%;
-  left: 0;
-  opacity: .00001;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 2;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    border: 2px solid;
+    height: 100%;
+    left: 0;
+    opacity: .00001;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
 }
 
 .r-pill__item label {
-  border-radius: 2em;
-  border: 2px solid #2196f3;
-  display: block;
-  padding: .25em .75em;
+    border-radius: 2em;
+    border: 2px solid #2196f3;
+    display: block;
+    padding: .25em .75em;
 }
 
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
-  border-color: #ffffff;
+    border-color: #ffffff;
 }
 
 label.left {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-left: 1rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: 1rem;
 }
 
 label.middle {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 label.right {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  margin-right: 1rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-right: 1rem;
 }
 
 label + label {
-  margin-left:0;
+    margin-left: 0;
 }
 
 .r-pill[disabled] .r-pill__item input:checked + label:hover,
 .r-pill__item input:checked + label {
-  background: #2196f3;
-  color: #fff;
+    background: #2196f3;
+    color: #fff;
 }
 
 .r-pill__item label:after {
-  border: 2px solid;
-  border-color: rgba(0,0,0,0);
-  border-radius: 2em;
-  bottom: 0;
-  content: "";
-  left: 0;
-  pointer-events: none; /* 1 */
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition:
-          bottom .2s ease-in-out,
-          border-color .2s ease-in-out,
-          left .2s ease-in-out,
-          right .2s ease-in-out,
-          top .2s ease-in-out;
+    border: 2px solid;
+    border-color: rgba(0, 0, 0, 0);
+    border-radius: 2em;
+    bottom: 0;
+    content: "";
+    left: 0;
+    pointer-events: none; /* 1 */
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: bottom .2s ease-in-out,
+    border-color .2s ease-in-out,
+    left .2s ease-in-out,
+    right .2s ease-in-out,
+    top .2s ease-in-out;
 
 }
-
 
 
 /**
@@ -126,15 +118,15 @@ label + label {
  */
 .r-pill[disabled],
 .r-pill__item input[disabled] + label {
-  opacity: .5;
+    opacity: .5;
 }
 
 .r-pill__item input[disabled] ~ label,
 .r-pill__item input[disabled] ~ label:hover,
 .r-pill[disabled] label:hover {
-  background: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
+    background: transparent;
+    border-color: transparent;
+    cursor: not-allowed;
 }
 
 
@@ -143,51 +135,51 @@ label + label {
  * if they are all checked in high contrast mode.
  */
 @media screen and (-ms-high-contrast: active) {
-  .r-pill__item label {
-    border: 0;
-    margin: 2px;
-  }
+    .r-pill__item label {
+        border: 0;
+        margin: 2px;
+    }
 
-  .r-pill__item input:checked + label {
-    border: 2px solid;
-    margin: 0;
-  }
+    .r-pill__item input:checked + label {
+        border: 2px solid;
+        margin: 0;
+    }
 
-  .r-pill__item input:hover ~ label,
-  .r-pill__item label:hover {
-    text-decoration: underline;
-  }
+    .r-pill__item input:hover ~ label,
+    .r-pill__item label:hover {
+        text-decoration: underline;
+    }
 
-  .r-pill[disabled] .r-pill__item label:hover,
-  .r-pill[disabled] .r-pill__item input:hover ~ label {
-    text-decoration: none
-  }
+    .r-pill[disabled] .r-pill__item label:hover,
+    .r-pill[disabled] .r-pill__item input:hover ~ label {
+        text-decoration: none
+    }
 }
 
 .modal {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: var(--modal-background);
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--modal-background);
 }
 
 .modal-content {
-  background-color: var(--background-color);
-  margin: 5% auto;
-  padding: 5px 20px 20px;
-  border: 1px solid var(--highlight-background-color);
-  width: var(--max-body-width);
+    background-color: var(--background-color);
+    margin: 5% auto;
+    padding: 5px 20px 20px;
+    border: 1px solid var(--highlight-background-color);
+    width: var(--max-body-width);
 }
 
 .close {
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .close:hover,
@@ -197,12 +189,12 @@ label + label {
 }
 
 :root {
-  color-scheme: light dark;
-  --modal-background: rgba(0, 0, 0, 0.25);
+    color-scheme: light dark;
+    --modal-background: rgba(0, 0, 0, 0.25);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --modal-background: rgba(255, 255, 255, 0.25);
-  }
+    :root {
+        --modal-background: rgba(255, 255, 255, 0.25);
+    }
 }
