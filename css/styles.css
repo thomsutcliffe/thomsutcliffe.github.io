@@ -60,11 +60,14 @@ body {
     border: 2px solid #2196f3;
     display: block;
     padding: .25em .75em;
+    transition: background 0.5s ease-in,
+    background 0.3s ease-out;
 }
 
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
     border-color: #ffffff;
+    background-color: #74b8ee;
 }
 
 label.left {
@@ -94,8 +97,7 @@ label + label {
 }
 
 .r-pill__item label:after {
-    border: 2px solid;
-    border-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(0, 0, 0, 0);
     border-radius: 2em;
     bottom: 0;
     content: "";
@@ -104,11 +106,11 @@ label + label {
     position: absolute;
     right: 0;
     top: 0;
-    transition: bottom .2s ease-in-out,
-    border-color .2s ease-in-out,
-    left .2s ease-in-out,
-    right .2s ease-in-out,
-    top .2s ease-in-out;
+    transition: bottom .5s ease-in-out,
+    border-color .5s ease-in-out,
+    left .5s ease-in-out,
+    right .5s ease-in-out,
+    top .5s ease-in-out;
 
 }
 

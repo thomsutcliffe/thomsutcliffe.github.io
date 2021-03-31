@@ -62,15 +62,15 @@
         <fieldset class="r-pill">
                     <span class="r-pill__item" @click="setVerboseMode">
                         <input type="radio" id="r1" name="radios" v-bind:checked="mode === 'verbose'">
-                        <label for="r1" class="left">Verbose view</label>
+                        <label for="r1" class="left draw">Verbose view</label>
                     </span>
             <span class="r-pill__item" @click="setCondensedMode">
                         <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
-                        <label for="r2" class="right">Condensed view</label>
+                        <label for="r2" class="right draw">Condensed view</label>
                     </span>
             <span class="r-pill__item" @click="showReadme">
                     <input type="radio" id="r3" name="radios">
-                    <label for="r3">?</label>
+                    <label for="r3" class="draw">?</label>
                 </span>
         </fieldset>
     </footer>
