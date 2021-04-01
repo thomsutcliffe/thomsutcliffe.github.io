@@ -75,7 +75,7 @@ const recipecreator = {
                 <input type="checkbox" class="select" id="condensedview" v-bind:checked="mode === 'condensed'" @change="setCondensedMode">
                 <label for="condensedview" class="select">Condensed view</label>
                 <recipe
-                        v-bind:recipe="recipe"
+                        v-bind:recipe="formatRecipe(recipe)"
                         v-bind:recipeId="id"
                         v-bind:subrecipes="{}"
                         v-bind:mode="mode"
@@ -116,7 +116,7 @@ const recipecreator = {
             this.recipe.steps.push({
                 id: newId,
                 name: "",
-                description: undefined,
+                description: "",
                 ingredients: []
             })
         },
@@ -157,6 +157,12 @@ const recipecreator = {
         },
         validate: function() {
             return this.recipe.name;
+        },
+        formatRecipe(recipe) {
+            return {
+                ...recipe,
+                condensedSteps: getCondensedRecipe(recipe)
+            }
         }
     }
 
