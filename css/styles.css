@@ -182,12 +182,14 @@ label + label {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    transition: color 0.3s ease-in-out;
 }
 
 .close:hover,
 .close:focus {
   text-decoration: none;
   cursor: pointer;
+    color: #2196f3;
 }
 
 :root {
