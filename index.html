@@ -199,7 +199,9 @@
         `,
         methods: {
             setRecipeId: function () {
-                this.$root.setRecipeId(this.recipeId, true)
+                if(this.recipeId) {
+                    this.$root.setRecipeId(this.recipeId, true)
+                }
             }
         }
     });
