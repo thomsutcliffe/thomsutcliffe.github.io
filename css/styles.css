@@ -37,7 +37,7 @@ body {
 .r-pill__item {
     display: inline-block;
     position: relative;
-    border-color: #2196f3;
+    border-color: var(--highlight);
 }
 
 .r-pill input {
@@ -57,7 +57,7 @@ body {
 
 .r-pill__item label {
     border-radius: 2em;
-    border: 2px solid #2196f3;
+    border: 2px solid var(--highlight);
     display: block;
     padding: .25em .75em;
     transition: background 0.5s ease-in,
@@ -66,8 +66,8 @@ body {
 
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
-    border-color: #ffffff;
-    background-color: #74b8ee;
+    border-color: var(--border-highlight);
+    background-color: var(--secondary-highlight);
 }
 
 label.left {
@@ -86,13 +86,17 @@ label.right {
     margin-right: 1rem;
 }
 
+label.lone {
+    margin-right: 1rem;
+}
+
 label + label {
     margin-left: 0;
 }
 
 .r-pill[disabled] .r-pill__item input:checked + label:hover,
 .r-pill__item input:checked + label {
-    background: #2196f3;
+    background: var(--highlight);
     color: #fff;
 }
 
@@ -176,6 +180,7 @@ label + label {
     padding: 5px 20px 20px;
     border: 1px solid var(--highlight-background-color);
     width: var(--max-body-width);
+    border-radius: 1rem;
 }
 
 .close {
@@ -189,16 +194,64 @@ label + label {
 .close:focus {
   text-decoration: none;
   cursor: pointer;
-    color: #2196f3;
+    color: var(--highlight);
+}
+
+.border {
+    border: 2px solid var(--highlight);
+    margin: 1rem;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.modal input, .modal button, .modal label {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+}
+
+.multiselect {
+    margin-bottom: 0.5rem;
+}
+
+label.select {
+    transition: background-color ease-in-out 0.5s;
+    border: 1px solid var(--secondary-highlight)
+}
+
+label.select:hover {
+    border-color: var(--highlight);
+}
+
+input:checked + label.select  {
+    background-color: var(--highlight);
+    border-color: var(--highlight);
+}
+
+input.select {
+    display: none;
+}
+
+span.validationerror {
+    font-size: small;
+    color: red;
+    font-style: italic;
+    margin-left: 1rem;
 }
 
 :root {
     color-scheme: light dark;
     --modal-background: rgba(0, 0, 0, 0.25);
+    --highlight: #2196f3;
+    --secondary-highlight: #74b8ee;
+    --border-highlight: #87bde7;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --modal-background: rgba(255, 255, 255, 0.25);
+        --highlight: #2196f3;
+        --secondary-highlight: #74b8ee;
+        --border-highlight: #fff;
     }
 }

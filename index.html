@@ -3,11 +3,13 @@
     <script type="text/javascript" src="js/recipehelper.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.1.8/dist/vue.js"></script>
-    <script type="text/javascript" src="js/markdown.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/markdown.js"></script>
     <script type="text/javascript" src="js/convert-units.js"></script>
+    <script type="text/javascript" src="js/components/recipe-creator.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fraction.js@4.0.13/fraction.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.5"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -32,7 +34,12 @@
             <span class="close" @click="hideReadme">&times;</span>
             <vue-markdown>{{ readme }}</vue-markdown>
         </div>
-
+    </div>
+    <div v-if="recipeCreatorVisible" class="modal" @click="hideRecipeCreator">
+        <div class="modal-content" v-on:click.stop>
+            <span class="close" @click="hideRecipeCreator">&times;</span>
+            <recipe-creator></recipe-creator>
+        </div>
     </div>
     <div v-if="!recipeId">
         <title>Thom's Recipes</title>
@@ -62,15 +69,19 @@
         <fieldset class="r-pill">
                     <span class="r-pill__item" @click="setVerboseMode">
                         <input type="radio" id="r1" name="radios" v-bind:checked="mode === 'verbose'">
-                        <label for="r1" class="left draw">Verbose view</label>
+                        <label for="r1" class="left">Verbose view</label>
                     </span>
             <span class="r-pill__item" @click="setCondensedMode">
                         <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
-                        <label for="r2" class="right draw">Condensed view</label>
+                        <label for="r2" class="right">Condensed view</label>
                     </span>
+<!--            <span class="r-pill__item" @click="showRecipeCreator">-->
+<!--                <input type="radio" id="r3" name="radios">-->
+<!--                <label for="r3" class="lone">+</label>-->
+<!--            </span>-->
             <span class="r-pill__item" @click="showReadme">
-                    <input type="radio" id="r3" name="radios">
-                    <label for="r3" class="draw">?</label>
+                    <input type="radio" id="r4" name="radios">
+                    <label for="r4" class="lone">?</label>
                 </span>
         </fieldset>
     </footer>
@@ -294,6 +305,7 @@
     });
 
     Vue.component("vue-markdown", VueMarkdown.default);
+    Vue.component("recipe-creator", recipecreator);
 
     const app = new Vue({
         el: '#vueRecipe',
@@ -308,6 +320,7 @@
             "visiblesubrecipepathsforcurrentrecipe": [],
             "navrecipes": {},
             "recipeId": "",
+            "recipeCreatorVisible": false,
             "readmeVisible": false,
             "readme": "Loading"
         },
@@ -381,6 +394,12 @@
                     this.visiblesubrecipepaths[this.recipeId].push(path);
                 }
                 this.visiblesubrecipepathsforcurrentrecipe = this.visiblesubrecipepaths[this.recipeId];
+            },
+            showRecipeCreator: function() {
+                this.recipeCreatorVisible = true;
+            },
+            hideRecipeCreator: function () {
+                this.recipeCreatorVisible = false;
             },
             showReadme: function () {
                 this.readmeVisible = true;
