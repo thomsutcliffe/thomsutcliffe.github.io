@@ -104,7 +104,6 @@ const recipecreator = {
                 <label for="condensedview" class="select">Condensed view</label>
                 <recipe
                         v-bind:recipe="formatRecipe(recipe)"
-                        v-bind:recipeId="id"
                         v-bind:subrecipes="{}"
                         v-bind:mode="mode"
                         v-bind:path="'0'"
