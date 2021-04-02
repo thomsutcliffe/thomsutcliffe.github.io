@@ -57,7 +57,7 @@ const recipecreator = {
                     <input placeholder="subrecipe" v-model="ingredient.subrecipe">
                     <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
                     <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button"><i class="fa fa-arrow-circle-up"></i></button>
-                    <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="maxIngredientId()" type="button"><i class="fa fa-arrow-circle-down"></button>
+                    <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button"><i class="fa fa-arrow-circle-down"></button>
                     <span v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</span>
                 </div>
                 <div class="bordersmall" @click="() => openIngredient(ingredient.id)" v-bind:style="ingredient.id===selectedIngredient?'display: none':''">
