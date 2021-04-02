@@ -199,8 +199,15 @@ label + label {
 
 .border {
     border: 2px solid var(--highlight);
-    margin: 1rem;
-    padding: 2rem;
+    margin: 1rem 0;
+    padding: 0 2rem 2rem;
+    border-radius: 1rem;
+}
+
+.bordersmall {
+    border: 2px solid var(--highlight);
+    margin: 1rem 0;
+    padding: 0.5rem 2rem;
     border-radius: 1rem;
 }
 
