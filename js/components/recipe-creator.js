@@ -68,7 +68,7 @@ const recipecreator = {
             <hr/>
             <h6>Steps</h6>
             <div v-for="step in recipe.steps"
-            v-bind:key="step.id" >
+            v-bind:key="'s'+step.id" >
                 <div class="border" v-bind:style="step.id===selectedStep?'':'display: none'">
                     <span class="close" @click.stop="closeStep">-</span>
                     <input disabled v-model="step.id">
@@ -76,7 +76,7 @@ const recipecreator = {
                     <input placeholder="description" v-model="step.description">
                     <div class="multiselect" v-if="recipe.ingredients.length">
                         <span>Ingredients</span>
-                        <div v-for="ingredient in recipe.ingredients" v-bind:key="ingredient.id">
+                        <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+step.id+'i'+ingredient.id">
                             <input 
                             class="select"
                             type="checkbox" 
@@ -112,7 +112,11 @@ const recipecreator = {
                         v-bind:unit="recipe.yieldUnit"></recipe>
                 <hr/>
             </div>
-            <div v-if="validationErrors().length === 0"><div id="copyJson">{{ recipe }}</div><button @click="copyJson" type="button"><i class="fa fa-copy"></i></button></div>
+            <div v-if="validationErrors().length === 0">
+                <div id="copyJson">{{ recipe }}</div>
+                <button @click="copyJson" type="button"><i class="fa fa-copy"></i></button>
+                <button @click="downloadJson" type="button"><i class="fa fa-download"></i></button>
+            </div>
             <div v-else><span class="validationerror">Recipe is invalid.<ul><li v-for="e in validationErrors()" v-bind:key="e">{{ e }}</li></ul></span></div>
         </div>
     `,
@@ -256,6 +260,14 @@ const recipecreator = {
             window.getSelection().addRange(range);
             document.execCommand("copy");
             window.getSelection().removeAllRanges();
+        },
+        downloadJson: function() {
+            const a = document.body.appendChild(
+                document.createElement("a")
+            );
+            a.download = (this.id||"recipe")+".json";
+            a.href = "data:text/json," + document.getElementById("copyJson").innerHTML;
+            a.click();
         },
         formatRecipe(recipe) {
             return {
