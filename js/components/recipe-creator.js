@@ -48,7 +48,7 @@ const recipecreator = {
                 <div class="border" v-bind:style="ingredient.id===selectedIngredient?'':'display: none'">
                     <span class="close" @click.stop="closeIngredient">-</span>
                     <input disabled v-model="ingredient.id">
-                    <input placeholder="name" v-model="ingredient.name">
+                    <input placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+ingredient.id+'name'">
                     <input type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
                     <input placeholder="unit" v-model="ingredient.unit" list="units">
                     <input placeholder="notes" v-model="ingredient.notes">
@@ -72,7 +72,7 @@ const recipecreator = {
                 <div class="border" v-bind:style="step.id===selectedStep?'':'display: none'">
                     <span class="close" @click.stop="closeStep">-</span>
                     <input disabled v-model="step.id">
-                    <input placeholder="name" v-model="step.name">
+                    <input placeholder="name" v-model="step.name" v-bind:ref="'step'+step.id+'name'">
                     <input placeholder="description" v-model="step.description">
                     <div class="multiselect" v-if="recipe.ingredients.length">
                         <span>Ingredients</span>
@@ -136,6 +136,8 @@ const recipecreator = {
                 subrecipe: undefined
             });
             this.selectedIngredient = newId;
+            const ref = 'ingredient'+newId+'name';
+            Vue.nextTick(() => this.$refs[ref][0].focus());
         },
         removeIngredient: function (id) {
             this.recipe.ingredients.splice(id, 1);
@@ -178,6 +180,8 @@ const recipecreator = {
                 ingredients: []
             });
             this.selectedStep = newId;
+            const ref = 'step'+newId+'name';
+            Vue.nextTick(() => this.$refs[ref][0].focus());
         },
         removeStep: function (id) {
             this.recipe.steps.splice(id, 1);
