@@ -56,11 +56,15 @@ const recipecreator = {
                     <input class="select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+ingredient.id">
                     <label class="select" v-bind:for="'optionalfor'+ingredient.id">Optional</label>
                     <input placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)">
-                    <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
-                    <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
-                    <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button"><i class="fa fa-arrow-circle-up"></i></button>
-                    <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button"><i class="fa fa-arrow-circle-down"></button>
-                    <span v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</span>
+                    <div style="float: left">
+                        <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
+                        <div v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</div>
+                    </div>
+                    <div class="controls">
+                        <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
+                        <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button"><i class="fa fa-arrow-circle-up"></i></button>
+                        <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button"><i class="fa fa-arrow-circle-down"></button>
+                    </div>
                 </div>
                 <div class="bordersmall" @click="() => openIngredient(ingredient.id)" v-bind:style="ingredient.id===selectedIngredient?'display: none':''">
                     <span>{{stepCheckboxLabelForIngredient(ingredient)}}</span>
@@ -85,12 +89,14 @@ const recipecreator = {
                             v-bind:id="'i'+ingredient.id+'s'+step.id" 
                             v-bind:disabled="!isIngredientEligibleForStep(step.id, ingredient.id)"
                             @change="() => changeIngredientInStep(step.id, ingredient.id)">
-                            <label class="select" v-bind:for="'i'+ingredient.id+'s'+step.id">{{stepCheckboxLabelForIngredient(ingredient)}}</label>
+                            <label class="select" v-bind:for="'i'+ingredient.id+'s'+step.id" style="float: left">{{stepCheckboxLabelForIngredient(ingredient)}}</label>
                         </div>
                     </div>
-                    <button type="reset" @click="removeStep(step.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
-                    <button @click="() => moveStepUp(step.id)" v-bind:disabled="step.id === 0" type="button"><i class="fa fa-arrow-circle-up"></button>
-                    <button @click="() => moveStepDown(step.id)" v-bind:disabled="step.id === maxStepId()" type="button"><i class="fa fa-arrow-circle-down"></button>
+                    <div class="controls">
+                        <button type="reset" @click="removeStep(step.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
+                        <button @click="() => moveStepUp(step.id)" v-bind:disabled="step.id === 0" type="button" style="font-size: 16pt; float: right"><i class="fa fa-arrow-circle-up"></button>
+                        <button @click="() => moveStepDown(step.id)" v-bind:disabled="step.id === maxStepId()" type="button" style="font-size: 16pt; float: right"><i class="fa fa-arrow-circle-down"></button>
+                    </div>
                 </div>
                 <div class="bordersmall" @click="openStep(step.id)" v-bind:style="step.id===selectedStep?'display: none':''">
                     <span>{{ step.name ? step.name : step.id }}</span>

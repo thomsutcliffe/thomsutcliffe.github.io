@@ -207,6 +207,7 @@ label + label {
     margin: 1rem 0;
     padding: 0 2rem 2rem;
     border-radius: 1rem;
+    overflow: auto;
 }
 
 .bordersmall {
@@ -214,6 +215,10 @@ label + label {
     margin: 1rem 0;
     padding: 0.5rem 2rem;
     border-radius: 1rem;
+}
+
+.controls {
+    float: right;
 }
 
 .modal input, .modal button, .modal label {
