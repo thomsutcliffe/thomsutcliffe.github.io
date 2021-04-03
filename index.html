@@ -30,16 +30,16 @@
                                v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
         </ul>
     </nav>
-    <div v-if="readmeVisible" id="myModal" class="modal" @click="hideReadme">
-        <div class="modal-content" v-on:click.stop>
+    <div v-if="readmeVisible" id="myModal" class="modal" @mousedown="hideReadme">
+        <div class="modal-content" v-on:mousedown.stop>
             <span class="close" @click="hideReadme">&times;</span>
             <vue-markdown>{{ readme }}</vue-markdown>
         </div>
     </div>
-    <div v-if="recipeCreatorVisible" class="modal" @click="hideRecipeCreator">
-        <div class="modal-content" v-on:click.stop>
+    <div v-if="recipeCreatorVisible" class="modal" @mousedown="hideRecipeCreator">
+        <div class="modal-content" v-on:mousedown.stop>
             <span class="close" @click="hideRecipeCreator">&times;</span>
-            <recipe-creator></recipe-creator>
+            <recipe-creator v-bind:subrecipes="subrecipes"></recipe-creator>
         </div>
     </div>
     <div v-if="!recipeId">
@@ -246,7 +246,7 @@
             </span>
           <span v-if="ingredient && ingredient.subrecipe && visiblesubrecipepaths.includes(newPath)" v-on:click.stop>
                 <recipe
-                    v-if="subrecipes[ingredient.subrecipe]"
+                    v-if="subrecipes[ingredient.subrecipe] && subrecipes[ingredient.subrecipe]!=={}"
                     v-bind:recipe="subrecipes[ingredient.subrecipe]"
                     v-bind:recipeId="ingredient.subrecipe"
                     v-bind:subrecipes="subrecipes"
@@ -262,7 +262,7 @@
         methods: {
             toggleSubrecipe: function () {
                 if (this.ingredient.subrecipe) {
-                    if (!this.subrecipes[this.subrecipe]) {
+                    if (!this.subrecipes[this.subrecipe] || this.subrecipes[this.subrecipe]==={}) {
                         this.$root.loadSubrecipe(this.ingredient.subrecipe);
                     }
                     this.$root.toggleShowSubrecipeFor(this.newPath);
@@ -352,13 +352,16 @@
                 }
             },
             getRecipe: function (recipeId) {
-                if (this.subrecipes[recipeId]) {
+                if (this.subrecipes[recipeId] && this.subrecipes[recipeId]!=={}) {
                     this.setRecipeData(this.subrecipes[recipeId]);
                 } else {
                     getRecipeData(recipeId, recipeData => {
                         this.subrecipes[recipeId] = recipeData;
                         this.setRecipeData(recipeData);
-                    });
+                    }, () => this.subrecipes = {
+                        ...this.subrecipes,
+                        [subrecipe]: {}
+                    })
                 }
             },
             setRecipeData: function (recipeData) {
@@ -386,6 +389,9 @@
                             ...this.subrecipes,
                             [subrecipe]: subrecipeData
                         };
+                    }, () => this.subrecipes = {
+                        ...this.subrecipes,
+                        [subrecipe]: {}
                     });
                 }
             },

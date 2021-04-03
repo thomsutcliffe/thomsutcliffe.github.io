@@ -1,4 +1,5 @@
 const recipecreator = {
+    props: ['subrecipes'],
     data: () => ({
         "id": "",
         "recipe": {
@@ -54,7 +55,8 @@ const recipecreator = {
                     <input placeholder="notes" v-model="ingredient.notes">
                     <input class="select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+ingredient.id">
                     <label class="select" v-bind:for="'optionalfor'+ingredient.id">Optional</label>
-                    <input placeholder="subrecipe" v-model="ingredient.subrecipe">
+                    <input placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)">
+                    <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
                     <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
                     <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button"><i class="fa fa-arrow-circle-up"></i></button>
                     <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button"><i class="fa fa-arrow-circle-down"></button>
@@ -168,6 +170,19 @@ const recipecreator = {
         openIngredient: function(id) {
             this.selectedIngredient=id;
         },
+        loadSubrecipe: function(subrecipe) {
+            if (this.timeout)
+                clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(() => {
+                this.loadSubrecipeDebounced(subrecipe)
+            }, 500);
+        },
+        loadSubrecipeDebounced: function (subrecipe) {
+          if(!this.subrecipes[subrecipe] || this.subrecipes[subrecipe] === {}) {
+              this.$root.loadSubrecipe(subrecipe);
+          }
+        },
         addStep: function () {
             let newId = 0;
             if (this.recipe.steps.length > 0) {
@@ -254,8 +269,32 @@ const recipecreator = {
             if(!this.recipe.name) {
                 errors.push("Recipe name is not defined");
             }
-            (this.recipe.ingredients||[]).filter(i => !this.isIngredientInAnyStep(i.id)).forEach(i => errors.push("Ingredient "+this.stepCheckboxLabelForIngredient(i)+" is not listed in any step"))
+            (this.recipe.ingredients||[]).forEach(i => {
+                if(!this.isIngredientInAnyStep(i.id)) {
+                    errors.push("Ingredient "+this.stepCheckboxLabelForIngredient(i)+" is not listed in any step");
+                }
+                let validationError = this.validateSubrecipe(i);
+                if(validationError) {
+                    errors.push("Subrecipe error for ingredient "+this.stepCheckboxLabelForIngredient(i)+". "+validationError);
+                }
+            });
             return errors;
+        },
+        validateSubrecipe: function(ingredient) {
+            if(ingredient.subrecipe) {
+                if(this.subrecipes[ingredient.subrecipe]) {
+                    if(jQuery.isEmptyObject(this.subrecipes[ingredient.subrecipe])) {
+                        return "Subrecipe "+ingredient.subrecipe+" not found";
+                    }
+                    const unit = ingredient.unit || "";
+                    const subrecipeUnit = this.subrecipes[ingredient.subrecipe].yieldUnit || "";
+                    if(unit === subrecipeUnit || (convert().possibilities().includes(unit) &&
+                        convert().list(convert().describe(unit).measure).map(u => u.abbr).includes(subrecipeUnit))) {
+                    } else {
+                        return "Subrecipe yield unit ("+subrecipeUnit+") cannot be converted to ingredient unit ("+unit+")"
+                    }
+                }
+            }
         },
         copyJson: function() {
             const range = document.createRange();

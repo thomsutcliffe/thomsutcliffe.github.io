@@ -28,11 +28,11 @@ function getCondensedRecipe(recipe) {
     return condensedSteps;
 }
 
-function getRecipeData(recipeId, callback) {
-    jQuery.getJSON("recipes/"+recipeId+".json", data => callback({
-        ...data,
-        condensedSteps: getCondensedRecipe(data)
-    }));
+function getRecipeData(recipeId, callback, failCallback) {
+    $.ajax("recipes/"+recipeId+".json", {
+        success: callback,
+        error: failCallback
+    });
 }
 
 function getAmountString(quantity, unit) {

@@ -244,7 +244,7 @@ input.select {
     display: none;
 }
 
-span.validationerror {
+.validationerror {
     font-size: small;
     color: red;
     font-style: italic;
