@@ -1,0 +1,63 @@
+{
+  "name": "Easter Crispy Nests",
+  "yield": 15,
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Rice Krispies",
+      "quantity": 200,
+      "unit": "g"
+    },
+    {
+      "id": 1,
+      "name": "Creme Eggs",
+      "quantity": 10
+    },
+    {
+      "id": 2,
+      "name": "Golden Syrup",
+      "quantity": 4,
+      "unit": "tbsp"
+    },
+    {
+      "id": 3,
+      "name": "Margarine",
+      "quantity": 100,
+      "unit": "g"
+    },
+    {
+      "id": 4,
+      "name": "Mini Eggs",
+      "quantity": 15,
+      "optional": true
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Syrup",
+      "description": "Melt together in a pan",
+      "ingredients": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Mix",
+      "description": "Add to the pan and mix",
+      "ingredients": [
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Shape",
+      "description": "Press into muffin cases, optionally poke a mini egg into the top",
+      "ingredients": [
+        4
+      ]
+    }
+  ]
+}
