@@ -100,6 +100,10 @@ label + label {
     color: #fff;
 }
 
+.r-pill__item input:not(:checked) + label {
+    background: var(--background-color);
+}
+
 .r-pill__item label:after {
     border: 2px solid rgba(0, 0, 0, 0);
     border-radius: 2em;
@@ -180,6 +184,7 @@ label + label {
     padding: 5px 20px 20px;
     border: 1px solid var(--highlight-background-color);
     width: var(--max-body-width);
+    max-width: 90%;
     border-radius: 1rem;
 }
 
