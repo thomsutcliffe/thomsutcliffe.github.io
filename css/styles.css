@@ -64,6 +64,10 @@ body {
     background 0.3s ease-out;
 }
 
+.r-pill__item input:not(:checked) + label {
+    background: var(--background-color);
+}
+
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
     border-color: var(--border-highlight);
@@ -100,9 +104,6 @@ label + label {
     color: #fff;
 }
 
-.r-pill__item input:not(:checked) + label {
-    background: var(--background-color);
-}
 
 .r-pill__item label:after {
     border: 2px solid rgba(0, 0, 0, 0);
@@ -180,7 +181,7 @@ label + label {
 
 .modal-content {
     background-color: var(--background-color);
-    margin: 5% auto;
+    margin: 2rem auto;
     padding: 5px 20px 20px;
     border: 1px solid var(--highlight-background-color);
     width: var(--max-body-width);
@@ -254,6 +255,14 @@ input.select {
     color: red;
     font-style: italic;
     margin-left: 1rem;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.link:hover {
+    color: var(--highlight);
 }
 
 :root {

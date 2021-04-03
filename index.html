@@ -177,7 +177,7 @@
           <div>
           <p v-if="recipe.forkName && recipe.forkUrl">Forked from: <a
               v-bind:href="recipe.forkUrl">{{ recipe.forkName }}</a></p>
-          <h1 @click="setRecipeId">{{ recipe.name }}</h1>
+          <h1 @click="setRecipeId" v-bind:class="recipeId ? 'link' : ''">{{ recipe.name }}</h1>
           <h2>Ingredients</h2>
           <ingredient-item-list
               v-bind:ingredients="recipe.ingredients"
@@ -238,12 +238,14 @@
         },
         template: `
           <li @click="toggleSubrecipe()">
-          <ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"/>
-          <span v-if="step" style="color: #808080"><span v-if="ingredient"> - </span>{{ step }}</span>
-          <span v-if="ingredient && ingredient.subrecipe">
+          <div v-bind:class="ingredient && ingredient.subrecipe ? 'link' : ''">
+            <ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"/>
+            <span v-if="step" style="color: #808080"><span v-if="ingredient"> - </span>{{ step }}</span>
+            <span v-if="ingredient && ingredient.subrecipe">
                 <span v-if="visiblesubrecipepaths.includes(newPath)">-</span>
                 <span v-else>+</span>
             </span>
+          </div>
           <span v-if="ingredient && ingredient.subrecipe && visiblesubrecipepaths.includes(newPath)" v-on:click.stop>
                 <recipe
                     v-if="subrecipes[ingredient.subrecipe] && subrecipes[ingredient.subrecipe]!=={}"

@@ -30,7 +30,10 @@ function getCondensedRecipe(recipe) {
 
 function getRecipeData(recipeId, callback, failCallback) {
     $.ajax("recipes/"+recipeId+".json", {
-        success: callback,
+        success: data => callback({
+            ...data,
+            condensedSteps: getCondensedRecipe(data)
+        }),
         error: failCallback
     });
 }
