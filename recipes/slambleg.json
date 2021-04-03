@@ -1,0 +1,78 @@
+{
+  "name": "Smoked Lamb Leg",
+  "yield": 1,
+  "yieldUnit": "Leg",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Lamb leg",
+      "quantity": 1
+    },
+    {
+      "id": 1,
+      "name": "Salt",
+      "quantity": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": 2,
+      "name": "Butter",
+      "quantity": 50,
+      "unit": "g"
+    },
+    {
+      "id": 3,
+      "name": "Rosemary",
+      "quantity": 20,
+      "unit": "g",
+      "notes": "fresh"
+    },
+    {
+      "id": 4,
+      "name": "Garlic",
+      "quantity": 6,
+      "unit": "cloves"
+    },
+    {
+      "id": 5,
+      "name": "Salt",
+      "quantity": 1,
+      "unit": "tbsp"
+    },
+    {
+      "id": 6,
+      "name": "Pepper",
+      "quantity": 2,
+      "unit": "tbsp"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Dry brine",
+      "description": "Rub the salt all over the lamb leg and leave in the fridge for 12-18 hours",
+      "ingredients": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Glaze",
+      "description": "Melt the butter and mix with finely chopped rosemary, crushed garlic, salt and pepper",
+      "ingredients": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Smoke",
+      "description": "Brush the glaze over the lamb leg and smoke for 4 hours at 120°",
+      "ingredients": []
+    }
+  ]
+}
