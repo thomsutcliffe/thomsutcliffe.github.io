@@ -1,0 +1,158 @@
+{
+  "name": "Tarka Dal",
+  "forkName": "Glebe Kitchen",
+  "forkUrl": "https://glebekitchen.com/tarka-dhal/",
+  "yield": "",
+  "ingredients": [
+    {
+      "id": 0,
+      "name": "Red lentils",
+      "quantity": 300,
+      "unit": "g"
+    },
+    {
+      "id": 1,
+      "name": "Turmeric",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": 2,
+      "name": "Salt",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": 3,
+      "name": "Water",
+      "quantity": 1,
+      "unit": "l",
+      "notes": "Boiling"
+    },
+    {
+      "id": 4,
+      "name": "Vegetable oil",
+      "quantity": 100,
+      "unit": "ml"
+    },
+    {
+      "id": 5,
+      "name": "Kashmiri chillies",
+      "quantity": 4,
+      "optional": true
+    },
+    {
+      "id": 6,
+      "name": "Mustard seeds",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": 7,
+      "name": "Cumin seeds",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": 8,
+      "name": "Onions",
+      "quantity": 2,
+      "notes": "finely diced"
+    },
+    {
+      "id": 9,
+      "name": "Green chillies",
+      "quantity": 8
+    },
+    {
+      "id": 10,
+      "name": "Fenugreek",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": 11,
+      "name": "Tomato puree",
+      "quantity": 2,
+      "unit": "tbsp",
+      "notes": "diluted 2:1"
+    },
+    {
+      "id": 12,
+      "name": "Lemon",
+      "quantity": 1,
+      "notes": "juice only"
+    },
+    {
+      "id": 13,
+      "name": "Coriander",
+      "quantity": 25,
+      "unit": "g",
+      "notes": "fresh"
+    }
+  ],
+  "steps": [
+    {
+      "id": 0,
+      "name": "Boil",
+      "description": "Cook lentils for 45 minutes",
+      "ingredients": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Bloom",
+      "description": "Fry on high",
+      "ingredients": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Onion",
+      "description": "Fry medium hot until translucent",
+      "ingredients": [
+        8
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Chillies",
+      "description": "Fry for 2 minutes",
+      "ingredients": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Tomato puree",
+      "description": "Fry high for 30 seconds",
+      "ingredients": [
+        11
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Lentils",
+      "description": "Add lentils",
+      "ingredients": []
+    },
+    {
+      "id": 6,
+      "name": "Finish",
+      "description": "Stir in",
+      "ingredients": [
+        12,
+        13
+      ]
+    }
+  ]
+}
