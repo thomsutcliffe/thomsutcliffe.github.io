@@ -3,6 +3,7 @@
   "forkName": "Glebe Kitchen",
   "forkUrl": "https://glebekitchen.com/tarka-dhal/",
   "yield": "4",
+  "yieldUnit": "servings",
   "ingredients": [
     {
       "id": 0,
