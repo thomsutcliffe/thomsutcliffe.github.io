@@ -14,7 +14,8 @@ const recipecreator = {
         "mode": "verbose",
         "selectedIngredient": -1,
         "selectedStep": -1,
-        "recipeDetailsVisible": true
+        "recipeDetailsVisible": true,
+        "quickadd": ""
     }),
     template: `
         <div>
@@ -30,14 +31,14 @@ const recipecreator = {
             <div v-if="recipeDetailsVisible">
                 <span class="close" @click="() => recipeDetailsVisible=false">-</span>
                 <h6>Recipe info</h6>
-                <input placeholder="id" v-model="id">
-                <input placeholder="Name" v-model="recipe.name">
+                <input placeholder="id" v-model="id" autocapitalize="none">
+                <input placeholder="Name" v-model="recipe.name" autocapitalize="words">
                 <span v-if="!recipe.name" class="validationerror">Name is required</span>
-                <input placeholder="Fork name" v-model="recipe.forkName">
-                <input placeholder="Fork URL" v-model="recipe.forkUrl">
+                <input placeholder="Fork name" v-model="recipe.forkName" autocapitalize="words">
+                <input placeholder="Fork URL" v-model="recipe.forkUrl" autocapitalize="none">
                 <input type="number" pattern="^\\d*\\.?\\d*$" step="any" 
                 placeholder="Yield" v-model="recipe.yield">
-                <input placeholder="Yield Unit" v-model="recipe.yieldUnit" list="units">
+                <input placeholder="Yield Unit" v-model="recipe.yieldUnit" list="units" autocapitalize="none">
             </div>
             <div v-else class="bordersmall" @click="() => recipeDetailsVisible=true">
                 <span v-if="recipe.name">{{ recipe.name }}</span>
@@ -45,17 +46,18 @@ const recipecreator = {
             </div>
             <h6>Ingredients</h6>
             <div v-for="ingredient in recipe.ingredients" 
-            v-bind:key="ingredient.id" >
+            v-bind:key="ingredient.id"
+            v-bind:ref="'ingredient'+ingredient.id">
                 <div class="border" v-bind:style="ingredient.id===selectedIngredient?'':'display: none'">
                     <span class="close" @click.stop="closeIngredient">-</span>
                     <input disabled v-model="ingredient.id">
                     <input placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+ingredient.id+'name'">
                     <input type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
-                    <input placeholder="unit" v-model="ingredient.unit" list="units">
-                    <input placeholder="notes" v-model="ingredient.notes">
+                    <input placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none">
+                    <input placeholder="notes" v-model="ingredient.notes" autocapitalize="none">
                     <input class="select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+ingredient.id">
                     <label class="select" v-bind:for="'optionalfor'+ingredient.id">Optional</label>
-                    <input placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)">
+                    <input placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none">
                     <div style="float: left">
                         <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
                         <div v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</div>
@@ -74,7 +76,12 @@ const recipecreator = {
                     <span v-if="!validateIngredient(ingredient).valid" style="float: right"><i class="fa fa-exclamation-circle"></i></span>
                 </div>
             </div>
-            <button @click="addIngredient"><i class="fa fa-plus-circle"></i></button>
+            <div style="overflow: auto; display: table; width: 100%" ref="addingredient">
+                <button @click="addIngredient" style="float: left; display: table-cell"><i class="fa fa-plus-circle"></i></button>
+                <span style="width: 100%; display: table-cell">
+                    <input placeholder="Quick add..." v-model="quickadd" ref="quickaddinput" v-on:keyup.enter="addIngredient" class="quickadd">
+                </span>
+            </div>
             <hr/>
             <h6>Steps</h6>
             <div v-for="step in recipe.steps"
@@ -139,18 +146,48 @@ const recipecreator = {
             if (this.recipe.ingredients.length > 0) {
                 newId = this.recipe.ingredients.map(i => i.id).sort((a, b) => b - a)[0] + 1;
             }
-            this.recipe.ingredients.push({
-                id: newId,
-                name: "",
-                quantity: undefined,
-                unit: undefined,
-                notes: undefined,
-                optional: undefined,
-                subrecipe: undefined
-            });
-            this.selectedIngredient = newId;
-            const ref = 'ingredient'+newId+'name';
-            Vue.nextTick(() => this.$refs[ref][0].focus());
+            if (this.quickadd && this.quickadd !== "") {
+                const pattern = /([A-Za-z ]+) (\d*\.?\d*) ?([a-zA-Z]+)/;
+                const ingredientArray = this.quickadd.match(pattern);
+
+                this.recipe.ingredients.push({
+                    id: newId,
+                    name: ingredientArray ? ingredientArray[1] : this.quickadd,
+                    quantity: ingredientArray ? ingredientArray[2] : "",
+                    unit: ingredientArray ? ingredientArray[3] : "",
+                    notes: undefined,
+                    optional: undefined,
+                    subrecipe: undefined
+                });
+                this.quickadd = "";
+                if (ingredientArray) {
+                    Vue.nextTick(() => {
+                        this.$refs["quickaddinput"].focus();
+                        this.$refs["addingredient"].scrollIntoView();
+                    });
+                } else {
+                    this.selectedIngredient = newId;
+                    const ref = 'ingredient'+newId+'name';
+                    const sectionRef = 'ingredient'+newId;
+                    Vue.nextTick(() => {
+                        this.$refs[ref][0].focus();
+                        this.$refs[sectionRef][0].scrollIntoView();
+                    });
+                }
+            } else {
+                this.recipe.ingredients.push({
+                    id: newId,
+                    name: "",
+                    quantity: undefined,
+                    unit: undefined,
+                    notes: undefined,
+                    optional: undefined,
+                    subrecipe: undefined
+                });
+                this.selectedIngredient = newId;
+                const ref = 'ingredient'+newId+'name';
+                Vue.nextTick(() => this.$refs[ref][0].focus());
+            }
         },
         removeIngredient: function (id) {
             const newIds = {};
