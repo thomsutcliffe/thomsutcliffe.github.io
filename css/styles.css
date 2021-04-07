@@ -177,6 +177,7 @@ label + label {
     height: 100%;
     overflow: auto;
     background-color: var(--modal-background);
+    backdrop-filter: blur(2px);
 }
 
 .modal-content {
@@ -223,7 +224,7 @@ label + label {
 }
 
 .modal input, .modal button, .modal label {
-    margin: 0.5rem;
+    margin: 0.5rem 0;
     padding: 0.5rem;
     border-radius: 1rem;
 }
@@ -234,7 +235,8 @@ label + label {
 
 label.select {
     transition: background-color ease-in-out 0.5s;
-    border: 1px solid var(--secondary-highlight)
+    border: 1px solid var(--secondary-highlight);
+    margin-right: 0.5rem;
 }
 
 label.select:hover {
@@ -265,14 +267,36 @@ input.select {
     color: var(--highlight);
 }
 
-.quickadd, .quickadd:focus {
+.quickadd {
     float: left;
-    width: 100%;
-    padding-right: 0.5rem;
 }
 
 .quickadd:placeholder-shown {
     font-style: italic;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity ease-in-out .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.list-enter-active, .list-leave-active {
+    transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+.checkboxlist-enter-active, .checkboxlist-leave-active {
+    transition: all 1s;
+}
+
+.checkboxlist-enter, .checkboxlist-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 :root {

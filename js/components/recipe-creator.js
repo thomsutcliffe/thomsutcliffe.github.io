@@ -45,75 +45,82 @@ const recipecreator = {
                 <span v-else style="font-style: italic">Recipe details</span>
             </div>
             <h6>Ingredients</h6>
-            <div v-for="ingredient in recipe.ingredients" 
-            v-bind:key="ingredient.id"
-            v-bind:ref="'ingredient'+ingredient.id">
-                <div class="border" v-bind:style="ingredient.id===selectedIngredient?'':'display: none'">
-                    <span class="close" @click.stop="closeIngredient">-</span>
-                    <input disabled v-model="ingredient.id">
-                    <input placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+ingredient.id+'name'">
-                    <input type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
-                    <input placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none">
-                    <input placeholder="notes" v-model="ingredient.notes" autocapitalize="none">
-                    <input class="select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+ingredient.id">
-                    <label class="select" v-bind:for="'optionalfor'+ingredient.id">Optional</label>
-                    <input placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none">
-                    <div style="float: left">
-                        <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
-                        <div v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</div>
+            <transition-group name="list">
+                <div v-for="ingredient in recipe.ingredients" 
+                v-bind:key="ingredient.id"
+                v-bind:ref="'ingredient'+ingredient.id">
+                    <div class="border" v-bind:style="ingredient.id===selectedIngredient?'':'display: none'">
+                        <span class="close" @click.stop="closeIngredient">-</span>
+                        <input disabled v-model="ingredient.id">
+                        <input v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+ingredient.id+'name'">
+                        <input v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
+                        <input v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none">
+                        <input v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none">
+                        <input class="select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+ingredient.id">
+                        <label class="select" v-bind:for="'optionalfor'+ingredient.id">Optional</label>
+                        <input v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none">
+                        <div style="float: left">
+                            <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
+                            <div v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</div>
+                        </div>
+                        <div class="controls">
+                            <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
+                            <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button" style="font-size: 16pt"><i class="fa fa-arrow-circle-up"></i></button>
+                            <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button" style="font-size: 16pt"><i class="fa fa-arrow-circle-down"></button>
+                        </div>
                     </div>
-                    <div class="controls">
-                        <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
-                        <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button"><i class="fa fa-arrow-circle-up"></i></button>
-                        <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button"><i class="fa fa-arrow-circle-down"></button>
+                    <div 
+                    class="bordersmall" 
+                    @click="() => openIngredient(ingredient.id)" 
+                    v-bind:style="ingredient.id===selectedIngredient?'display: none' : validateIngredient(ingredient).valid ? '' : 'border-color: red'">
+                        <span>{{stepCheckboxLabelForIngredient(ingredient)}}</span>
+                        <span v-if="!validateIngredient(ingredient).valid" style="float: right"><i class="fa fa-exclamation-circle"></i></span>
                     </div>
                 </div>
-                <div 
-                class="bordersmall" 
-                @click="() => openIngredient(ingredient.id)" 
-                v-bind:style="ingredient.id===selectedIngredient?'display: none' : validateIngredient(ingredient).valid ? '' : 'border-color: red'">
-                    <span>{{stepCheckboxLabelForIngredient(ingredient)}}</span>
-                    <span v-if="!validateIngredient(ingredient).valid" style="float: right"><i class="fa fa-exclamation-circle"></i></span>
-                </div>
-            </div>
-            <div style="overflow: auto; display: table; width: 100%" ref="addingredient">
-                <button @click="addIngredient" style="float: left; display: table-cell"><i class="fa fa-plus-circle"></i></button>
-                <span style="width: 100%; display: table-cell">
-                    <input placeholder="Quick add..." v-model="quickadd" ref="quickaddinput" v-on:keyup.enter="addIngredient" class="quickadd">
+            </transition-group>
+
+            <div style="overflow: auto; display: table; width: 100%;" ref="addingredient">
+                <button @click="addIngredient(false)" style="float: left; display: table-cell"><i class="fa fa-plus-circle"></i></button>
+                <span style="width: 100%; display: table-cell; padding-left: 0.5rem">
+                    <input placeholder="Quick add..." v-model="quickadd" ref="quickaddinput" v-on:keyup.enter="addIngredient(false)" class="quickadd">
                 </span>
             </div>
             <hr/>
             <h6>Steps</h6>
-            <div v-for="step in recipe.steps"
-            v-bind:key="'s'+step.id" >
-                <div class="border" v-bind:style="step.id===selectedStep?'':'display: none'">
-                    <span class="close" @click.stop="closeStep">-</span>
-                    <input disabled v-model="step.id">
-                    <input placeholder="name" v-model="step.name" v-bind:ref="'step'+step.id+'name'">
-                    <input placeholder="description" v-model="step.description">
-                    <div class="multiselect" v-if="recipe.ingredients.length">
-                        <span>Ingredients</span>
-                        <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+step.id+'i'+ingredient.id">
-                            <input 
-                            class="select"
-                            type="checkbox" 
-                            v-bind:id="'i'+ingredient.id+'s'+step.id" 
-                            v-bind:disabled="!isIngredientEligibleForStep(step.id, ingredient.id)"
-                            v-bind:checked="step.ingredients.includes(ingredient.id)"
-                            @change="() => changeIngredientInStep(step.id, ingredient.id)">
-                            <label class="select" v-bind:for="'i'+ingredient.id+'s'+step.id" style="float: left">{{stepCheckboxLabelForIngredient(ingredient)}}</label>
+            <transition-group name="list">
+                <div v-for="step in recipe.steps"
+                v-bind:key="'s'+step.id" >
+                    <div class="border" v-bind:style="step.id===selectedStep?'':'display: none'">
+                        <span class="close" @click.stop="closeStep">-</span>
+                        <input disabled v-model="step.id">
+                        <input placeholder="name" v-model="step.name" v-bind:ref="'step'+step.id+'name'">
+                        <input placeholder="description" v-model="step.description">
+                        <div class="multiselect" v-if="recipe.ingredients.length">
+                            <span>Ingredients</span>
+                            <transition-group name="checkboxlist">
+                                <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+step.id+'i'+ingredient.id">
+                                    <input 
+                                    class="select"
+                                    type="checkbox" 
+                                    v-bind:id="'i'+ingredient.id+'s'+step.id" 
+                                    v-bind:disabled="!isIngredientEligibleForStep(step.id, ingredient.id)"
+                                    v-bind:checked="step.ingredients.includes(ingredient.id)"
+                                    @change="() => changeIngredientInStep(step.id, ingredient.id)">
+                                    <label class="select" v-bind:for="'i'+ingredient.id+'s'+step.id" style="float: left">{{stepCheckboxLabelForIngredient(ingredient)}}</label>
+                                </div>
+                            </transition-group>
+                        </div>
+                        <div class="controls">
+                            <button type="reset" @click="removeStep(step.id)" style="font-size: 16pt; margin: 0.125rem"><i class="fa fa-minus-circle"></i></button>
+                            <button @click="() => moveStepUp(step.id)" v-bind:disabled="step.id === 0" type="button" style="font-size: 16pt; float: right; margin: 0.125rem"><i class="fa fa-arrow-circle-up"></button>
+                            <button @click="() => moveStepDown(step.id)" v-bind:disabled="step.id === maxStepId()" type="button" style="font-size: 16pt; float: right; margin: 0.125rem"><i class="fa fa-arrow-circle-down"></button>
                         </div>
                     </div>
-                    <div class="controls">
-                        <button type="reset" @click="removeStep(step.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
-                        <button @click="() => moveStepUp(step.id)" v-bind:disabled="step.id === 0" type="button" style="font-size: 16pt; float: right"><i class="fa fa-arrow-circle-up"></button>
-                        <button @click="() => moveStepDown(step.id)" v-bind:disabled="step.id === maxStepId()" type="button" style="font-size: 16pt; float: right"><i class="fa fa-arrow-circle-down"></button>
+                    <div class="bordersmall" @click="openStep(step.id)" v-bind:style="step.id===selectedStep?'display: none':''">
+                        <span>{{ step.name ? step.name : step.id }}</span>
                     </div>
                 </div>
-                <div class="bordersmall" @click="openStep(step.id)" v-bind:style="step.id===selectedStep?'display: none':''">
-                    <span>{{ step.name ? step.name : step.id }}</span>
-                </div>
-            </div>
+            </transition-group>
             <button @click="addStep"><i class="fa fa-plus-circle"></i></button>
             <hr/>
             <div v-if="validateRecipe().valid">
@@ -141,29 +148,29 @@ const recipecreator = {
         </div>
     `,
     methods: {
-        addIngredient: function () {
+        addIngredient: function (disableQuickAdd) {
             let newId = 0;
             if (this.recipe.ingredients.length > 0) {
                 newId = this.recipe.ingredients.map(i => i.id).sort((a, b) => b - a)[0] + 1;
             }
-            if (this.quickadd && this.quickadd !== "") {
-                const pattern = /([A-Za-z ]+) (\d*\.?\d*) ?([a-zA-Z]+)/;
+            if (!disableQuickAdd && this.quickadd && this.quickadd !== "") {
+                const pattern = /([A-Za-z ]+) (\d*\.?\d+) ?([a-zA-Z]+)(?: ([a-zA-Z]*))?(?: (\[Optional\]))?(?: ([a-z]+))?/;
                 const ingredientArray = this.quickadd.match(pattern);
-
                 this.recipe.ingredients.push({
                     id: newId,
                     name: ingredientArray ? ingredientArray[1] : this.quickadd,
-                    quantity: ingredientArray ? ingredientArray[2] : "",
-                    unit: ingredientArray ? ingredientArray[3] : "",
-                    notes: undefined,
-                    optional: undefined,
-                    subrecipe: undefined
+                    quantity: ingredientArray ? ingredientArray[2] : undefined,
+                    unit: ingredientArray ? ingredientArray[3] : undefined,
+                    notes: ingredientArray ? ingredientArray[4] : undefined,
+                    optional: ingredientArray ? ingredientArray[5] === '[Optional]' : undefined,
+                    subrecipe: ingredientArray ? ingredientArray[6] : undefined
                 });
                 this.quickadd = "";
                 if (ingredientArray) {
                     Vue.nextTick(() => {
                         this.$refs["quickaddinput"].focus();
-                        this.$refs["addingredient"].scrollIntoView();
+                        this.$refs["addingredient"].scrollIntoView({behavior: "smooth"});
+                        this.loadSubrecipeDebounced(ingredientArray[6]);
                     });
                 } else {
                     this.selectedIngredient = newId;
@@ -171,7 +178,7 @@ const recipecreator = {
                     const sectionRef = 'ingredient'+newId;
                     Vue.nextTick(() => {
                         this.$refs[ref][0].focus();
-                        this.$refs[sectionRef][0].scrollIntoView();
+                        this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
                     });
                 }
             } else {
@@ -186,19 +193,25 @@ const recipecreator = {
                 });
                 this.selectedIngredient = newId;
                 const ref = 'ingredient'+newId+'name';
-                Vue.nextTick(() => this.$refs[ref][0].focus());
+                const sectionRef = 'ingredient'+newId;
+                Vue.nextTick(() => {
+                    this.$refs[ref][0].focus();
+                    this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
+                });
             }
         },
         removeIngredient: function (id) {
             const newIds = {};
             this.recipe.ingredients.filter(i => i.id !== id).forEach(i => newIds[i.id] = i.id > id ? i.id-1 : i.id);
             this.rejigIngredientIds(newIds);
+
         },
         moveIngredientUp: function(id) {
             if(id > 0) {
                 const newIds = {};
                 this.recipe.ingredients.forEach(i => newIds[i.id] = i.id === id ? i.id-1 : i.id===id-1 ? id : i.id);
                 this.rejigIngredientIds(newIds);
+                Vue.nextTick(() => this.$refs['ingredient'+(id-1)][0].scrollIntoView({behavior: "smooth"}));
             }
         },
         moveIngredientDown: function(id) {
@@ -206,6 +219,7 @@ const recipecreator = {
                 const newIds = {};
                 this.recipe.ingredients.forEach(i => newIds[i.id] = i.id === id ? i.id+1 : i.id===id+1 ? id : i.id);
                 this.rejigIngredientIds(newIds);
+                Vue.nextTick(() => this.$refs['ingredient'+(id+1)][0].scrollIntoView({behavior: "smooth"}));
             }
         },
         rejigIngredientIds: function(newIds) {
@@ -221,6 +235,7 @@ const recipecreator = {
                     ingredients: s.ingredients.filter(i => i in newIds).map(i => newIds[i]).sort((a, b) => a-b)
                 }
             });
+            this.selectedIngredient = newIds[this.selectedIngredient];
         },
         maxIngredientId: function() {
             return this.recipe.ingredients.map(i=>i.id).sort((a, b) => b-a)[0];
