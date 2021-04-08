@@ -4,50 +4,42 @@
   "forkUrl": "https://glebekitchen.com/indian-restaurant-spice-mix/",
   "ingredients": [
     {
-      "id": 0,
       "name": "Coriander",
       "quantity": 4,
       "unit": "tbsp",
       "notes": "ground"
     },
     {
-      "id": 1,
       "name": "Cumin",
       "quantity": 2,
       "unit": "tbsp"
     },
     {
-      "id": 2,
       "name": "Turmeric",
       "quantity": 4,
       "unit": "tbsp"
     },
     {
-      "id": 3,
       "name": "Paprika",
       "quantity": 3,
       "unit": "tbsp"
     },
     {
-      "id": 4,
       "name": "Curry powder",
       "quantity": 2,
       "unit": "tbsp"
     },
     {
-      "id": 5,
       "name": "Kashmiri chilli powder",
       "quantity": 2,
       "unit": "tsp"
     },
     {
-      "id": 6,
       "name": "Garam masala",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 7,
       "name": "Black pepper",
       "quantity": 1,
       "unit": "tsp"
@@ -55,7 +47,6 @@
   ],
   "steps": [
     {
-      "id": 0,
       "name": "Mix",
       "description": "Mix spices together",
       "ingredients": [0, 1, 2, 3, 4, 5, 6, 7]

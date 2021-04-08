@@ -34,6 +34,10 @@
       {
         "id": "pizza",
         "name": "Pizza"
+      },
+      {
+        "id": "slambleg",
+        "name": "Smoked Lamb Leg"
       }
     ]
   },
@@ -41,8 +45,16 @@
     "category": "\uD83C\uDF5B Curry",
     "recipes": [
       {
+        "id": "pathia",
+        "name": "Pathia"
+      },
+      {
         "id": "bombaypotato",
         "name": "Bombay Potato"
+      },
+      {
+        "id": "tarkadal",
+        "name": "Tarka Dal"
       },
       {
         "id": "spicemix",

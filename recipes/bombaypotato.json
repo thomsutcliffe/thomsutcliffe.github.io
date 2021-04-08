@@ -4,109 +4,92 @@
   "forkUrl": "https://glebekitchen.com/bombay-potatoes-restaurant-style-bombay-aloo/",
   "ingredients": [
     {
-      "id": 0,
       "name": "Waxy potatoes",
       "quantity": 1,
       "unit": "kg"
     },
     {
-      "id": 1,
       "name": "Turmeric",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 2,
       "name": "Salt",
       "quantity": 2,
       "unit": "tsp"
     },
     {
-      "id": 3,
       "name": "Restaurant spice mix",
       "quantity": 2,
       "unit": "tsp",
       "subrecipe": "spicemix"
     },
     {
-      "id": 4,
       "name": "Cumin",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 5,
       "name": "Coriander",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 6,
       "name": "Chilli powder",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 7,
       "name": "Fenugreek",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 8,
       "name": "Salt",
       "quantity": 1,
       "unit": "tsp"
     },
     {
-      "id": 9,
       "name": "Vegetable oil",
       "quantity": 100,
       "unit": "ml"
     },
     {
-      "id": 10,
       "name": "Onion",
       "quantity": 0.5,
       "unit": "",
       "notes": "sliced very thin"
     },
     {
-      "id": 11,
       "name": "Mustard seeds",
       "quantity": 2,
       "unit": "tsp"
     },
     {
-      "id": 12,
       "name": "Garlic ginger paste",
       "quantity": 4,
       "unit": "tsp",
       "subrecipe": "ggpaste"
     },
     {
-      "id": 13,
       "name": "Tomato puree",
       "quantity": 1,
       "unit": "tbsp",
       "notes": "diluted 1:2 water"
     },
     {
-      "id": 14,
       "name": "Curry base",
       "quantity": 560,
       "unit": "ml",
       "subrecipe": "currybase"
     },
     {
-      "id": 15,
       "name": "Amchoor",
       "quantity": 1,
       "unit": "tsp",
       "notes": "mango powder"
     },
     {
-      "id": 16,
       "name": "Tomatoes",
       "quantity": 2,
       "notes": "chopped"
@@ -114,7 +97,6 @@
   ],
   "steps": [
     {
-      "id": 0,
       "name": "Cook potatoes",
       "description": "Combine with water then boil until tender and set aside",
       "ingredients": [
@@ -124,7 +106,6 @@
       ]
     },
     {
-      "id": 1,
       "name": "Mix spices",
       "description": "Mix and set aside",
       "ingredients": [
@@ -137,7 +118,6 @@
       ]
     },
     {
-      "id": 2,
       "name": "Fry",
       "description": "Fry potatoes on high then remove and set aside",
       "ingredients": [
@@ -145,7 +125,6 @@
       ]
     },
     {
-      "id": 3,
       "name": "Onion",
       "description": "Fry gently until translucent",
       "ingredients": [
@@ -153,7 +132,6 @@
       ]
     },
     {
-      "id": 4,
       "name": "Mustard seeds",
       "description": "Fry on high for 20 seconds",
       "ingredients": [
@@ -161,7 +139,6 @@
       ]
     },
     {
-      "id": 5,
       "name": "Paste",
       "description": "Cook for 1 minute",
       "ingredients": [
@@ -169,12 +146,10 @@
       ]
     },
     {
-      "id": 6,
       "name": "Spices",
       "description": "Decrease heat, add spices and cook for 30 seconds"
     },
     {
-      "id": 7,
       "name": "Puree",
       "description": "Increase heat and cook for 1 minute",
       "ingredients": [
@@ -182,7 +157,6 @@
       ]
     },
     {
-      "id": 8,
       "name": "Curry base",
       "description": "Add ~70ml, stir for 30 sec, add ~140ml, stir for 1 minute",
       "ingredients": [
@@ -190,7 +164,6 @@
       ]
     },
     {
-      "id": 9,
       "name": "Finish",
       "description": "Add with potatoes and heat through",
       "ingredients": [

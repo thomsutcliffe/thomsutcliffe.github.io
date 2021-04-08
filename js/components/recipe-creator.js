@@ -12,7 +12,7 @@ const recipecreator = {
             "steps": []
         },
         "mode": "verbose",
-        "selectedIngredient": -1,
+        "selectedIngredient": undefined,
         "selectedStep": -1,
         "recipeDetailsVisible": true,
         "quickadd": ""
@@ -45,36 +45,36 @@ const recipecreator = {
                 <span v-else style="font-style: italic">Recipe details</span>
             </div>
             <h6>Ingredients</h6>
-            <transition-group name="list">
+            <transition-group name="list" >
                 <div v-for="ingredient in recipe.ingredients" 
-                v-bind:key="ingredient.id"
-                v-bind:ref="'ingredient'+ingredient.id">
-                    <div class="border" v-bind:style="ingredient.id===selectedIngredient?'':'display: none'">
-                        <span class="close" @click.stop="closeIngredient">-</span>
-                        <input disabled v-model="ingredient.id">
-                        <input v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+ingredient.id+'name'">
-                        <input v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
-                        <input v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none">
-                        <input v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none">
-                        <input class="select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+ingredient.id">
-                        <label class="select" v-bind:for="'optionalfor'+ingredient.id">Optional</label>
-                        <input v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none">
-                        <div style="float: left">
-                            <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
-                            <div v-if="!isIngredientInAnyStep(ingredient.id)" class="validationerror">Ingredient is not listed in any step</div>
-                        </div>
-                        <div class="controls">
-                            <button type="reset" @click="() => removeIngredient(ingredient.id)" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
-                            <button @click="() => moveIngredientUp(ingredient.id)" v-bind:disabled="ingredient.id === 0" type="button" style="font-size: 16pt"><i class="fa fa-arrow-circle-up"></i></button>
-                            <button @click="() => moveIngredientDown(ingredient.id)" v-bind:disabled="ingredient.id === maxIngredientId()" type="button" style="font-size: 16pt"><i class="fa fa-arrow-circle-down"></button>
-                        </div>
-                    </div>
-                    <div 
-                    class="bordersmall" 
-                    @click="() => openIngredient(ingredient.id)" 
-                    v-bind:style="ingredient.id===selectedIngredient?'display: none' : validateIngredient(ingredient).valid ? '' : 'border-color: red'">
-                        <span>{{stepCheckboxLabelForIngredient(ingredient)}}</span>
-                        <span v-if="!validateIngredient(ingredient).valid" style="float: right"><i class="fa fa-exclamation-circle"></i></span>
+                v-bind:key="ingredient"
+                v-bind:ref="'ingredient'+recipe.ingredients.indexOf(ingredient)">
+                    <div v-bind:key="ingredient+'parent'"
+                        v-bind:class="(ingredient===selectedIngredient ? 'border':'bordersmall')+(validateIngredient(ingredient).valid?'' : ' bordererror')"
+                        style="overflow: auto" 
+                        @click="setSelectedIngredient(ingredient, true)">
+                            <span class="close" @click.stop="selectedIngredient=undefined" v-if="ingredient===selectedIngredient">-</span>
+                            <span style="float:left; padding: 0.5rem" v-if="ingredient!==selectedIngredient">{{stepCheckboxLabelForIngredient(ingredient)}}</span>
+                            <transition name="slide" mode="out-in">
+                                <div v-if="ingredient===selectedIngredient">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+recipe.ingredients.indexOf(ingredient)+'name'">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none">
+                                    <input class="big select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+recipe.ingredients.indexOf(ingredient)">
+                                    <label class="big select" v-bind:for="'optionalfor'+recipe.ingredients.indexOf(ingredient)">Optional</label>
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none">
+                                    <div class="big" style="float: left">
+                                        <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
+                                        <div v-if="!isIngredientInAnyStep(recipe.ingredients.indexOf(ingredient))" class="validationerror">Ingredient is not listed in any step</div>
+                                    </div>
+                                    <div class="big controls">
+                                        <button type="reset" @click="() => removeIngredient(recipe.ingredients.indexOf(ingredient))" style="font-size: 16pt"><i class="fa fa-minus-circle"></i></button>
+                                        <button @click="() => moveIngredientUp(recipe.ingredients.indexOf(ingredient))" v-bind:disabled="recipe.ingredients.indexOf(ingredient) === 0" type="button" style="font-size: 16pt"><i class="fa fa-arrow-circle-up"></i></button>
+                                        <button @click="() => moveIngredientDown(recipe.ingredients.indexOf(ingredient))" v-bind:disabled="recipe.ingredients.indexOf(ingredient) === maxIngredientId()" type="button" style="font-size: 16pt"><i class="fa fa-arrow-circle-down"></button>
+                                    </div>
+                                </div>
+                            </transition>
                     </div>
                 </div>
             </transition-group>
@@ -89,35 +89,37 @@ const recipecreator = {
             <h6>Steps</h6>
             <transition-group name="list">
                 <div v-for="step in recipe.steps"
-                v-bind:key="'s'+step.id" >
-                    <div class="border" v-bind:style="step.id===selectedStep?'':'display: none'">
-                        <span class="close" @click.stop="closeStep">-</span>
-                        <input disabled v-model="step.id">
-                        <input placeholder="name" v-model="step.name" v-bind:ref="'step'+step.id+'name'">
-                        <input placeholder="description" v-model="step.description">
-                        <div class="multiselect" v-if="recipe.ingredients.length">
-                            <span>Ingredients</span>
-                            <transition-group name="checkboxlist">
-                                <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+step.id+'i'+ingredient.id">
-                                    <input 
-                                    class="select"
-                                    type="checkbox" 
-                                    v-bind:id="'i'+ingredient.id+'s'+step.id" 
-                                    v-bind:disabled="!isIngredientEligibleForStep(step.id, ingredient.id)"
-                                    v-bind:checked="step.ingredients.includes(ingredient.id)"
-                                    @change="() => changeIngredientInStep(step.id, ingredient.id)">
-                                    <label class="select" v-bind:for="'i'+ingredient.id+'s'+step.id" style="float: left">{{stepCheckboxLabelForIngredient(ingredient)}}</label>
+                v-bind:key="step" >
+                    <div v-bind:key="'s'+step+'parent'"> 
+                        <div v-bind:class="step===selectedStep ? 'border' : 'bordersmall'" @click="setSelectedStep(step, true)">
+                            <span class="close" @click.stop="closeStep" v-if="step===selectedStep">-</span>
+                            <span style="float: left; padding: 0.5rem" v-if="step!==selectedStep">{{ step.name ? step.name : 'Unnamed step' }}</span>
+                            <transition name="slide">
+                                <div v-if="step===selectedStep">
+                                    <input v-on:keyup.enter="addStep()" placeholder="name" v-model="step.name" v-bind:ref="'step'+recipe.steps.indexOf(step)+'name'">
+                                    <input v-on:keyup.enter="addStep()" placeholder="description" v-model="step.description">
+                                    <div class="multiselect" v-if="recipe.ingredients.length">
+                                        <span>Ingredients</span>
+                                            <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+recipe.steps.indexOf(step)+'i'+ingredient">
+                                                <input 
+                                                class="select"
+                                                type="checkbox" 
+                                                v-bind:id="'i'+recipe.ingredients.indexOf(ingredient)+'s'+recipe.steps.indexOf(step)" 
+                                                v-bind:key="'s'+step.id+'i'+ingredient+'input'"
+                                                v-bind:disabled="!isIngredientEligibleForStep(recipe.steps.indexOf(step), recipe.ingredients.indexOf(ingredient))"
+                                                v-bind:checked="step.ingredients.includes(recipe.ingredients.indexOf(ingredient))"
+                                                @change="() => changeIngredientInStep(step, recipe.ingredients.indexOf(ingredient))">
+                                                <label v-bind:key="'s'+recipe.steps.indexOf(step)+'i'+ingredient+'label'" class="select" v-bind:for="'i'+recipe.ingredients.indexOf(ingredient)+'s'+recipe.steps.indexOf(step)" style="float: left">{{stepCheckboxLabelForIngredient(ingredient)}}</label>
+                                            </div>
+                                    </div>
+                                    <div class="controls">
+                                        <button type="reset" @click="removeStep(recipe.steps.indexOf(step))" style="font-size: 16pt; margin: 0.125rem"><i class="fa fa-minus-circle"></i></button>
+                                        <button @click="() => moveStepUp(recipe.steps.indexOf(step))" v-bind:disabled="recipe.steps.indexOf(step) === 0" type="button" style="font-size: 16pt; margin: 0.125rem"><i class="fa fa-arrow-circle-up"></button>
+                                        <button @click="() => moveStepDown(recipe.steps.indexOf(step))" v-bind:disabled="recipe.steps.indexOf(step) === maxStepId()" type="button" style="font-size: 16pt; margin: 0.125rem"><i class="fa fa-arrow-circle-down"></button>
+                                    </div>
                                 </div>
-                            </transition-group>
+                            </transition>
                         </div>
-                        <div class="controls">
-                            <button type="reset" @click="removeStep(step.id)" style="font-size: 16pt; margin: 0.125rem"><i class="fa fa-minus-circle"></i></button>
-                            <button @click="() => moveStepUp(step.id)" v-bind:disabled="step.id === 0" type="button" style="font-size: 16pt; float: right; margin: 0.125rem"><i class="fa fa-arrow-circle-up"></button>
-                            <button @click="() => moveStepDown(step.id)" v-bind:disabled="step.id === maxStepId()" type="button" style="font-size: 16pt; float: right; margin: 0.125rem"><i class="fa fa-arrow-circle-down"></button>
-                        </div>
-                    </div>
-                    <div class="bordersmall" @click="openStep(step.id)" v-bind:style="step.id===selectedStep?'display: none':''">
-                        <span>{{ step.name ? step.name : step.id }}</span>
                     </div>
                 </div>
             </transition-group>
@@ -149,15 +151,10 @@ const recipecreator = {
     `,
     methods: {
         addIngredient: function (disableQuickAdd) {
-            let newId = 0;
-            if (this.recipe.ingredients.length > 0) {
-                newId = this.recipe.ingredients.map(i => i.id).sort((a, b) => b - a)[0] + 1;
-            }
             if (!disableQuickAdd && this.quickadd && this.quickadd !== "") {
                 const pattern = /([A-Za-z ]+) (\d*\.?\d+) ?([a-zA-Z]+)(?: ([a-zA-Z]*))?(?: (\[Optional\]))?(?: ([a-z]+))?/;
                 const ingredientArray = this.quickadd.match(pattern);
                 this.recipe.ingredients.push({
-                    id: newId,
                     name: ingredientArray ? ingredientArray[1] : this.quickadd,
                     quantity: ingredientArray ? ingredientArray[2] : undefined,
                     unit: ingredientArray ? ingredientArray[3] : undefined,
@@ -173,17 +170,10 @@ const recipecreator = {
                         this.loadSubrecipeDebounced(ingredientArray[6]);
                     });
                 } else {
-                    this.selectedIngredient = newId;
-                    const ref = 'ingredient'+newId+'name';
-                    const sectionRef = 'ingredient'+newId;
-                    Vue.nextTick(() => {
-                        this.$refs[ref][0].focus();
-                        this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
-                    });
+                    this.setSelectedIngredient(this.recipe.ingredients[this.recipe.ingredients.length-1], false);
                 }
             } else {
                 this.recipe.ingredients.push({
-                    id: newId,
                     name: "",
                     quantity: undefined,
                     unit: undefined,
@@ -191,35 +181,61 @@ const recipecreator = {
                     optional: undefined,
                     subrecipe: undefined
                 });
-                this.selectedIngredient = newId;
-                const ref = 'ingredient'+newId+'name';
-                const sectionRef = 'ingredient'+newId;
-                Vue.nextTick(() => {
-                    this.$refs[ref][0].focus();
-                    this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
-                });
+                this.setSelectedIngredient(this.recipe.ingredients[this.recipe.ingredients.length-1], false);
             }
         },
         removeIngredient: function (id) {
-            const newIds = {};
-            this.recipe.ingredients.filter(i => i.id !== id).forEach(i => newIds[i.id] = i.id > id ? i.id-1 : i.id);
-            this.rejigIngredientIds(newIds);
+            this.recipe.ingredients.splice(id, 1);
+            const selectedStepIndex = this.recipe.steps.indexOf(this.selectedStep);
+            this.recipe.steps = this.recipe.steps.map(step => {
+                return {
+                    ...step,
+                    ingredients: step.ingredients.filter(i => i !== id).map(i => i > id ? i-1:i)
+                }
+            });
+            this.selectedStep = this.recipe.steps[selectedStepIndex];
 
         },
         moveIngredientUp: function(id) {
             if(id > 0) {
-                const newIds = {};
-                this.recipe.ingredients.forEach(i => newIds[i.id] = i.id === id ? i.id-1 : i.id===id-1 ? id : i.id);
-                this.rejigIngredientIds(newIds);
+                const selectedStepIndex = this.recipe.steps.indexOf(this.selectedStep);
+                this.recipe.ingredients.splice(id-1, 2, this.recipe.ingredients[id], this.recipe.ingredients[id-1]);
+                this.recipe.steps = this.recipe.steps.map(step => {
+                    return {
+                        ...step,
+                        ingredients: step.ingredients.map(i => i === id ? i-1 : i === id-1 ? id : i)
+                    }
+                });
+                this.selectedStep = this.recipe.steps[selectedStepIndex];
                 Vue.nextTick(() => this.$refs['ingredient'+(id-1)][0].scrollIntoView({behavior: "smooth"}));
             }
         },
         moveIngredientDown: function(id) {
             if(id < this.maxIngredientId()) {
-                const newIds = {};
-                this.recipe.ingredients.forEach(i => newIds[i.id] = i.id === id ? i.id+1 : i.id===id+1 ? id : i.id);
-                this.rejigIngredientIds(newIds);
+                const selectedStepIndex = this.recipe.steps.indexOf(this.selectedStep);
+                this.recipe.ingredients.splice(id, 2, this.recipe.ingredients[id+1], this.recipe.ingredients[id]);
+                this.recipe.steps = this.recipe.steps.map(step => {
+                    return {
+                        ...step,
+                        ingredients: step.ingredients.map(i => i === id ? i+1 : i === id+1 ? id : i)
+                    }
+                });
+                this.selectedStep = this.recipe.steps[selectedStepIndex];
                 Vue.nextTick(() => this.$refs['ingredient'+(id+1)][0].scrollIntoView({behavior: "smooth"}));
+            }
+        },
+        setSelectedIngredient: function(ingredient, delay) {
+            if(this.selectedIngredient !== ingredient) {
+                this.selectedIngredient = undefined;
+                setTimeout(() => {
+                    this.selectedIngredient=ingredient;
+                    const ref = 'ingredient'+(this.recipe.ingredients.indexOf(ingredient))+'name';
+                    const sectionRef = 'ingredient'+(this.recipe.ingredients.indexOf(ingredient));
+                    Vue.nextTick(() => {
+                        this.$refs[ref][0].focus();
+                        this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
+                    });
+                }, delay ? 500 : 0);
             }
         },
         rejigIngredientIds: function(newIds) {
@@ -235,16 +251,13 @@ const recipecreator = {
                     ingredients: s.ingredients.filter(i => i in newIds).map(i => newIds[i]).sort((a, b) => a-b)
                 }
             });
-            this.selectedIngredient = newIds[this.selectedIngredient];
+            this.selectedIngredient = this.recipes.ingredients[newIds[this.selectedIngredient]];
         },
         maxIngredientId: function() {
-            return this.recipe.ingredients.map(i=>i.id).sort((a, b) => b-a)[0];
+            return this.recipe.ingredients.length-1;
         },
         closeIngredient: function () {
-            this.selectedIngredient=-1;
-        },
-        openIngredient: function(id) {
-            this.selectedIngredient=id;
+            this.selectedIngredient=undefined;
         },
         loadSubrecipe: function(subrecipe) {
             if (this.timeout)
@@ -260,45 +273,37 @@ const recipecreator = {
           }
         },
         addStep: function () {
-            let newId = 0;
-            if (this.recipe.steps.length > 0) {
-                newId = this.recipe.steps.map(i => i.id).sort((a, b) => b - a)[0] + 1;
-            }
             this.recipe.steps.push({
-                id: newId,
                 name: "",
                 description: "",
                 ingredients: []
             });
-            this.selectedStep = newId;
-            const ref = 'step'+newId+'name';
-            Vue.nextTick(() => this.$refs[ref][0].focus());
+            this.setSelectedStep(this.recipe.steps[this.recipe.steps.length-1], false);
         },
         removeStep: function (id) {
             this.recipe.steps.splice(id, 1);
-            this.recipe.steps = this.recipe.steps.map(s => s.id > id ? {...s, id: s.id - 1} : s);
-            if(this.selectedStep === id) {
-                this.selectedStep = -1;
-            }
         },
         moveStepUp: function(id) {
             if(id > 0) {
-                this.recipe.steps = this.recipe.steps.map(s => s.id===id? {...s, id: id-1} : s.id===id-1?{...s, id: id}:s).sort((a, b) => a.id-b.id);
-                if(this.selectedStep===id) {
-                    this.selectedStep = id-1;
-                }
+                this.recipe.steps.splice(id-1, 2, this.recipe.steps[id], this.recipe.steps[id-1]);
             }
         },
         moveStepDown: function(id) {
-            if(id < this.recipe.steps.map(s=>s.id).sort((a, b) => b-a)[0]) {
-                this.recipe.steps = this.recipe.steps.map(s => s.id===id? {...s, id: id+1} : s.id===id+1?{...s, id: id}:s).sort((a, b) => a.id-b.id);
-                if(this.selectedStep===id) {
-                    this.selectedStep = id+1;
-                }
+            if(id < this.maxStepId()) {
+                this.recipe.steps.splice(id, 2, this.recipe.steps[id+1], this.recipe.steps[id]);
+            }
+        },
+        setSelectedStep: function(step, delay) {
+            if(this.selectedStep !== step) {
+                this.selectedStep = undefined;
+                setTimeout(() => {
+                    this.selectedStep=step;
+                    Vue.nextTick(() => this.$refs['step'+this.recipe.steps.indexOf(step)+'name'][0].focus());
+                }, delay ? 500 : 0);
             }
         },
         maxStepId: function() {
-            return this.recipe.steps.map(s=>s.id).sort((a, b) => b-a)[0];
+            return this.recipe.steps.length-1;
         },
         closeStep: function() {
             this.selectedStep = -1;
@@ -306,8 +311,7 @@ const recipecreator = {
         openStep: function(id) {
             this.selectedStep = id;
         },
-        changeIngredientInStep: function (stepId, ingredientId) {
-            const step = this.recipe.steps.filter(s => s.id === stepId)[0];
+        changeIngredientInStep: function (step, ingredientId) {
             const index = step.ingredients.findIndex(i => i === ingredientId);
             if (index > -1) {
                 step.ingredients.splice(index, 1);
@@ -317,7 +321,7 @@ const recipecreator = {
             }
         },
         isIngredientEligibleForStep: function (stepId, ingredientId) {
-            const steps = this.recipe.steps.filter(step => step.id !== stepId && step.ingredients.includes(ingredientId));
+            const steps = this.recipe.steps.filter(step => this.recipe.steps.indexOf(step) !== stepId && step.ingredients.includes(ingredientId));
             return steps.length === 0;
         },
         isIngredientInAnyStep: function(ingredientId) {
@@ -325,7 +329,7 @@ const recipecreator = {
         },
         stepCheckboxLabelForIngredient: function (ingredient) {
             let string = '';
-            string = string + ingredient.name || ingredient.id;
+            string = string + ingredient.name || "Unnamed ingredient";
             string += ' ';
             string += ingredient.quantity ? ingredient.quantity + ' ' : '';
             string += ingredient.unit ? ingredient.unit + ' ' : '';
@@ -359,7 +363,7 @@ const recipecreator = {
         validateIngredient: function(ingredient) {
             const errors = [];
             const warnings = [];
-            if(!this.isIngredientInAnyStep(ingredient.id)) {
+            if(!this.isIngredientInAnyStep(this.recipe.ingredients.indexOf(ingredient))) {
                 errors.push("Ingredient "+this.stepCheckboxLabelForIngredient(ingredient)+" is not listed in any step");
             }
             let validationError = this.validateSubrecipe(ingredient);

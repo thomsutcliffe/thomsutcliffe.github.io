@@ -2,37 +2,31 @@
   "name": "Fruit Punch",
   "ingredients": [
     {
-      "id": 0,
       "name": "Orange Juice",
       "quantity": 500,
       "unit": "ml"
     },
     {
-      "id": 1,
       "name": "Apple Juice",
       "quantity": 500,
       "unit": "ml"
     },
     {
-      "id": 2,
       "name": "Water",
       "quantity": 125,
       "unit": "ml"
     },
     {
-      "id": 3,
       "name": "Caster Sugar",
       "quantity": 15,
       "unit": "g"
     },
     {
-      "id": 4,
       "name": "Ground Ginger",
       "quantity": 0.5,
       "unit": "tsp"
     },
     {
-      "id": 5,
       "name": "Mixed Spice",
       "quantity": 0.5,
       "unit": "tsp"
@@ -40,7 +34,6 @@
   ],
   "steps": [
     {
-      "id": 0,
       "name": "Heat",
       "description": "Simmer for 5-10 mins",
       "ingredients": [0, 1, 2, 3, 4, 5]

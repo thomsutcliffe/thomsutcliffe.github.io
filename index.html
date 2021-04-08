@@ -30,42 +30,49 @@
                                v-bind:key="recipe.category ? recipe.category : recipe.id"></navrecipecategory>
         </ul>
     </nav>
-    <div v-if="readmeVisible" id="myModal" class="modal" @mousedown="hideReadme">
-        <div class="modal-content" v-on:mousedown.stop>
-            <span class="close" @click="hideReadme">&times;</span>
-            <vue-markdown>{{ readme }}</vue-markdown>
+    <transition name="fade">
+        <div v-if="readmeVisible" id="myModal" class="modal" @mousedown="hideReadme">
+            <div class="modal-content" v-on:mousedown.stop>
+                <span class="close" @click="hideReadme">&times;</span>
+                <vue-markdown>{{ readme }}</vue-markdown>
+            </div>
         </div>
-    </div>
-    <div v-if="recipeCreatorVisible" class="modal" @mousedown="hideRecipeCreator">
-        <div class="modal-content" v-on:mousedown.stop>
-            <span class="close" @click="hideRecipeCreator">&times;</span>
-            <recipe-creator v-bind:subrecipes="subrecipes"></recipe-creator>
-        </div>
-    </div>
-    <div v-if="!recipeId">
-        <title>Thom's Recipes</title>
-        Select a recipe
-    </div>
-    <div v-else-if="loading">
-        <title>{{ recipeId }}</title>
-        Loading...
-    </div>
-    <div v-else>
-        <main>
-            <title>{{ recipe.name }}</title>
-            <span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span>
-            <recipe
-                    v-bind:recipe="recipe"
-                    v-bind:recipeId="recipeId"
-                    v-bind:subrecipes="subrecipes"
-                    v-bind:mode="mode"
-                    v-bind:path="'0'"
-                    v-bind:visiblesubrecipepaths="visiblesubrecipepathsforcurrentrecipe"
-                    v-bind:quantity="quantity"
-                    v-bind:unit="unit"></recipe>
+    </transition>
 
-        </main>
-    </div>
+    <transition name="fade">
+        <div v-if="recipeCreatorVisible" class="modal" @mousedown="hideRecipeCreator">
+            <div class="modal-content" v-on:mousedown.stop>
+                <span class="close" @click="hideRecipeCreator">&times;</span>
+                <recipe-creator v-bind:subrecipes="subrecipes"></recipe-creator>
+            </div>
+        </div>
+    </transition>
+    <transition name="list" mode="out-in">
+        <div key=1000 v-if="!recipeId">
+            <title>Thom's Recipes</title>
+            Select a recipe
+        </div>
+        <div key=1001 v-else-if="loading">
+            <title>{{ recipeId }}</title>
+            Loading...
+        </div>
+        <div v-bind:key="recipe+recipeId+'recipe'" v-else>
+            <main>
+                <title>{{ recipe.name }}</title>
+                <span>Yield<span v-if="unit"> ({{ unit }})</span>:<input v-model="quantity"></span>
+                <recipe
+                        v-bind:recipe="recipe"
+                        v-bind:recipeId="recipeId"
+                        v-bind:subrecipes="subrecipes"
+                        v-bind:mode="mode"
+                        v-bind:path="'0'"
+                        v-bind:visiblesubrecipepaths="visiblesubrecipepathsforcurrentrecipe"
+                        v-bind:quantity="quantity"
+                        v-bind:unit="unit"></recipe>
+
+            </main>
+        </div>
+    </transition>
     <footer>
         <fieldset class="r-pill">
                     <span class="r-pill__item" @click="setVerboseMode">
@@ -132,24 +139,24 @@
             }
         },
         template: `
-          <div v-if="mode === 'condensed'">
-          <condensed-step-list
-              v-bind:recipe="recipe"
-              v-bind:subrecipes="subrecipes"
-              v-bind:path="path"
-              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-              v-bind:scale="getScale()"></condensed-step-list>
-          </div>
-          <div v-else-if="mode === 'verbose'">
-          <verbose-recipe
-              v-bind:recipe="recipe"
-              v-bind:recipeId="recipeId"
-              v-bind:subrecipes="subrecipes"
-              v-bind:mode="mode"
-              v-bind:path="path"
-              v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-              v-bind:scale="getScale()"></verbose-recipe>
-          </div>
+          <transition name="list" mode="out-in">
+              <condensed-step-list
+                  v-if="mode === 'condensed'"
+                  v-bind:recipe="recipe"
+                  v-bind:subrecipes="subrecipes"
+                  v-bind:path="path"
+                  v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+                  v-bind:scale="getScale()"></condensed-step-list>
+              <verbose-recipe
+                  v-else-if="mode === 'verbose'"
+                  v-bind:recipe="recipe"
+                  v-bind:recipeId="recipeId"
+                  v-bind:subrecipes="subrecipes"
+                  v-bind:mode="mode"
+                  v-bind:path="path"
+                  v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+                  v-bind:scale="getScale()"></verbose-recipe>
+          </transition>
 
         `
     });
@@ -160,12 +167,13 @@
           <ingredient-item
               v-for="stepObj in recipe.condensedSteps"
               v-bind:ingredient="stepObj.ingredient"
+              v-bind:ingredientIndex="stepObj.ingredient ? recipe.ingredients.indexOf(stepObj.ingredient) : undefined"
               v-bind:step="stepObj.step"
               v-bind:subrecipes="subrecipes"
               v-bind:mode="'condensed'"
               v-bind:path="path"
               v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-              v-bind:key="stepObj.ingredient ? stepObj.ingredient.id : stepObj.step.id"
+              v-bind:key="recipe.condensedSteps.indexOf(stepObj)"
               v-bind:scale="scale">
           </ingredient-item>
           </ul>
@@ -193,7 +201,7 @@
                 v-bind:step="step"
                 v-bind:ingredients="recipe.ingredients"
                 v-bind:scale="scale"
-                v-bind:key="step.id">
+                v-bind:key="recipe.steps.indexOf(step)">
             </step-item>
           </ul>
           </div>
@@ -213,22 +221,23 @@
           <ingredient-item
               v-for="ingredient in ingredients"
               v-bind:ingredient="ingredient"
+              v-bind:ingredientIndex="ingredients.indexOf(ingredient)"
               v-bind:subrecipes="subrecipes"
               v-bind:mode="mode"
               v-bind:path="path"
               v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-              v-bind:key="ingredient.id"
+              v-bind:key="ingredients.indexOf(ingredient)"
               v-bind:scale="scale">
           </ingredient-item>
           </ul>
         `
     });
     Vue.component('ingredient-item', {
-        props: ['ingredient', 'step', 'mode', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
+        props: ['ingredient', 'ingredientIndex', 'step', 'mode', 'subrecipes', 'path', 'visiblesubrecipepaths', 'scale'],
         data: function () {
             if (this.ingredient) {
                 return {
-                    newPath: this.path + '.' + this.ingredient.id
+                    newPath: this.path + '.' + this.ingredientIndex
                 }
             } else {
                 return {
@@ -246,19 +255,21 @@
                 <span v-else>+</span>
             </span>
           </div>
-          <span v-if="ingredient && ingredient.subrecipe && visiblesubrecipepaths.includes(newPath)" v-on:click.stop>
-                <recipe
-                    v-if="subrecipes[ingredient.subrecipe] && subrecipes[ingredient.subrecipe]!=={}"
-                    v-bind:recipe="subrecipes[ingredient.subrecipe]"
-                    v-bind:recipeId="ingredient.subrecipe"
-                    v-bind:subrecipes="subrecipes"
-                    v-bind:mode="mode"
-                    v-bind:path="newPath"
-                    v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
-                    v-bind:quantity="ingredient.quantity*scale"
-                    v-bind:unit="ingredient.unit"></recipe>
-                <div v-else>Loading...</div>
-            </span>
+          <transition name="list">
+              <span v-if="ingredient && ingredient.subrecipe && visiblesubrecipepaths.includes(newPath)" v-on:click.stop>
+                    <recipe
+                        v-if="subrecipes[ingredient.subrecipe] && subrecipes[ingredient.subrecipe]!=={}"
+                        v-bind:recipe="subrecipes[ingredient.subrecipe]"
+                        v-bind:recipeId="ingredient.subrecipe"
+                        v-bind:subrecipes="subrecipes"
+                        v-bind:mode="mode"
+                        v-bind:path="newPath"
+                        v-bind:visiblesubrecipepaths="visiblesubrecipepaths"
+                        v-bind:quantity="ingredient.quantity*scale"
+                        v-bind:unit="ingredient.unit"></recipe>
+                    <div v-else>Loading...</div>
+                </span>
+            </transition>
           </li>
         `,
         methods: {
@@ -298,7 +309,7 @@
             <h5>{{ step.name }}</h5>
             <ul>
               <li
-                  v-for="ingredient in (step.ingredients||[]).map(id => ingredients.filter(i => i.id===id)[0])"
+                  v-for="ingredient in (step.ingredients||[]).map(id => ingredients[id])"
                   v-bind:ingredient="ingredient">
                 <ingredient-details v-bind:ingredient="ingredient" v-bind:scale="scale"></ingredient-details>
               </li>

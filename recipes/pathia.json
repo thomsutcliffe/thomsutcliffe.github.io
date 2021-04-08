@@ -1,0 +1,130 @@
+{
+  "name": "Pathia",
+  "forkName": "Glebe Kitchen",
+  "yield": 2,
+  "yieldUnit": "servings",
+  "ingredients": [
+    {
+      "name": "Indian Spice Mix",
+      "quantity": 4,
+      "unit": "tsp",
+      "subrecipe": "spicemix"
+    },
+    {
+      "name": "Curry Powder",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "name": "Kashmiri Chilli Powder",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "name": "Fenugreek",
+      "quantity": "1",
+      "unit": "tsp",
+      "optional": false
+    },
+    {
+      "name": "Salt",
+      "quantity": "1",
+      "unit": "tsp",
+      "optional": false
+    },
+    {
+      "name": "Tomato Puree",
+      "quantity": "2",
+      "unit": "tbsp",
+      "notes": "diluted 2:1",
+      "optional": false
+    },
+    {
+      "name": "Vegetable Oil",
+      "quantity": "100",
+      "unit": "ml",
+      "optional": false
+    },
+    {
+      "name": "Garlic Ginger Paste",
+      "quantity": "2",
+      "unit": "tbsp",
+      "notes": "",
+      "optional": false,
+      "subrecipe": "ggpaste"
+    },
+    {
+      "name": "Curry Base",
+      "quantity": "850",
+      "unit": "ml",
+      "notes": "",
+      "optional": false,
+      "subrecipe": "currybase"
+    },
+    {
+      "name": "Tamarind Sauce",
+      "quantity": "2",
+      "unit": "tbsp",
+      "optional": false
+    },
+    {
+      "name": "Brown Sugar",
+      "quantity": "2",
+      "unit": "tsp",
+      "optional": false
+    },
+    {
+      "name": "Meat/veg/paneer",
+      "quantity": 1
+    }
+  ],
+  "steps": [
+    {
+      "name": "Spices",
+      "description": "Mix and set aside",
+      "ingredients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "Paste",
+      "description": "Fry 1 minute medium high",
+      "ingredients": [
+        6,
+        7
+      ]
+    },
+    {
+      "name": "Bloom",
+      "description": "Add spices, fry medium 30 seconds",
+      "ingredients": []
+    },
+    {
+      "name": "Caremlise",
+      "description": "Fry high as long as you dare",
+      "ingredients": [
+        5
+      ]
+    },
+    {
+      "name": "Curry Base",
+      "description": "Add 1 ladle, 30 seconds, 2 ladles, 1 minute etc",
+      "ingredients": [
+        8
+      ]
+    },
+    {
+      "name": "Finish",
+      "description": "Medium heat, cook for 5 minutes",
+      "ingredients": [
+        9,
+        10,
+        11
+      ]
+    }
+  ]
+}

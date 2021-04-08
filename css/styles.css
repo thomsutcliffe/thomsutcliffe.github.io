@@ -210,6 +210,11 @@ label + label {
     padding: 0 2rem 2rem;
     border-radius: 1rem;
     overflow: auto;
+    /*transition: all ease-in-out 5s;*/
+}
+
+.border > .small {
+    display: none;
 }
 
 .bordersmall {
@@ -217,13 +222,25 @@ label + label {
     margin: 1rem 0;
     padding: 0.5rem 2rem;
     border-radius: 1rem;
+    overflow: auto;
+}
+
+.bordersmall > .small {
+}
+
+.bordersmall > .big {
+    display: none;
+}
+
+.bordererror {
+    border-color: red;
 }
 
 .controls {
     float: right;
 }
 
-.modal input, .modal button, .modal label {
+.modal-content input, .modal-content button, .modal-content label {
     margin: 0.5rem 0;
     padding: 0.5rem;
     border-radius: 1rem;
@@ -234,7 +251,7 @@ label + label {
 }
 
 label.select {
-    transition: background-color ease-in-out 0.5s;
+    transition: background-color ease-in-out 0.25s;
     border: 1px solid var(--secondary-highlight);
     margin-right: 0.5rem;
 }
@@ -278,25 +295,49 @@ input.select {
 .fade-enter-active, .fade-leave-active {
     transition: opacity ease-in-out .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-leave-active {
+    transition-delay: .3s;
+}
+
+.fade-enter, .fade-leave-to  {
     opacity: 0;
 }
 
-.list-enter-active, .list-leave-active {
-    transition: all 1s;
+.slide-enter-active, .slide-leave-active {
+    transition: all ease-in-out .5s;
 }
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+
+.slide-enter, .slide-leave-to {
+    opacity: 0;
+    transform: scale(1, 0);
+    transform-origin: top;
+}
+
+.list-enter-active, .list-leave-active {
+    transition: all .5s;
+}
+
+.list-enter, .list-leave-to {
     opacity: 0;
     transform: translateX(100px);
 }
 
-.checkboxlist-enter-active, .checkboxlist-leave-active {
-    transition: all 1s;
+.list-move {
+    transition: transform 0.5s;
 }
 
-.checkboxlist-enter, .checkboxlist-leave-to /* .list-leave-active below version 2.1.8 */ {
+.checkboxlist-enter-active, .checkboxlist-leave-active {
+    transition: all 0.5s;
+}
+
+.checkboxlist-enter, .checkboxlist-leave-to {
     opacity: 0;
     transform: translateY(20px);
+}
+
+.checkboxlist-move {
+    transition: transform 1s;
 }
 
 :root {

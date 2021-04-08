@@ -4,43 +4,36 @@
   "yieldUnit": "Leg",
   "ingredients": [
     {
-      "id": 0,
       "name": "Lamb leg",
       "quantity": 1
     },
     {
-      "id": 1,
       "name": "Salt",
       "quantity": 2,
       "unit": "tbsp"
     },
     {
-      "id": 2,
       "name": "Butter",
       "quantity": 50,
       "unit": "g"
     },
     {
-      "id": 3,
       "name": "Rosemary",
       "quantity": 20,
       "unit": "g",
       "notes": "fresh"
     },
     {
-      "id": 4,
       "name": "Garlic",
       "quantity": 6,
       "unit": "cloves"
     },
     {
-      "id": 5,
       "name": "Salt",
       "quantity": 1,
       "unit": "tbsp"
     },
     {
-      "id": 6,
       "name": "Pepper",
       "quantity": 2,
       "unit": "tbsp"

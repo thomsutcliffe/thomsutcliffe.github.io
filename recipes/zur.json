@@ -2,55 +2,46 @@
     "name": "Żur",
     "ingredients": [
         {
-            "id": 0,
             "name": "Sourdough starter",
             "quantity": 30,
             "unit": "g"
         },
         {
-            "id": 1,
             "name": "Rye Flour",
             "quantity": 30,
             "unit": "g"
         },
         {
-            "id": 2,
             "name": "Water",
             "quantity": 90,
             "unit": "ml"
         },
         {
-            "id": 3,
             "name": "Peppercorns",
             "quantity": 10,
             "unit": ""
         },
         {
-            "id": 4,
             "name": "Allspice Berries",
             "quantity": 3,
             "unit": ""
         },
         {
-            "id": 5,
             "name": "Bay Leaves",
             "quantity": 3,
             "unit": ""
         },
         {
-            "id": 6,
             "name": "Garlic",
             "quantity": 3,
             "unit": "cloves"
         },
         {
-            "id": 7,
             "name": "Rye Flour",
             "quantity": 90,
             "unit": "g"
         },
         {
-            "id": 8,
             "name": "Water",
             "quantity": 260,
             "unit": "ml"
@@ -58,13 +49,11 @@
     ],
     "steps": [
         {
-            "id": 0,
             "name": "First feed",
             "description": "Mix and leave for 24 hours",
             "ingredients": [0, 1, 2, 3, 4, 5, 6]
         },
         {
-            "id": 1,
             "name": "Second feed",
             "description": "Mix and leave for 24 hours",
             "ingredients": [7, 8]

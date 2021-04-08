@@ -3,18 +3,15 @@
   "yield": 1,
   "ingredients": [
     {
-      "id": 0,
       "name": "Creme Egg",
       "quantity": 1
     },
     {
-      "id": 1,
       "name": "Easter Crispy Mix",
       "quantity": 1,
       "subrecipe": "eastercrispy"
     },
     {
-      "id": 2,
       "name": "White chocolate",
       "quantity": 75,
       "unit": "g"
@@ -22,7 +19,6 @@
   ],
   "steps": [
     {
-      "id": 0,
       "name": "First layer",
       "description": "Wrap crispy mix around a creme egg and shape into a ball, leave to set",
       "ingredients": [
@@ -31,7 +27,6 @@
       ]
     },
     {
-      "id": 1,
       "name": "Second layer",
       "description": "Cover in melted white chocolate",
       "ingredients": [
