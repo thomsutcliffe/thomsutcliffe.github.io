@@ -207,10 +207,9 @@ label + label {
 .border {
     border: 2px solid var(--highlight);
     margin: 1rem 0;
-    padding: 0 2rem 2rem;
+    padding: 0 1rem;
     border-radius: 1rem;
     overflow: auto;
-    /*transition: all ease-in-out 5s;*/
 }
 
 .border > .small {
