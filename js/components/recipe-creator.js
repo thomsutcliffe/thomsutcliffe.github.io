@@ -57,13 +57,13 @@ const recipecreator = {
                             <span style="float:left; padding: 0.5rem" v-if="ingredient!==selectedIngredient">{{stepCheckboxLabelForIngredient(ingredient)}}</span>
                             <transition name="slide" mode="out-in">
                                 <div v-if="ingredient===selectedIngredient">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+recipe.ingredients.indexOf(ingredient)+'name'">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+recipe.ingredients.indexOf(ingredient)+'name'" autocomplete="off">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity" autocomplete="off">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none" autocomplete="off">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none" autocomplete="off">
                                     <input class="big select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+recipe.ingredients.indexOf(ingredient)">
                                     <label class="big select" v-bind:for="'optionalfor'+recipe.ingredients.indexOf(ingredient)">Optional</label>
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none" autocomplete="off">
                                     <div class="big" style="float: left">
                                         <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
                                         <div v-if="!isIngredientInAnyStep(recipe.ingredients.indexOf(ingredient))" class="validationerror">Ingredient is not listed in any step</div>
@@ -96,8 +96,8 @@ const recipecreator = {
                             <span style="float: left; padding: 0.5rem" v-if="step!==selectedStep">{{ step.name ? step.name : 'Unnamed step' }}</span>
                             <transition name="slide">
                                 <div v-if="step===selectedStep">
-                                    <input v-on:keyup.enter="addStep()" placeholder="name" v-model="step.name" v-bind:ref="'step'+recipe.steps.indexOf(step)+'name'">
-                                    <input v-on:keyup.enter="addStep()" placeholder="description" v-model="step.description">
+                                    <input v-on:keyup.enter="addStep()" placeholder="name" v-model="step.name" v-bind:ref="'step'+recipe.steps.indexOf(step)+'name'" autocomplete="off">
+                                    <input v-on:keyup.enter="addStep()" placeholder="description" v-model="step.description" autocomplete="off">
                                     <div class="multiselect" v-if="recipe.ingredients.length">
                                         <span>Ingredients</span>
                                             <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+recipe.steps.indexOf(step)+'i'+ingredient">
@@ -166,7 +166,6 @@ const recipecreator = {
                 if (ingredientArray) {
                     Vue.nextTick(() => {
                         this.$refs["quickaddinput"].focus();
-                        this.$refs["addingredient"].scrollIntoView({behavior: "smooth"});
                         this.loadSubrecipeDebounced(ingredientArray[6]);
                     });
                 } else {
@@ -207,7 +206,6 @@ const recipecreator = {
                     }
                 });
                 this.selectedStep = this.recipe.steps[selectedStepIndex];
-                Vue.nextTick(() => this.$refs['ingredient'+(id-1)][0].scrollIntoView({behavior: "smooth"}));
             }
         },
         moveIngredientDown: function(id) {
@@ -221,7 +219,6 @@ const recipecreator = {
                     }
                 });
                 this.selectedStep = this.recipe.steps[selectedStepIndex];
-                Vue.nextTick(() => this.$refs['ingredient'+(id+1)][0].scrollIntoView({behavior: "smooth"}));
             }
         },
         setSelectedIngredient: function(ingredient, delay) {
@@ -233,7 +230,6 @@ const recipecreator = {
                     const sectionRef = 'ingredient'+(this.recipe.ingredients.indexOf(ingredient));
                     Vue.nextTick(() => {
                         this.$refs[ref][0].focus();
-                        this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
                     });
                 }, delay ? 500 : 0);
             }
