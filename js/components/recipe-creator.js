@@ -31,14 +31,14 @@ const recipecreator = {
             <div v-if="recipeDetailsVisible">
                 <span class="close" @click="() => recipeDetailsVisible=false">-</span>
                 <h6>Recipe info</h6>
-                <input placeholder="id" v-model="id" autocapitalize="none">
-                <input placeholder="Name" v-model="recipe.name" autocapitalize="words">
+                <input placeholder="id" v-model="id" autocapitalize="none" autocomplete="new-recipe-id">
+                <input placeholder="Name" v-model="recipe.name" autocapitalize="words" autocomplete="new-recipe-name">
                 <span v-if="!recipe.name" class="validationerror">Name is required</span>
-                <input placeholder="Fork name" v-model="recipe.forkName" autocapitalize="words">
-                <input placeholder="Fork URL" v-model="recipe.forkUrl" autocapitalize="none">
+                <input placeholder="Fork name" v-model="recipe.forkName" autocapitalize="words" autocomplete="new-recipe-fork-name">
+                <input placeholder="Fork URL" v-model="recipe.forkUrl" autocapitalize="none" autocomplete="new-recipe-fork-url">
                 <input type="number" pattern="^\\d*\\.?\\d*$" step="any" 
-                placeholder="Yield" v-model="recipe.yield">
-                <input placeholder="Yield Unit" v-model="recipe.yieldUnit" list="units" autocapitalize="none">
+                placeholder="Yield" v-model="recipe.yield" autocomplete="new-recipe-yield">
+                <input placeholder="Yield Unit" v-model="recipe.yieldUnit" list="units" autocapitalize="none" autocomplete="new-recipe-yield-unit">
             </div>
             <div v-else class="bordersmall" @click="() => recipeDetailsVisible=true">
                 <span v-if="recipe.name">{{ recipe.name }}</span>
@@ -57,13 +57,13 @@ const recipecreator = {
                             <span style="float:left; padding: 0.5rem" v-if="ingredient!==selectedIngredient">{{stepCheckboxLabelForIngredient(ingredient)}}</span>
                             <transition name="slide" mode="out-in">
                                 <div v-if="ingredient===selectedIngredient">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+recipe.ingredients.indexOf(ingredient)+'name'" autocomplete="off">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity" autocomplete="off">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none" autocomplete="off">
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none" autocomplete="off">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="name" v-model="ingredient.name" v-bind:ref="'ingredient'+recipe.ingredients.indexOf(ingredient)+'name'" autocomplete="new-recipe-ingredient-name">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" type="number" pattern="^\\d*\\.?\\d*$" step="any" placeholder="quantity" v-model="ingredient.quantity" autocomplete="new-recipe-ingredient-quantity">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="unit" v-model="ingredient.unit" list="units" autocapitalize="none" autocomplete="new-recipe-ingredient-unit">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="notes" v-model="ingredient.notes" autocapitalize="none" autocomplete="new-recipe-ingredient-notes">
                                     <input class="big select" type="checkbox" v-model="ingredient.optional" v-bind:id="'optionalfor'+recipe.ingredients.indexOf(ingredient)">
                                     <label class="big select" v-bind:for="'optionalfor'+recipe.ingredients.indexOf(ingredient)">Optional</label>
-                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none" autocomplete="off">
+                                    <input class="big" v-on:keyup.enter="addIngredient(true)" placeholder="subrecipe" v-model="ingredient.subrecipe" @input="loadSubrecipe(ingredient.subrecipe)" autocapitalize="none" autocomplete="new-recipe-ingredient-subrecipe">
                                     <div class="big" style="float: left">
                                         <div v-if="ingredient.subrecipe" class="validationerror">{{ validateSubrecipe(ingredient) }}</div>
                                         <div v-if="!isIngredientInAnyStep(recipe.ingredients.indexOf(ingredient))" class="validationerror">Ingredient is not listed in any step</div>
@@ -96,8 +96,8 @@ const recipecreator = {
                             <span style="float: left; padding: 0.5rem" v-if="step!==selectedStep">{{ step.name ? step.name : 'Unnamed step' }}</span>
                             <transition name="slide">
                                 <div v-if="step===selectedStep">
-                                    <input v-on:keyup.enter="addStep()" placeholder="name" v-model="step.name" v-bind:ref="'step'+recipe.steps.indexOf(step)+'name'" autocomplete="off">
-                                    <input v-on:keyup.enter="addStep()" placeholder="description" v-model="step.description" autocomplete="off">
+                                    <input v-on:keyup.enter="addStep()" placeholder="name" v-model="step.name" v-bind:ref="'step'+recipe.steps.indexOf(step)+'name'" autocomplete="new-recipe-step-name">
+                                    <input v-on:keyup.enter="addStep()" placeholder="description" v-model="step.description" autocomplete="new-recipe-step-description">
                                     <div class="multiselect" v-if="recipe.ingredients.length">
                                         <span>Ingredients</span>
                                             <div v-for="ingredient in recipe.ingredients" v-bind:key="'s'+recipe.steps.indexOf(step)+'i'+ingredient">
