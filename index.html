@@ -419,21 +419,39 @@
             },
             showRecipeCreator: function() {
                 this.recipeCreatorVisible = true;
+                if ('wakeLock' in navigator) {
+                    this.wakeLock.release();
+                }
             },
             hideRecipeCreator: function () {
                 this.recipeCreatorVisible = false;
+                this.getWakeLock();
             },
             showReadme: function () {
-                this.readmeVisible = true;
+                this.readmeVisible = true
+                if ('wakeLock' in navigator) {
+                    this.wakeLock.release();
+                }
             },
             hideReadme: function() {
                 this.readmeVisible = false;
+                this.getWakeLock();
+            },
+            getWakeLock: async function() {
+                if ('wakeLock' in navigator) {
+                    try {
+                        navigator.wakeLock.request('screen').then(wakeLock => this.wakeLock = wakeLock);
+                    } catch (err) {
+                        console.log('Wake Lock error: ', err);
+                    }
+                }
             }
         },
         created: function () {
             this.getNavRecipes();
             this.setRecipeFromQueryParam();
             jQuery.get("README.md", md => this.readme=md);
+            this.getWakeLock();
         }
     });
 
