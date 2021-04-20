@@ -78,15 +78,19 @@ label.left {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     margin-left: 1rem;
+    border-right-width: 1px;
 }
 
 label.middle {
     border-radius: 0;
+    border-right-width: 1px;
+    border-left-width: 1px;
 }
 
 label.right {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    border-left-width: 1px;
     margin-right: 1rem;
 }
 

@@ -197,6 +197,7 @@ const recipecreator = {
         },
         moveIngredientUp: function(id) {
             if(id > 0) {
+                document.activeElement.blur();
                 const selectedStepIndex = this.recipe.steps.indexOf(this.selectedStep);
                 this.recipe.ingredients.splice(id-1, 2, this.recipe.ingredients[id], this.recipe.ingredients[id-1]);
                 this.recipe.steps = this.recipe.steps.map(step => {
@@ -206,10 +207,15 @@ const recipecreator = {
                     }
                 });
                 this.selectedStep = this.recipe.steps[selectedStepIndex];
+                setTimeout(() => {
+                    const sectionRef = 'ingredient' + (id - 1);
+                    this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
+                }, 500);
             }
         },
         moveIngredientDown: function(id) {
             if(id < this.maxIngredientId()) {
+
                 const selectedStepIndex = this.recipe.steps.indexOf(this.selectedStep);
                 this.recipe.ingredients.splice(id, 2, this.recipe.ingredients[id+1], this.recipe.ingredients[id]);
                 this.recipe.steps = this.recipe.steps.map(step => {
@@ -219,6 +225,11 @@ const recipecreator = {
                     }
                 });
                 this.selectedStep = this.recipe.steps[selectedStepIndex];
+
+                setTimeout(() => {
+                    const sectionRef = 'ingredient' + (id + 1);
+                    this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"});
+                }, 500);
             }
         },
         setSelectedIngredient: function(ingredient, delay) {
@@ -230,6 +241,7 @@ const recipecreator = {
                     const sectionRef = 'ingredient'+(this.recipe.ingredients.indexOf(ingredient));
                     Vue.nextTick(() => {
                         this.$refs[ref][0].focus();
+                        this.$refs[sectionRef][0].scrollIntoView({behavior: "smooth"})
                     });
                 }, delay ? 500 : 0);
             }
