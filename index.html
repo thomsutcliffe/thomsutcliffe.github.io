@@ -275,13 +275,18 @@
         methods: {
             toggleSubrecipe: function () {
                 if (this.ingredient.subrecipe) {
-                    if (!this.subrecipes[this.subrecipe] || this.subrecipes[this.subrecipe]==={}) {
+                    if (!this.subrecipes[this.ingredient.subrecipe] || this.subrecipes[this.ingredient.subrecipe]==={}) {
                         this.$root.loadSubrecipe(this.ingredient.subrecipe);
                     }
                     this.$root.toggleShowSubrecipeFor(this.newPath);
                 }
 
             },
+        },
+        created: function() {
+            if(this.ingredient && this.ingredient.subrecipe && (!this.subrecipes[this.ingredient.subrecipe] || this.subrecipes[this.ingredient.subrecipes]==={})) {
+                this.$root.loadSubrecipe(this.ingredient.subrecipe);
+            }
         }
     });
     Vue.component('ingredient-details', {
@@ -327,7 +332,7 @@
         el: '#vueRecipe',
         data: {
             "loading": false,
-            "mode": getParameterByName("view") || 'verbose',
+            "mode": "",
             "recipe": {},
             "quantity": "",
             "unit": "",
@@ -386,14 +391,29 @@
                 this.unit = recipeData.yieldUnit;
                 this.loading = false;
             },
-            switchMode: function () {
-                this.mode = this.mode === 'condensed' ? 'verbose' : 'condensed';
-            },
             setCondensedMode: function() {
+                localStorage.setItem('viewMode', 'condensed');
                 this.mode = 'condensed';
             },
             setVerboseMode: function() {
+                localStorage.setItem('viewMode', 'verbose');
                 this.mode = 'verbose';
+            },
+            getMode: function() {
+                let localStorageMode = localStorage.getItem('viewMode');
+                if (!['verbose', 'condensed'].includes(localStorageMode)) {
+                    localStorage.removeItem('viewMode');
+                    return 'verbose';
+                }
+                return localStorageMode;
+            },
+            getVisibleSubrecipePaths: function() {
+                const localStorageVisibleSubrecipePaths = JSON.parse(localStorage.getItem('visibleSubrecipePaths'));
+                if (typeof localStorageVisibleSubrecipePaths !== "object" || !localStorageVisibleSubrecipePaths) {
+                    localStorage.removeItem('visibleSubrecipePaths');
+                    return {};
+                }
+                return localStorageVisibleSubrecipePaths;
             },
             loadSubrecipe: function (subrecipe) {
                 if (subrecipe && !this.subrecipes[subrecipe]) {
@@ -416,6 +436,7 @@
                     this.visiblesubrecipepaths[this.recipeId].push(path);
                 }
                 this.visiblesubrecipepathsforcurrentrecipe = this.visiblesubrecipepaths[this.recipeId];
+                localStorage.setItem('visibleSubrecipePaths', JSON.stringify(this.visiblesubrecipepaths));
             },
             showRecipeCreator: function() {
                 this.recipeCreatorVisible = true;
@@ -448,6 +469,8 @@
             }
         },
         created: function () {
+            this.mode = this.getMode();
+            this.visiblesubrecipepaths = this.getVisibleSubrecipePaths();
             this.getNavRecipes();
             this.setRecipeFromQueryParam();
             jQuery.get("README.md", md => this.readme=md);
