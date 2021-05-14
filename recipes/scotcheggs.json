@@ -1,0 +1,74 @@
+{
+  "name": "Scotch Eggs",
+  "yield": 6,
+  "ingredients": [
+    {
+      "name": "Eggs",
+      "quantity": 6
+    },
+    {
+      "name": "Sausagemeat",
+      "quantity": "600",
+      "unit": "g",
+      "optional": false
+    },
+    {
+      "name": "Eggs",
+      "quantity": 2
+    },
+    {
+      "name": "Flour",
+      "quantity": "50",
+      "unit": "g",
+      "optional": false
+    },
+    {
+      "name": "Panko breadcrumbs",
+      "quantity": "100",
+      "unit": "g",
+      "optional": false
+    }
+  ],
+  "steps": [
+    {
+      "name": "Soft boil eggs",
+      "description": "boil in salted water for 4.5 minutes, chill in ice water, carefully peel",
+      "ingredients": [
+        0
+      ]
+    },
+    {
+      "name": "Wrap",
+      "description": "squash sausagemeat between wet hands and shape around each egg",
+      "ingredients": [
+        1
+      ]
+    },
+    {
+      "name": "Flour",
+      "description": "roll in flour",
+      "ingredients": [
+        3
+      ]
+    },
+    {
+      "name": "Beaten egg",
+      "description": "roll in beaten egg",
+      "ingredients": [
+        2
+      ]
+    },
+    {
+      "name": "Breadcrumbs",
+      "description": "roll in breadcrumbs, repeat egg and breadcrumbs if possible",
+      "ingredients": [
+        4
+      ]
+    },
+    {
+      "name": "Fry",
+      "description": "deep fry at 170 for 7 minutes",
+      "ingredients": []
+    }
+  ]
+}
