@@ -1,0 +1,70 @@
+{
+  "name": "Coleslaw",
+  "yield": 1,
+  "yieldUnit": "bowl",
+  "ingredients": [
+    {
+      "name": "Cabbage",
+      "quantity": 0.5,
+      "notes": "thinly sliced"
+    },
+    {
+      "name": "Carrots",
+      "quantity": 4,
+      "notes": "grated"
+    },
+    {
+      "name": "Black Pepper",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "name": "White Pepper",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "name": "Salt",
+      "quantity": 0.5,
+      "unit": "tbsp"
+    },
+    {
+      "name": "White Wine Vinegar",
+      "quantity": 2,
+      "unit": "tbsp"
+    },
+    {
+      "name": "Mustard",
+      "quantity": 2,
+      "unit": "tsp"
+    },
+    {
+      "name": "Edam",
+      "quantity": 150,
+      "unit": "g",
+      "notes": "grated"
+    }
+  ],
+  "steps": [
+    {
+      "name": "Pickle",
+      "description": "Combine and leave for 5-10 minutes",
+      "ingredients": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "Mix",
+      "description": "Add and mix",
+      "ingredients": [
+        6,
+        7
+      ]
+    }
+  ]
+}
