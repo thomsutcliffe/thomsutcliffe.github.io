@@ -73,7 +73,8 @@
     },
     {
       "name": "Shape",
-      "description": "Sprinkle with sugar, cut into 10x10cm squares, gather the corners together above and put into oiled muffin tray, sprinkle more sugar then leave for 30 minutes"
+      "description": "Sprinkle with sugar, cut into 10x10cm squares, gather the corners together above and put into oiled muffin tray, sprinkle more sugar then leave for 30 minutes",
+      "ingredients": [7]
     },
     {
       "name": "Bake",
