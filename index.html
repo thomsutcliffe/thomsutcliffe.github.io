@@ -83,13 +83,17 @@
                         <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
                         <label for="r2" class="right">Condensed</label>
                     </span>
+            <span class="r-pill__item" @click="toggleWakeLock">
+                <input type="checkbox" id="r3" name="radios" v-bind:checked="wakeLock && !wakeLock.released">
+                <label for="r3" class="lone"><div style="font-size: 1.35em"><i class="fa fa-eye"></i></div></label>
+            </span>
             <span class="r-pill__item" @click="showRecipeCreator">
-                <input type="radio" id="r3" name="radios">
-                <label for="r3" class="lone">+</label>
+                <input type="radio" id="r4" name="radios">
+                <label for="r4" class="lone">+</label>
             </span>
             <span class="r-pill__item" @click="showReadme">
-                    <input type="radio" id="r4" name="radios">
-                    <label for="r4" class="lone">?</label>
+                    <input type="radio" id="r5" name="radios">
+                    <label for="r5" class="lone">?</label>
                 </span>
         </fieldset>
     </footer>
@@ -343,7 +347,9 @@
             "recipeId": "",
             "recipeCreatorVisible": false,
             "readmeVisible": false,
-            "readme": "Loading"
+            "readme": "Loading",
+            "wakeLock": null,
+            "wakeLockChecked": false
         },
         methods: {
             getNavRecipes: function () {
@@ -440,31 +446,29 @@
             },
             showRecipeCreator: function() {
                 this.recipeCreatorVisible = true;
-                if ('wakeLock' in navigator) {
-                    this.wakeLock.release();
-                }
             },
             hideRecipeCreator: function () {
                 this.recipeCreatorVisible = false;
-                this.getWakeLock();
             },
             showReadme: function () {
-                this.readmeVisible = true
-                if ('wakeLock' in navigator) {
-                    this.wakeLock.release();
-                }
+                this.readmeVisible = true;
             },
             hideReadme: function() {
                 this.readmeVisible = false;
-                this.getWakeLock();
             },
-            getWakeLock: async function() {
-                if ('wakeLock' in navigator) {
-                    try {
-                        navigator.wakeLock.request('screen').then(wakeLock => this.wakeLock = wakeLock);
-                    } catch (err) {
-                        console.log('Wake Lock error: ', err);
-                    }
+            toggleWakeLock: function() {
+                if (!this.wakeLock || this.wakeLock.released) {
+                    navigator.wakeLock.request('screen').then(wakeLock => {
+                        this.wakeLock = wakeLock;
+                        this.wakeLockChecked = !wakeLock.released;
+                        wakeLock.addEventListener('release', () => {
+                            this.wakeLockChecked = false;
+                            this.wakeLock = null;
+                        })
+                    });
+                } else {
+                    this.wakeLock.release();
+                    this.wakeLockChecked = false;
                 }
             }
         },
@@ -474,7 +478,6 @@
             this.getNavRecipes();
             this.setRecipeFromQueryParam();
             jQuery.get("README.md", md => this.readme=md);
-            this.getWakeLock();
         }
     });
 
