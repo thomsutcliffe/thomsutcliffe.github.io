@@ -75,23 +75,45 @@
     </transition>
     <footer>
         <fieldset class="r-pill">
-                    <span class="r-pill__item" @click="setVerboseMode">
+                    <span class="r-pill__item hidden-on-large-screen" @click="setVerboseMode">
+                        <input type="radio" id="r1s" name="radios" v-bind:checked="mode === 'verbose'">
+                        <label for="r1s" class="left">V</label>
+                    </span>
+            <span class="r-pill__item hidden-on-large-screen" @click="setCondensedMode">
+                        <input type="radio" id="r2s" name="radios" v-bind:checked="mode === 'condensed'">
+                        <label for="r2s" class="right">C</label>
+                    </span>
+            <span class="r-pill__item hidden-on-large-screen" @click="toggleWakeLock">
+                <input type="checkbox" id="r3s" name="radios" v-bind:checked="wakeLock && !wakeLock.released">
+                <label for="r3s" class="lone"><div style="font-size: 1.35em"><i class="fa fa-eye"></i></div></label>
+            </span>
+            <span class="r-pill__item hidden-on-large-screen" @click="showRecipeCreator">
+                <input type="radio" id="r4s" name="radios">
+                <label for="r4s" class="lone">+</label>
+            </span>
+            <span class="r-pill__item hidden-on-large-screen" @click="showReadme">
+                    <input type="radio" id="r5s" name="radios">
+                    <label for="r5s" class="lone">?</label>
+                </span>
+        </fieldset>
+        <fieldset class="r-pill">
+                    <span class="r-pill__item hidden-on-small-screen" @click="setVerboseMode">
                         <input type="radio" id="r1" name="radios" v-bind:checked="mode === 'verbose'">
                         <label for="r1" class="left">Verbose</label>
                     </span>
-            <span class="r-pill__item" @click="setCondensedMode">
+            <span class="r-pill__item hidden-on-small-screen" @click="setCondensedMode">
                         <input type="radio" id="r2" name="radios" v-bind:checked="mode === 'condensed'">
                         <label for="r2" class="right">Condensed</label>
                     </span>
-            <span class="r-pill__item" @click="toggleWakeLock">
+            <span class="r-pill__item hidden-on-small-screen" @click="toggleWakeLock">
                 <input type="checkbox" id="r3" name="radios" v-bind:checked="wakeLock && !wakeLock.released">
                 <label for="r3" class="lone"><div style="font-size: 1.35em"><i class="fa fa-eye"></i></div></label>
             </span>
-            <span class="r-pill__item" @click="showRecipeCreator">
+            <span class="r-pill__item hidden-on-small-screen" @click="showRecipeCreator">
                 <input type="radio" id="r4" name="radios">
                 <label for="r4" class="lone">+</label>
             </span>
-            <span class="r-pill__item" @click="showReadme">
+            <span class="r-pill__item hidden-on-small-screen" @click="showReadme">
                     <input type="radio" id="r5" name="radios">
                     <label for="r5" class="lone">?</label>
                 </span>
