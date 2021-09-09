@@ -61,11 +61,9 @@ Other units are supported but might be converted to the first class units and mi
 
 ## JSON recipe format
 
-I intend to implement a UI based recipe builder that will remove the need for most JSON interactions so I won't describe the format in detail. There are, however, a few things to be aware of:
-- Each ingredient needs to have a unique ID (within a recipe). It is easiest to start at `0` and count up. The same is true of steps
-  - Ingredients in different recipes can have the same ID
-  - An ingredient and a step within one recipe can have the same ID 
-- Each ingredient ID needs to be used in exactly one of the steps
+The website now includes a UI based recipe builder. When building a recipe, a preview will be shown below the recipe builder. The preview is hidden if the recipe is invalid.
+The recipe JSON can be copied or downloaded from the recipe builder modal.
+Recipes can also be written or modified in JSON directly.
 
 ## Why is there a Ruth section?
 
