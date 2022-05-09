@@ -446,7 +446,11 @@ const recipecreator = {
         console.log("Mounted");
         const recipeFromStorage = localStorage.getItem('createdRecipe');
         if (recipeFromStorage) {
-            this.recipe = JSON.parse(recipeFromStorage);
+            try {
+                this.recipe = JSON.parse(recipeFromStorage);
+            } catch (e) {
+                this.deleteRecipe();
+            }
         }
         window.setInterval(() => {
             console.log("Interval");
