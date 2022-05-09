@@ -476,6 +476,11 @@
                     this.wakeLock.release();
                     this.wakeLockChecked = false;
                 }
+            },
+            saveRecipeCreatorRecipt: function() {
+                if (this.recipeCreatorVisible) {
+                    localStorage.setItem('creatorRecipe', )
+                }
             }
         },
         created: function () {

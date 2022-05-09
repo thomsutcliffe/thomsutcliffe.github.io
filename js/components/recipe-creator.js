@@ -145,8 +145,12 @@ const recipecreator = {
                 <div id="copyJson">{{ recipe }}</div>
                 <button @click="copyJson" type="button"><i class="fa fa-copy"></i></button>
                 <button @click="downloadJson" type="button"><i class="fa fa-download"></i></button>
+                <button @click="deleteRecipe" type="button"><i class="fa fa-trash"></i></button>
+           </div>
+            <div v-else>
+            <span class="validationerror">Recipe is invalid.<ul><li v-for="e in validateRecipe().errors" v-bind:key="e">{{ e }}</li></ul></span>
+            <button @click="deleteRecipe" type="button"><i class="fa fa-trash"></i></button>
             </div>
-            <div v-else><span class="validationerror">Recipe is invalid.<ul><li v-for="e in validateRecipe().errors" v-bind:key="e">{{ e }}</li></ul></span></div>
         </div>
     `,
     methods: {
@@ -421,7 +425,33 @@ const recipecreator = {
                 ...recipe,
                 condensedSteps: getCondensedRecipe(recipe)
             }
+        },
+        saveRecipe() {
+            localStorage.setItem('createdRecipe', JSON.stringify(this.recipe));
+        },
+        deleteRecipe() {
+            localStorage.removeItem('createdRecipe');
+            this.recipe = {
+                "name": "",
+                "forkName": undefined,
+                "forkUrl": undefined,
+                "yield": undefined,
+                "yieldUnit": undefined,
+                "ingredients": [],
+                "steps": []
+            };
         }
+    },
+    mounted: function () {
+        console.log("Mounted");
+        const recipeFromStorage = localStorage.getItem('createdRecipe');
+        if (recipeFromStorage) {
+            this.recipe = JSON.parse(recipeFromStorage);
+        }
+        window.setInterval(() => {
+            console.log("Interval");
+            this.saveRecipe()
+        }, 10000)
     }
 
 };
