@@ -1,0 +1,235 @@
+{
+  "name": "White Chocolate Custard Slice",
+  "yield": 12,
+  "yieldUnit": "slices",
+  "ingredients": [
+    {
+      "name": "Plain Flour",
+      "quantity": 225,
+      "unit": "g"
+    },
+    {
+      "name": "Salt",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "optional": false
+    },
+    {
+      "name": "Butter",
+      "quantity": "70",
+      "unit": "g",
+      "notes": "Chilled",
+      "optional": false
+    },
+    {
+      "name": "Butter",
+      "quantity": "130",
+      "unit": "g",
+      "notes": "Chilled",
+      "optional": false
+    },
+    {
+      "name": "Water",
+      "quantity": "140",
+      "unit": "ml",
+      "optional": false
+    },
+    {
+      "name": "While Milk",
+      "quantity": "450",
+      "unit": "ml",
+      "optional": false
+    },
+    {
+      "name": "Double Cream",
+      "quantity": "300",
+      "unit": "ml",
+      "optional": false
+    },
+    {
+      "name": "Vanilla Pod",
+      "quantity": 1
+    },
+    {
+      "name": "Caster Sugar",
+      "quantity": "150",
+      "unit": "g",
+      "optional": false
+    },
+    {
+      "name": "Egg yolks",
+      "quantity": 6
+    },
+    {
+      "name": "Cornflour",
+      "quantity": "60",
+      "unit": "g",
+      "optional": false
+    },
+    {
+      "name": "White Chocolate",
+      "quantity": "150",
+      "unit": "g",
+      "optional": false
+    },
+    {
+      "name": "Gelatine",
+      "quantity": "4",
+      "unit": "leaves",
+      "optional": false
+    },
+    {
+      "name": "Cherries",
+      "quantity": "200",
+      "unit": "g",
+      "optional": false
+    },
+    {
+      "name": "Lemon",
+      "quantity": 1
+    },
+    {
+      "name": "Caster Sugar",
+      "quantity": "2",
+      "unit": "tsp",
+      "optional": false
+    },
+    {
+      "name": "Icing sugar",
+      "quantity": 150,
+      "unit": "g"
+    },
+    {
+      "name": "White Chocolate",
+      "quantity": "1",
+      "unit": "square",
+      "optional": false
+    }
+  ],
+  "steps": [
+    {
+      "name": "Flour",
+      "description": "Mix",
+      "ingredients": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Rub",
+      "description": "Rub in until breadcrumbs",
+      "ingredients": [
+        2
+      ]
+    },
+    {
+      "name": "Roughly rub",
+      "description": "Rub roughly leaving big lumps",
+      "ingredients": [
+        3
+      ]
+    },
+    {
+      "name": "Bind",
+      "description": "Mix enough to make dough",
+      "ingredients": [
+        4
+      ]
+    },
+    {
+      "name": "Roll",
+      "description": "Roll into a long rectangle, fold into thirds, chill for 10 minutes x3",
+      "ingredients": []
+    },
+    {
+      "name": "Roll",
+      "description": "Roll into two rectangles a bit bigger than your tin",
+      "ingredients": []
+    },
+    {
+      "name": "Bake",
+      "description": "Bake at 220 for 10-15 minutes",
+      "ingredients": []
+    },
+    {
+      "name": "Heat",
+      "description": "Split vanilla pod, mix and heat on low until boiling",
+      "ingredients": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "Base",
+      "description": "Whisk",
+      "ingredients": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "name": "Whisk",
+      "description": "Add the hot milk mixture a little at a time, whisking constantly",
+      "ingredients": []
+    },
+    {
+      "name": "Thicken",
+      "description": "Return the custard to the pan and heat, mixing constantly, until it thickens",
+      "ingredients": []
+    },
+    {
+      "name": "Soak",
+      "description": "Soak gelatine leaves in cold water",
+      "ingredients": [
+        12
+      ]
+    },
+    {
+      "name": "Chocolate",
+      "description": "Pour thickened custard through a sieve onto white chocolate and mix",
+      "ingredients": [
+        11
+      ]
+    },
+    {
+      "name": "Gelatine",
+      "description": "Squeeze water out of the gelatine and mix into custard",
+      "ingredients": []
+    },
+    {
+      "name": "Assemble",
+      "description": "Line a deep dish with foil, trim one pastry sheet and fit snugly in the dish, pour over the custard, then trim the other pastry sheet and place on top",
+      "ingredients": []
+    },
+    {
+      "name": "Icing",
+      "description": "Mix cherries, lemon juice and caster sugar and boil, then mash and strain",
+      "ingredients": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "name": "Icing",
+      "description": "Mix in icing sugar and spread on the top pastry sheet",
+      "ingredients": [
+        16
+      ]
+    },
+    {
+      "name": "Grate",
+      "description": "Grate white chocolate on top of the icing",
+      "ingredients": [
+        17
+      ]
+    },
+    {
+      "name": "Set",
+      "description": "Set overnight in the fridge",
+      "ingredients": []
+    }
+  ]
+}
