@@ -25,6 +25,10 @@
       {
         "id": "custardslice",
         "name": "Cherry & White Chocolate Custard Slice"
+      },
+      {
+        "id": "cookie",
+        "name": "Cookies"
       }
     ]
   },
